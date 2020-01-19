@@ -3,10 +3,13 @@ import App from 'next/app';
 import Head from 'next/head';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import JssProvider from 'react-jss';
-import getPageContext from '../src/getPageContext';
+import { ApolloProvider } from '@apollo/react-hooks'
 
-class MyApp extends App {
+import createClient from '../src/app/createClient'
+import getPageContext from '../src/getPageContext';
+import Page from '../src/app/page'
+
+class iClimbApp extends App {
   constructor() {
     super();
     this.pageContext = getPageContext();
@@ -20,34 +23,32 @@ class MyApp extends App {
     }
   }
 
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {}
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx)
+    }
+    pageProps.query = ctx.query
+    return { pageProps }
+  }
+
   render() {
-    const { Component, pageProps } = this.props;
+    const { Component, apollo, pageProps } = this.props;
+
     return (
-      <>
+      <ApolloProvider client={apollo}>
         <Head>
-          <title>My page</title>
+          <title>iClimb</title>
         </Head>
-        {/* Wrap every page in Jss and Theme providers */}
-        {/* <JssProvider
-          registry={this.pageContext.sheetsRegistry}
-          generateClassName={this.pageContext.generateClassName}
-        > */}
-        {/* MuiThemeProvider makes the theme available down the React
-              tree thanks to React context. */}
-        <ThemeProvider
-          theme={this.pageContext.theme}
-        // sheetsManager={this.pageContext.sheetsManager}
-        >
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+        <ThemeProvider theme={this.pageContext.theme}>
           <CssBaseline />
-          {/* Pass pageContext to the _document though the renderPage enhancer
-                to render collected styles on server-side. */}
-          <Component pageContext={this.pageContext} {...pageProps} />
+          <Page>
+            <Component pageContext={this.pageContext} {...pageProps} />
+          </Page>
         </ThemeProvider>
-        {/* </JssProvider> */}
-      </>
+      </ApolloProvider>
     );
   }
 }
 
-export default MyApp;
+export default createClient(iClimbApp);
