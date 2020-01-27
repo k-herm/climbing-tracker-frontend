@@ -1,13 +1,13 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
-import { makeStyles, createStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Head from '../../components/head';
 
-const useStyles = makeStyles((theme) => createStyles({
+const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'grid',
-    justifyItems: 'center',
-    maxWidth: '1500px'
+    // display: 'grid',
+    // justifyItems: 'center',
+    // maxWidth: '1500px',
   },
   copyright: {
     padding: theme.spacing(2)
