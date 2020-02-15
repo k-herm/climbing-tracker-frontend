@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     '& h1': {
       color: 'white',
       fontSize: '50px',
-      textAlign: 'center',
+      textAlign: 'center'
     }
   }
 }))
@@ -27,7 +27,6 @@ const LoginPage = () => {
         className={container}
         container
         alignItems="center"
-        spacing={1}
       >
         <Grid item sm={false} md={1} ><></></Grid>
         <Grid
@@ -38,8 +37,8 @@ const LoginPage = () => {
         </Grid>
         <Grid
           container
-          justify="center"
           item
+          justify="center"
           xs={12} sm={6} md={7}
         >
           <h1>iClimb-Tracker</h1>
