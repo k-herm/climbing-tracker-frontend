@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { TextField, Grid } from '@material-ui/core'
-import FormContainer from '../../FormContainer'
+import FormContainer from '../FormContainer'
 
-const Login = () => {
+const LoginForm = () => {
   const [state, setState] = useState({
     email: '',
     password: ''
@@ -46,4 +46,4 @@ const Login = () => {
   )
 }
 
-export default Login
+export default LoginForm

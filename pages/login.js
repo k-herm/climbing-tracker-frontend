@@ -1,6 +1,6 @@
-
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import Login from '../components/user/auth/Login'
+import LoginForm from '../components/user/login-form'
 import { Grid, CardMedia } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +34,7 @@ const LoginPage = () => {
           item
           xs={12} sm={6} md={4}
         >
-          <Login />
+          <LoginForm />
         </Grid>
         <Grid
           container
