@@ -1,9 +1,10 @@
 import ApolloClient from 'apollo-boost'
 import withApollo from 'next-with-apollo'
+import { getAPIBaseURL } from '../../config'
 
 function createClient({ headers }) {
   return new ApolloClient({
-    uri: 'http://localhost:4000/graphql',
+    uri: `${getAPIBaseURL()}/graphql`,
     request: operation => {
       operation.setContext({
         fetchOptions: {
