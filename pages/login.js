@@ -29,6 +29,7 @@ const LoginPage = () => {
         alignItems="center"
         spacing={1}
       >
+        <Grid item sm={false} md={1} ><></></Grid>
         <Grid
           item
           xs={12} sm={6} md={4}
@@ -39,7 +40,7 @@ const LoginPage = () => {
           container
           justify="center"
           item
-          xs={12} sm={6} md={8}
+          xs={12} sm={6} md={7}
         >
           <h1>iClimb-Tracker</h1>
         </Grid>
