@@ -13,9 +13,7 @@ import Container from '@material-ui/core/Container';
 import Head from '../components/head';
 import Nav from '../components/nav';
 
-
-
-export default function Index() {
+const Index = () => {
   return (
     <div>Hello world</div>
     // <Container maxWidth="sm">
@@ -32,3 +30,5 @@ export default function Index() {
     // </Container>
   );
 }
+
+export default Index

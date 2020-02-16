@@ -3,16 +3,16 @@ import React, { useState } from 'react'
 export const UserContext = React.createContext()
 
 export const UserStore = ({ children }) => {
-  const [name, setName] = useState('Unknown')
-  const [isSignIn, setIsSignIn] = useState(false)
+  const [id, setId] = useState(null)
+  const [name, setName] = useState(null)
 
   return (
     <UserContext.Provider
       value={{
+        id,
+        setId,
         name,
-        setName,
-        isSignIn,
-        setIsSignIn
+        setName
       }}
     >
       {children}
