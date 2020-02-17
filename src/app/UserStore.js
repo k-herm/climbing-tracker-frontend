@@ -1,21 +1,34 @@
-import React, { useState } from 'react'
+import React, { Component } from 'react'
 
-export const UserContext = React.createContext()
+export const UserContext = React.createContext({
+  id: null,
+  name: null,
+  setUser: () => { }
+})
 
-export const UserStore = ({ children }) => {
-  const [id, setId] = useState(null)
-  const [name, setName] = useState(null)
+export class UserStore extends Component {
+  constructor(props) {
+    super(props)
 
-  return (
-    <UserContext.Provider
-      value={{
+    this.setUser = (id, name) => {
+      this.setState({
         id,
-        setId,
-        name,
-        setName
-      }}
-    >
-      {children}
-    </UserContext.Provider>
-  )
+        name
+      })
+    }
+
+    this.state = {
+      id: null,
+      name: null,
+      setUser: this.setUser
+    }
+  }
+
+  render() {
+    return (
+      <UserContext.Provider value={this.state}>
+        {this.props.children}
+      </UserContext.Provider>
+    )
+  }
 }

@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import router from 'next/router'
 import { TextField, Grid, Button } from '@material-ui/core'
+import Typography from '@material-ui/core/Typography';
+
 import { UserContext } from '../../src/app/UserStore'
 import FormContainer from '../FormContainer'
 import { postRequest } from '../../src/request'
@@ -11,6 +13,8 @@ const LoginForm = () => {
     email: '',
     password: ''
   })
+  const [error, setError] = useState(null)
+  const { setUser } = useContext(UserContext)
 
   const handleChange = e => {
     setState({
@@ -28,17 +32,25 @@ const LoginForm = () => {
         password: state.password
       })
       if (response.userId) {
+        setUser(response.userId, response.userName)
         router.push('/dashboard')
       }
     }
     catch (error) {
-
+      setError(error)
     }
   }
 
   return (
     <FormContainer title="Login" >
       <form method='post' onSubmit={onSubmit}>
+        {error &&
+          <Grid item>
+            <Typography color='error' align='center' paragraph='true'>
+              {`${error}`}
+            </Typography>
+          </Grid>
+        }
         <Grid item>
           <TextField
             required

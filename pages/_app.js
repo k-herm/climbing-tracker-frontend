@@ -37,17 +37,17 @@ class iClimbApp extends App {
     const { Component, apollo, pageProps } = this.props;
     return (
       <ApolloProvider client={apollo}>
-        <UserStore>
-          <Head>
-            <title>iClimb</title>
-          </Head>
-          <ThemeProvider theme={this.pageContext.theme}>
-            <CssBaseline />
+        <Head>
+          <title>iClimb</title>
+        </Head>
+        <ThemeProvider theme={this.pageContext.theme}>
+          <CssBaseline />
+          <UserStore>
             <Page>
               <Component pageContext={this.pageContext} {...pageProps} />
             </Page>
-          </ThemeProvider>
-        </UserStore>
+          </UserStore>
+        </ThemeProvider>
       </ApolloProvider>
     );
   }
