@@ -1,22 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import router, { useRouter } from 'next/router'
-import { UserContext } from './UserStore'
-import { getRequest, postRequest } from '../request'
+import { getRequest } from '../request'
 import { getAPIBaseURL } from '../../config'
-
-
 
 const AuthProvider = ({ children }) => {
   const { pathname } = useRouter()
-  const [userId, setUserId] = useState(null)
-  const [userName, setUserName] = useState(null)
 
-  const getUser = async () => {
+  const checkUser = async () => {
     try {
       const url = `${getAPIBaseURL()}/me`
-      const response = await getRequest(url)
-      setUserId(response.userId)
-      setUserName(response.userName)
+      await getRequest(url)
     }
     catch (error) {
       if (error.status === 401 && pathname !== '/') {
@@ -26,18 +19,9 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  useEffect(() => { getUser() }, [pathname])
+  useEffect(() => { checkUser() }, [pathname])
 
-  return (
-    <UserContext.Consumer>
-      {(context) => {
-        context.setId(userId)
-        context.setName(userName)
-        console.log(userId)
-        return children
-      }}
-    </UserContext.Consumer>
-  )
+  return (<>{children}</>)
 }
 
 export default AuthProvider

@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import router from 'next/router'
 import { TextField, Grid, Button } from '@material-ui/core'
 import { UserContext } from '../../src/app/UserStore'
-
 import FormContainer from '../FormContainer'
 import { postRequest } from '../../src/request'
 import { getAPIBaseURL } from '../../config'
@@ -31,7 +30,6 @@ const LoginForm = () => {
       if (response.userId) {
         router.push('/dashboard')
       }
-      console.log(JSON.stringify(response, null, 2))
     }
     catch (error) {
 
