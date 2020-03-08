@@ -7,7 +7,7 @@
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "test": "jest --watch --maxWorkers=4"
+    "test": "jest --watch --maxWorkers=4 --detectOpenHandles"
   },
   "keywords": [],
   "author": "",
@@ -45,6 +45,10 @@
     "transform": {
       "\\.(gql|graphql)$": "jest-transform-graphql",
       ".*": "babel-jest"
-    }
+    },
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ]
   }
 }

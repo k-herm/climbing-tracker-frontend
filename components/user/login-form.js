@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react'
-import router from 'next/router'
+import Router from 'next/router'
 import { TextField, Grid, Button } from '@material-ui/core'
-import Typography from '@material-ui/core/Typography';
+import Typography from '@material-ui/core/Typography'
 
 import { UserContext } from '../../src/app/UserStore'
 import FormContainer from '../FormContainer'
@@ -33,7 +33,7 @@ const LoginForm = () => {
       })
       if (response.userId) {
         setUser(response.userId, response.userName)
-        router.push('/dashboard')
+        Router.push('/dashboard')
       }
     }
     catch (error) {
@@ -46,7 +46,7 @@ const LoginForm = () => {
       <form method='post' onSubmit={onSubmit}>
         {error &&
           <Grid item>
-            <Typography color='error' align='center' paragraph='true'>
+            <Typography color='error' align='center' paragraph={true}>
               {`${error}`}
             </Typography>
           </Grid>
@@ -56,6 +56,7 @@ const LoginForm = () => {
             required
             name="email"
             label="Email"
+            inputProps={{ 'aria-label': 'email' }}
             value={state.email}
             onChange={handleChange}
             fullWidth
@@ -66,6 +67,7 @@ const LoginForm = () => {
             required
             name="password"
             label="Password"
+            inputProps={{ 'aria-label': 'password' }}
             type="password"
             value={state.password}
             onChange={handleChange}
