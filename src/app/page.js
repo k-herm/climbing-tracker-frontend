@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Head from '~/components/head';
+import Nav from '~/components/nav';
 import AuthProvider from './with-auth'
+import { UserContext } from './UserStore'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,12 +32,15 @@ const Copyright = () => {
 
 const Page = ({ children }) => {
   const classes = useStyles()
+  const { id, name } = useContext(UserContext)
+
   return (
     <AuthProvider>
       <Head title='iClimb-Tracker' />
       <div className={classes.root}>
         {children}
       </div>
+      {id && name && <Nav />}
       <Copyright />
     </AuthProvider>
   )

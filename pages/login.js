@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import LoginForm from '../components/user/login-form'
+import LoginForm from '~/components/user/login-form'
 import { Grid, CardMedia } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
