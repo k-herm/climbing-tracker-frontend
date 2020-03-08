@@ -1,8 +1,8 @@
 import React, { useEffect, useContext } from 'react'
 import router, { useRouter } from 'next/router'
 import { getRequest } from '../request'
-import { getAPIBaseURL } from '../../config'
-import { UserContext } from '../../src/app/UserStore'
+import { getAPIBaseURL } from '~/config'
+import { UserContext } from '~/src/app/UserStore'
 
 const AuthProvider = ({ children }) => {
   const { pathname } = useRouter()

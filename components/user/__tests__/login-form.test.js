@@ -49,4 +49,30 @@ describe('login form', () => {
     // expect(Router.push).toHaveBeenCalledTimes(1)
     // expect(Router.push).toHaveBeenCalledWith('/dashboard')
   })
+
+  it('should not submit post if email input is not filled', async () => {
+    const { getByLabelText, getByText, findByText } = render(<LoginForm />)
+    fireEvent.change(getByLabelText('password'), {
+      target: { value: password }
+    })
+
+    fireEvent.submit(getByText('Continue'))
+
+    const error = findByText('Please fill in email and password.')
+    expect(fetch).not.toHaveBeenCalled()
+    expect(error).toBeTruthy()
+  })
+
+  it('should not submit post if password input is not filled', async () => {
+    const { getByLabelText, getByText, findByText } = render(<LoginForm />)
+    fireEvent.change(getByLabelText('email'), {
+      target: { value: email }
+    })
+
+    fireEvent.submit(getByText('Continue'))
+
+    const error = findByText('Please fill in email and password.')
+    expect(fetch).not.toHaveBeenCalled()
+    expect(error).toBeTruthy()
+  })
 })

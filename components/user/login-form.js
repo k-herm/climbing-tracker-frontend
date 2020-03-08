@@ -1,12 +1,11 @@
 import React, { useState, useContext } from 'react'
 import Router from 'next/router'
-import { TextField, Grid, Button } from '@material-ui/core'
-import Typography from '@material-ui/core/Typography'
+import { TextField, Grid, Button, Typography } from '@material-ui/core'
 
-import { UserContext } from '../../src/app/UserStore'
+import { UserContext } from '~/src/app/UserStore'
 import FormContainer from '../FormContainer'
-import { postRequest } from '../../src/request'
-import { getAPIBaseURL } from '../../config'
+import { postRequest } from '~/src/request'
+import { getAPIBaseURL } from '~/config'
 
 const LoginForm = () => {
   const [state, setState] = useState({
@@ -26,6 +25,8 @@ const LoginForm = () => {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
+      if (!state.email || !state.password)
+        throw new Error('Please fill in email and password.')
       const url = `${getAPIBaseURL()}/login`
       const response = await postRequest(url, {
         email: state.email,
