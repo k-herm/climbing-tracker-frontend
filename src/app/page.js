@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Head from '~/components/head';
 import Nav from '~/components/nav';
@@ -7,11 +7,11 @@ import AuthProvider from './with-auth'
 import { UserContext } from './UserStore'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    // display: 'grid',
-    // justifyItems: 'center',
-    // maxWidth: '1500px',
-  },
+  // root: {
+  //   display: 'grid',
+  //   justifyItems: 'center',
+  //   maxWidth: '1500px',
+  // },
   copyright: {
     padding: theme.spacing(2)
   }
@@ -31,15 +31,14 @@ const Copyright = () => {
 }
 
 const Page = ({ children }) => {
-  const classes = useStyles()
+  // const classes = useStyles()
   const { id, name } = useContext(UserContext)
-
   return (
     <AuthProvider>
       <Head title='iClimb-Tracker' />
-      <div className={classes.root}>
+      <Box>
         {children}
-      </div>
+      </Box>
       {id && name && <Nav />}
       <Copyright />
     </AuthProvider>

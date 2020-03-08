@@ -5,22 +5,21 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ApolloProvider } from '@apollo/react-hooks'
 
-import { UserStore } from '../src/app/UserStore'
-import createClient from '../src/app/createClient'
-import getPageContext from '../src/getPageContext';
-import Page from '../src/app/page'
+import { UserStore } from '~/src/app/UserStore'
+import createClient from '~/src/app/createClient'
+import theme from '~/src/app/theme'
+import Page from '~/src/app/page'
 
 class iClimbApp extends App {
   constructor() {
     super();
-    this.pageContext = getPageContext();
   }
 
   componentDidMount() {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
-    if (jssStyles && jssStyles.parentNode) {
-      jssStyles.parentNode.removeChild(jssStyles);
+    if (jssStyles) {
+      jssStyles.parentElement.removeChild(jssStyles);
     }
   }
 
@@ -40,11 +39,11 @@ class iClimbApp extends App {
         <Head>
           <title>iClimb</title>
         </Head>
-        <ThemeProvider theme={this.pageContext.theme}>
+        <ThemeProvider theme={theme}>
           <CssBaseline />
           <UserStore>
             <Page>
-              <Component pageContext={this.pageContext} {...pageProps} />
+              <Component {...pageProps} />
             </Page>
           </UserStore>
         </ThemeProvider>
