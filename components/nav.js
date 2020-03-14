@@ -46,6 +46,7 @@ const Nav = ({ redirect }) => {
       setUser(null, null)
       setShouldRoute(true)
     } catch (error) {
+      //TO DO: display error message for logout
       console.log(error)
       setShouldRoute(false)
     }

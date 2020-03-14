@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router'
-import { Box, Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Head from '~/components/head';
 import Nav from '~/components/nav';
@@ -8,11 +8,15 @@ import AuthProvider from './with-auth'
 import { UserContext } from './UserStore'
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    height: '90vh'
-  },
   copyright: {
-    padding: theme.spacing(1),
+    fontSize: '10px'
+  },
+  footer: {
+    position: 'fixed',
+    bottom: 0
+  },
+  main: {
+    height: '90vh'
   }
 }))
 
@@ -22,7 +26,7 @@ const Copyright = () => {
     <Typography
       component="div"
       className={copyright}
-      variant="body2"
+      variant="caption"
       color="textSecondary"
       align="center"
     >
@@ -34,18 +38,20 @@ const Copyright = () => {
 }
 
 const Page = ({ children }) => {
-  const { container } = useStyles()
+  const { footer, main } = useStyles()
   const router = useRouter()
   const isLogin = router.pathname === '/login'
   const { id, name } = useContext(UserContext)
   return (
     <AuthProvider>
       <Head title='iClimb-Tracker' />
-      <Box className={container}>
+      <Box className={main}>
         {children}
       </Box>
-      {id && name && <Nav redirect={isLogin ? '/dashboard' : null} />}
-      <Copyright />
+      <Grid className={footer} container direction="column">
+        {id && name && <Nav redirect={isLogin ? '/dashboard' : null} />}
+        <Copyright />
+      </Grid>
     </AuthProvider>
   )
 }
