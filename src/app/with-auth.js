@@ -18,7 +18,6 @@ const AuthProvider = ({ children }) => {
       if (error.status === 401 && pathname !== '/') {
         router.push('/login')
       }
-      console.log(error)
     }
   }
 
