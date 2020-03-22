@@ -5,7 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { ApolloProvider } from '@apollo/react-hooks'
 
-import { UserStore } from '~/src/app/UserStore'
+import { UserStore } from '~/src/app/Contexts/UserStore'
 import createClient from '~/src/app/createClient'
 import theme from '~/src/app/theme'
 import Page from '~/src/app/page'

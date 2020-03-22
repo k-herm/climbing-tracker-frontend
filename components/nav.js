@@ -15,7 +15,7 @@ import AddIcon from '@material-ui/icons/Add'
 
 import { postRequest } from '~/src/request'
 import { getAPIBaseURL } from '~/config'
-import { UserContext } from '~src/app/UserStore'
+import { UserContext } from '~src/app/Contexts/UserStore'
 
 const useStyles = makeStyles((theme) => ({
   floatingIcon: {
@@ -23,11 +23,14 @@ const useStyles = makeStyles((theme) => ({
     zIndex: 1,
     bottom: 80,
     right: '1.5rem'
+  },
+  nav: {
+    borderTop: '1px solid lightgrey'
   }
 }))
 
 const Nav = ({ redirect }) => {
-  const { floatingIcon } = useStyles()
+  const { floatingIcon, nav } = useStyles()
 
   const router = useRouter()
   const navItems = ['/login', '/dashboard', '/projects', '/journal']
@@ -46,7 +49,7 @@ const Nav = ({ redirect }) => {
       setUser(null, null)
       setShouldRoute(true)
     } catch (error) {
-      //TO DO: display error message for logout
+      // TODO: display toast error message for logout
       console.log(error)
       setShouldRoute(false)
     }
@@ -67,6 +70,7 @@ const Nav = ({ redirect }) => {
       value={current}
       onChange={handleChange}
       showLabels
+      className={nav}
     >
       <BottomNavigationAction label="Logout" icon={<ExitToAppIcon />} />
       <BottomNavigationAction label="Dashboard" icon={<BarChartIcon />} />

@@ -15,7 +15,10 @@ const theme = createMuiTheme({
   },
   typography: {
     useNextVariants: true,
+  },
+  page: {
+    height: '1500px'
   }
-});
+})
 
 export default theme;
