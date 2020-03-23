@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import {
   AppBar,
   Slide,
@@ -18,6 +19,7 @@ const Header = ({ title }) => {
   const { titleStyle } = useStyles()
   const trigger = useScrollTrigger()
   return (
+    // TODO - slider not working
     <Slide appear={false} direction='down' in={!trigger}>
       <AppBar position='static' color='secondary'>
         <Typography variant='h5' className={titleStyle}>
@@ -26,6 +28,10 @@ const Header = ({ title }) => {
       </AppBar>
     </Slide>
   )
+}
+
+Header.propTypes = {
+  title: PropTypes.string
 }
 
 export default Header

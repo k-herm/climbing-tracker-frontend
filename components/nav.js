@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import PropTypes from 'prop-types'
 import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -81,6 +82,10 @@ const Nav = ({ redirect }) => {
       </Fab>
     </BottomNavigation>
   )
+}
+
+Nav.propTypes = {
+  redirect: PropTypes.string
 }
 
 export default Nav;

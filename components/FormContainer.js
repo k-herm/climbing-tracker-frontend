@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Paper, Grid } from '@material-ui/core'
 
@@ -35,6 +36,11 @@ const FormContainer = ({
       </Grid>
     </Paper>
   )
+}
+
+FormContainer.propTypes = {
+  children: PropTypes.node,
+  title: PropTypes.string
 }
 
 export default FormContainer

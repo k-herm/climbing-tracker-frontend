@@ -1,12 +1,10 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import {
-  Box,
-  Typography
-} from '@material-ui/core'
+import { Box, Typography } from '@material-ui/core'
 
-import { UserContext } from '~/src/app/Contexts/UserStore'
+import { useUserData } from '~/src/app/Hooks/userData'
 import Header from '~/components/header'
+import NumericStatistics from '~/components/dashboard/numericStatistics'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,13 +15,23 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
+const getDateString = (date) => {
+  const day = date.getDate()
+  const month = date.getMonth() + 1
+  const needPrefix = month < 10
+  const year = date.getFullYear()
+  return `${year}-${needPrefix ? 0 : ''}${month}-${day}`
+}
+
 const Dashboard = () => {
-  const { id, name } = useContext(UserContext)
+  const { userName } = useUserData()
   const { container, message } = useStyles()
 
-  const title = name
-    ? `${name[0].toUpperCase() + name.substring(1)}'s Stats`
+  const title = userName
+    ? `${userName[0].toUpperCase() + userName.substring(1)}'s Stats`
     : ''
+  const today = new Date()
+
   return (
     <Box className={container}>
       <Header title='Dashboard' />
@@ -32,9 +40,11 @@ const Dashboard = () => {
           {title}
         </Typography>
         <Typography variant='subtitle1' align='center' color='textSecondary'>
-          {new Date().toDateString()}
+          {today.toDateString()}
         </Typography>
       </Box>
+
+      <NumericStatistics date={getDateString(today)} />
     </Box>
   )
 }

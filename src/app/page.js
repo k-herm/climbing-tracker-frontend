@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react'
 import { useRouter } from 'next/router'
-import { Box, Grid, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import Head from '~/components/head';
-import Nav from '~/components/nav';
+import { Box, Grid, Typography } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles'
+import Head from '~/components/head'
+import Nav from '~/components/nav'
 import AuthProvider from './with-auth'
-import { UserContext } from './Contexts/UserStore'
+import { useUserData } from '~/src/app/Hooks/userData'
 
 const useStyles = makeStyles((theme) => ({
   copyright: {
@@ -41,7 +41,7 @@ const Page = ({ children }) => {
   const { footer, main } = useStyles()
   const router = useRouter()
   const isLogin = router.pathname === '/login'
-  const { id, name } = useContext(UserContext)
+  const { userId } = useUserData()
   return (
     <AuthProvider>
       <Head title='iClimb-Tracker' />
@@ -49,7 +49,7 @@ const Page = ({ children }) => {
         {children}
       </Box>
       <Grid className={footer} container direction="column">
-        {id && name && <Nav redirect={isLogin ? '/dashboard' : null} />}
+        {userId && !isLogin && <Nav redirect={isLogin ? '/dashboard' : null} />}
         <Copyright />
       </Grid>
     </AuthProvider>
