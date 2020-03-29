@@ -73,6 +73,7 @@ const Header = ({ title }) => {
           transformOrigin={{
             vertical: 'top', horizontal: 'center'
           }}
+          getContentAnchorEl={null}
           open={Boolean(anchorE1)}
           onClose={handleClose}
         >

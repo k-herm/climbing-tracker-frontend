@@ -8,8 +8,7 @@ import {
   Grid,
   Typography
 } from '@material-ui/core'
-import { useQuery } from '@apollo/react-hooks'
-import { GET_STATISTICS } from '~/src/app/Queries/statistics'
+import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -39,19 +38,16 @@ StatContainer.propTypes = {
   data: PropTypes.any
 }
 
-const NumericStatistics = ({ date }) => {
-  const { loading, data } = useQuery(GET_STATISTICS, {
-    variables: { date }
-  })
-  if (loading) return null
+const NumericStatistics = ({ data }) => {
+
   const {
     totalVertical,
     highestRedpointGrade,
     totalDaysThisYear,
     pitchesThisMonth
-  } = data.stats.numericStatistics
+  } = data
 
-  const highestRedpoint = highestRedpointGrade.replace(/_/, '').replace(/_/, '.')
+  const highestRedpoint = formatGradeValue(highestRedpointGrade)
   return (
     <Container maxWidth='sm'>
       <Grid container spacing={1}>
@@ -72,9 +68,8 @@ const NumericStatistics = ({ date }) => {
   )
 }
 
-// no proptypes date, gql only accepts date
-// NumericStatistics.propTypes = {
-//   date: PropTypes.object
-// }
+NumericStatistics.propTypes = {
+  data: PropTypes.object
+}
 
 export default NumericStatistics

@@ -10,6 +10,16 @@ export const GET_STATISTICS = gql`
         totalDaysThisYear
         pitchesThisMonth
       }
+      chartData {
+        gradesChart {
+          grade
+          count
+          attempts {
+            attemptType
+            count
+          }
+        }
+      }
     }
   }
 `

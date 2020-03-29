@@ -9,7 +9,8 @@ import { useUserData } from '~/src/app/Hooks/userData'
 
 const useStyles = makeStyles((theme) => ({
   copyright: {
-    fontSize: '10px'
+    fontSize: '10px',
+    backgroundColor: 'white'
   },
   footer: {
     position: 'fixed',
