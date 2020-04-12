@@ -17,7 +17,16 @@ export const GET_STATISTICS = gql`
           attempts {
             attemptType
             count
+            sendCount
           }
+        }
+        climbStyleChart {
+          grade
+          date
+          routeStyle
+          climbStyle
+          attempt
+          send
         }
       }
     }

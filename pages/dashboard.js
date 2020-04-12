@@ -1,6 +1,6 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Box, Typography } from '@material-ui/core'
+import { Box, LinearProgress, Typography } from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
 
 import { GET_STATISTICS } from '~/src/app/Queries/statistics'
@@ -12,7 +12,7 @@ import { getDateString } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    height: theme.page.height
+    marginBottom: theme.page.navHeight
   },
   message: {
     margin: '1rem',
@@ -38,12 +38,9 @@ const Dashboard = () => {
     <Box className={container}>
       <Header title='Dashboard' />
 
-      {loading
-        ?
-        <Box className={message}>
-          <Typography variant='h6' align='center' color='textSecondary'>
-            Loading ...
-          </Typography>
+      {loading ?
+        <Box>
+          <LinearProgress />
         </Box>
         :
         <>

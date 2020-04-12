@@ -41,7 +41,7 @@ const Copyright = () => {
 const Page = ({ children }) => {
   const { footer, main } = useStyles()
   const router = useRouter()
-  const isLogin = router.pathname === '/login'
+  const isLoginPage = router.pathname === '/login'
   const { userId } = useUserData()
   return (
     <AuthProvider>
@@ -50,7 +50,7 @@ const Page = ({ children }) => {
         {children}
       </Box>
       <Grid className={footer} container direction="column">
-        {userId && !isLogin && <Nav redirect={isLogin ? '/dashboard' : null} />}
+        {userId && !isLoginPage && <Nav redirect={isLoginPage ? '/dashboard' : null} />}
         <Copyright />
       </Grid>
     </AuthProvider>

@@ -8,14 +8,35 @@ import { formatGradeValue } from '~/src/app/utils'
 import { GRADES } from './constants'
 
 const useStyles = makeStyles((theme) => ({
+  chart: {
+    margin: '1rem 0'
+  },
   chartTitle: {
     textAlign: 'center',
     marginTop: '2rem',
+  },
+  label: {
+    textAlign: 'center',
+    fontSize: '1.2rem',
+    fontStyle: 'italic',
+    border: '1.5px solid lightgrey',
+    borderRadius: '1rem',
+    margin: '1rem',
+    padding: '2rem'
   }
 }))
 
+const NoClimbsLabel = () => {
+  const { label } = useStyles()
+  return (
+    <Typography className={label} color='textSecondary'>
+      No climbs logged
+    </Typography>
+  )
+}
+
 const ChartsContainer = ({ data }) => {
-  const { chartTitle } = useStyles()
+  const { chart, chartTitle } = useStyles()
 
   const { gradesChart } = data
 
@@ -39,15 +60,46 @@ const ChartsContainer = ({ data }) => {
 
   return (
     <Container maxWidth='sm'>
-      <Card>
+      <Card className={chart}>
         <Typography variant='h5' className={chartTitle} color='primary'>
           Total Climbs By Grade
         </Typography>
-        <GradesBarChart
-          data={gradesChart}
-          categories={gradeCategories()}
-          maxYAxis={highestCount}
-        />
+        {gradesChart.length ?
+          <GradesBarChart
+            data={gradesChart}
+            categories={gradeCategories()}
+            maxYAxis={highestCount}
+          />
+          : <NoClimbsLabel />
+        }
+      </Card>
+
+      <Card className={chart}>
+        <Typography variant='h5' className={chartTitle} color='primary'>
+          Total Climbs By Grade
+        </Typography>
+        {gradesChart.length ?
+          <GradesBarChart
+            data={gradesChart}
+            categories={gradeCategories()}
+            maxYAxis={highestCount}
+          />
+          : <NoClimbsLabel />
+        }
+      </Card>
+
+      <Card className={chart}>
+        <Typography variant='h5' className={chartTitle} color='primary'>
+          Total Climbs By Grade
+        </Typography>
+        {gradesChart.length ?
+          <GradesBarChart
+            data={gradesChart}
+            categories={gradeCategories()}
+            maxYAxis={highestCount}
+          />
+          : <NoClimbsLabel />
+        }
       </Card>
 
     </Container>

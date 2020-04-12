@@ -4,7 +4,6 @@ import { VictoryBar, VictoryChart, VictoryAxis } from 'victory'
 
 const GradesBarChart = ({ categories, data, maxYAxis }) => {
   const theme = useTheme()
-  console.log(data)
   return (
     <VictoryChart
       domainPadding={40}
@@ -30,7 +29,7 @@ const GradesBarChart = ({ categories, data, maxYAxis }) => {
       />
       <VictoryBar
         style={{ data: { fill: `${theme.palette.secondary.dark}` } }}
-        barRatio={0.5}
+        barRatio={0.4}
         data={data}
         x="grade"
         y="count"

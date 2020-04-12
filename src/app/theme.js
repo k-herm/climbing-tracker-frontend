@@ -17,8 +17,9 @@ const theme = createMuiTheme({
     useNextVariants: true,
   },
   page: {
-    height: '1500px',
-    maxWidth: '1000px'
+    minHeight: '1500px',
+    maxWidth: '1000px',
+    navHeight: '80px'
   }
 })
 
