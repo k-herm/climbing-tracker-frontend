@@ -5,13 +5,7 @@ import { teal, deepPurple } from '@material-ui/core/colors';
 const theme = createMuiTheme({
   palette: {
     primary: teal,
-    secondary: deepPurple,
-    // error: {
-    //   main: red.A400,
-    // },
-    // background: {
-    //   default: '#fff',
-    // },
+    secondary: deepPurple
   },
   typography: {
     useNextVariants: true,
@@ -20,6 +14,13 @@ const theme = createMuiTheme({
     minHeight: '1500px',
     maxWidth: '1000px',
     navHeight: '80px'
+  },
+  chart: {
+    colors: {
+      yellow: '#ffcd38',
+      blue: '#6573c3',
+      red: '#f6685e'
+    }
   }
 })
 

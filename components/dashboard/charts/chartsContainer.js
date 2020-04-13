@@ -4,6 +4,7 @@ import { Card, Container, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
 import GradesBarChart from './GradesBarChart'
+import GradesAttemptChart from './GradesAttemptChart'
 import { formatGradeValue } from '~/src/app/utils'
 import { GRADES } from './constants'
 
@@ -79,16 +80,16 @@ const ChartsContainer = ({ data }) => {
           Total Climbs By Grade
         </Typography>
         {gradesChart.length ?
-          <GradesBarChart
+          <GradesAttemptChart
             data={gradesChart}
             categories={gradeCategories()}
-            maxYAxis={highestCount}
+          // maxYAxis={highestCount}
           />
           : <NoClimbsLabel />
         }
       </Card>
 
-      <Card className={chart}>
+      {/* <Card className={chart}>
         <Typography variant='h5' className={chartTitle} color='primary'>
           Total Climbs By Grade
         </Typography>
@@ -100,7 +101,7 @@ const ChartsContainer = ({ data }) => {
           />
           : <NoClimbsLabel />
         }
-      </Card>
+      </Card> */}
 
     </Container>
   )

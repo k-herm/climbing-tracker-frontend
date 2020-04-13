@@ -43,4 +43,5 @@ const GradesBarChart = ({ categories, data, maxYAxis }) => {
   )
 }
 
-export default GradesBarChart
+const compareProps = (prevProps, nextProps) => isEqual(prevProps, nextProps)
+export default React.memo(GradesBarChart, compareProps)
