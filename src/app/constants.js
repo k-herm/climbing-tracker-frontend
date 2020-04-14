@@ -28,3 +28,18 @@ export const GRADES = [
   '5.15c',
   '5.15d'
 ]
+
+export const MONTHS = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December"
+];

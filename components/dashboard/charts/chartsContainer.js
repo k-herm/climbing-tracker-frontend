@@ -5,8 +5,8 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import GradesBarChart from './GradesBarChart'
 import GradesAttemptChart from './GradesAttemptChart'
-import { formatGradeValue } from '~/src/app/utils'
-import { GRADES } from './constants'
+import ClimbStyleChart from './ClimbStyleChart'
+import { formatGradeValue, getGradeCategories, getGradeCategoriesFromArray } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   chart: {
@@ -39,25 +39,19 @@ const NoClimbsLabel = () => {
 const ChartsContainer = ({ data }) => {
   const { chart, chartTitle } = useStyles()
 
-  const { gradesChart } = data
+  const { gradesChart, otherData } = data.gradesChart
+  const { climbStyleChart, otherData: styleOtherData } = data.climbStyleChart
 
-  const gradeCategories = () => {
-    const highestIndex = GRADES.findIndex((grade) =>
-      grade === gradesChart[gradesChart.length - 1].grade
-    )
-    const lowestIndex = GRADES.findIndex((grade) =>
-      grade === gradesChart[0].grade
-    )
-    return GRADES.slice(lowestIndex, highestIndex + 1)
-  }
-
-  let highestCount = 0
   gradesChart.forEach(dataPoint => {
     dataPoint.grade = formatGradeValue(dataPoint.grade)
-    if (dataPoint.count > highestCount) {
-      highestCount = dataPoint.count
-    }
   })
+  // expensive with increasing climbs ?
+  climbStyleChart.forEach(dataPoint => {
+    dataPoint.grade = formatGradeValue(dataPoint.grade)
+    dataPoint.date = new Date(dataPoint.date)
+  })
+  const gradeChartCategories = otherData.gradeRange.map(grade => formatGradeValue(grade))
+  const climbStyleCategories = styleOtherData.gradeRange.map(grade => formatGradeValue(grade))
 
   return (
     <Container maxWidth='sm'>
@@ -68,8 +62,8 @@ const ChartsContainer = ({ data }) => {
         {gradesChart.length ?
           <GradesBarChart
             data={gradesChart}
-            categories={gradeCategories()}
-            maxYAxis={highestCount}
+            categories={gradeChartCategories}
+            maxYAxis={otherData.highestCount}
           />
           : <NoClimbsLabel />
         }
@@ -82,26 +76,25 @@ const ChartsContainer = ({ data }) => {
         {gradesChart.length ?
           <GradesAttemptChart
             data={gradesChart}
-            categories={gradeCategories()}
-          // maxYAxis={highestCount}
+            categories={gradeChartCategories}
           />
           : <NoClimbsLabel />
         }
       </Card>
 
-      {/* <Card className={chart}>
+      <Card className={chart}>
         <Typography variant='h5' className={chartTitle} color='primary'>
-          Total Climbs By Grade
+          Grades By Style Over Time
         </Typography>
-        {gradesChart.length ?
-          <GradesBarChart
-            data={gradesChart}
-            categories={gradeCategories()}
-            maxYAxis={highestCount}
+        {climbStyleChart.length ?
+          <ClimbStyleChart
+            data={climbStyleChart}
+            categories={climbStyleCategories}
+            dateCategories={styleOtherData.dateRange}
           />
           : <NoClimbsLabel />
         }
-      </Card> */}
+      </Card>
 
     </Container>
   )

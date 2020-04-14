@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import isEqual from 'lodash.isequal'
 import { useTheme } from '@material-ui/core/styles'
 import {
@@ -7,8 +8,7 @@ import {
   VictoryArea,
   VictoryChart,
   VictoryAxis,
-  VictoryScatter,
-  VictoryStack
+  VictoryScatter
 } from 'victory'
 
 const GradesAttemptChart = ({ categories, data }) => {
@@ -146,6 +146,11 @@ const GradesAttemptChart = ({ categories, data }) => {
       />
     </VictoryChart>
   )
+}
+
+GradesAttemptChart.propTypes = {
+  categories: PropTypes.array,
+  data: PropTypes.array
 }
 
 const compareProps = (prevProps, nextProps) => isEqual(prevProps, nextProps)

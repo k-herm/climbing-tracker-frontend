@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useTheme } from '@material-ui/core/styles'
 import { VictoryBar, VictoryChart, VictoryAxis } from 'victory'
 
@@ -28,7 +29,7 @@ const GradesBarChart = ({ categories, data, maxYAxis }) => {
         tickFormat={(t) => Math.round(t) === t ? t : undefined}
       />
       <VictoryBar
-        style={{ data: { fill: `${theme.palette.secondary.dark}` } }}
+        style={{ data: { fill: theme.palette.secondary.dark } }}
         barRatio={0.4}
         data={data}
         x="grade"
@@ -41,6 +42,12 @@ const GradesBarChart = ({ categories, data, maxYAxis }) => {
 
     </VictoryChart>
   )
+}
+
+GradesBarChart.propTypes = {
+  categories: PropTypes.array,
+  data: PropTypes.array,
+  maxYAxis: PropTypes.number
 }
 
 const compareProps = (prevProps, nextProps) => isEqual(prevProps, nextProps)

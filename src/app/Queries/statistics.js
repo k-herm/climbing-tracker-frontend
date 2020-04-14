@@ -12,21 +12,33 @@ export const GET_STATISTICS = gql`
       }
       chartData {
         gradesChart {
-          grade
-          count
-          attempts {
-            attemptType
+          gradesChart {
+            grade
             count
-            sendCount
+            attempts {
+              attemptType
+              count
+              sendCount
+            }
+          }
+          otherData {
+            gradeRange
+            highestCount
           }
         }
-        climbStyleChart {
-          grade
-          date
-          routeStyle
-          climbStyle
-          attempt
-          send
+        climbStyleChart{
+          climbStyleChart {
+            grade
+            date
+            routeStyle
+            climbStyle
+            attempt
+            send
+          }
+          otherData {
+            gradeRange
+            dateRange
+          }
         }
       }
     }
