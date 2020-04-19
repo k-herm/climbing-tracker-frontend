@@ -1,10 +1,12 @@
 import React from 'react'
+import isEqual from 'lodash.isequal'
 import PropTypes from 'prop-types'
 import { useTheme } from '@material-ui/core/styles'
 import { VictoryBar, VictoryChart, VictoryAxis } from 'victory'
 
 const GradesBarChart = ({ categories, data, maxYAxis }) => {
   const theme = useTheme()
+
   return (
     <VictoryChart
       domainPadding={40}

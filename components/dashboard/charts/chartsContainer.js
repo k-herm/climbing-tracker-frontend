@@ -6,7 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import GradesBarChart from './GradesBarChart'
 import GradesAttemptChart from './GradesAttemptChart'
 import ClimbStyleChart from './ClimbStyleChart'
-import { formatGradeValue, getGradeCategories, getGradeCategoriesFromArray } from '~/src/app/utils'
+import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   chart: {
@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
   chartTitle: {
     textAlign: 'center',
     marginTop: '2rem',
+    marginBottom: '1rem'
   },
   label: {
     textAlign: 'center',
@@ -44,11 +45,6 @@ const ChartsContainer = ({ data }) => {
 
   gradesChart.forEach(dataPoint => {
     dataPoint.grade = formatGradeValue(dataPoint.grade)
-  })
-  // expensive with increasing climbs ?
-  climbStyleChart.forEach(dataPoint => {
-    dataPoint.grade = formatGradeValue(dataPoint.grade)
-    dataPoint.date = new Date(dataPoint.date)
   })
   const gradeChartCategories = otherData.gradeRange.map(grade => formatGradeValue(grade))
   const climbStyleCategories = styleOtherData.gradeRange.map(grade => formatGradeValue(grade))
@@ -86,7 +82,8 @@ const ChartsContainer = ({ data }) => {
         <Typography variant='h5' className={chartTitle} color='primary'>
           Grades By Style Over Time
         </Typography>
-        {climbStyleChart.length ?
+        {climbStyleChart.sport.length || climbStyleChart.trad.length ||
+          climbStyleChart.notSpecified.length ?
           <ClimbStyleChart
             data={climbStyleChart}
             categories={climbStyleCategories}

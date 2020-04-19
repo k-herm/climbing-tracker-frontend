@@ -3,12 +3,14 @@ import PropTypes from 'prop-types'
 import isEqual from 'lodash.isequal'
 import { useTheme } from '@material-ui/core/styles'
 import {
-  VictoryLegend,
-  VictoryGroup,
   VictoryArea,
-  VictoryChart,
   VictoryAxis,
-  VictoryScatter
+  VictoryChart,
+  VictoryGroup,
+  VictoryLegend,
+  VictoryScatter,
+  VictoryTooltip,
+  VictoryVoronoiContainer
 } from 'victory'
 
 const GradesAttemptChart = ({ categories, data }) => {
@@ -60,6 +62,13 @@ const GradesAttemptChart = ({ categories, data }) => {
     <VictoryChart
       domainPadding={5}
       padding={{ top: 15, bottom: 50, right: 50, left: 50 }}
+      containerComponent={
+        <VictoryVoronoiContainer
+          labels={({ datum }) => `${datum.grade}, count: ${datum.count}`}
+          voronoiBlacklist={["area"]}
+          labelComponent={<VictoryTooltip constrainToVisibleArea />}
+        />
+      }
     >
       <VictoryAxis
         tickValues={categories}
@@ -80,7 +89,7 @@ const GradesAttemptChart = ({ categories, data }) => {
         tickFormat={(t) => Math.round(t) === t ? t : undefined}
       />
       <VictoryLegend
-        x={90} y={20}
+        x={90} y={0}
         orientation="horizontal"
         gutter={20}
         colorScale={[yellow, blue, red]}
@@ -92,6 +101,7 @@ const GradesAttemptChart = ({ categories, data }) => {
         style={{ data: { strokeWidth: 3, fillOpacity: 0.5 } }}
       >
         <VictoryArea
+          name="area"
           style={{ data: { fill: yellow, stroke: yellow } }}
           data={topRopeData}
           x="grade"
@@ -104,6 +114,7 @@ const GradesAttemptChart = ({ categories, data }) => {
           interpolation="cardinal"
         />
         <VictoryArea
+          name="area"
           style={{ data: { fill: blue, stroke: blue } }}
           data={redpointData}
           x="grade"
@@ -115,6 +126,7 @@ const GradesAttemptChart = ({ categories, data }) => {
           interpolation="cardinal"
         />
         <VictoryArea
+          name="area"
           style={{ data: { fill: red, stroke: red } }}
           data={onsightData}
           x="grade"

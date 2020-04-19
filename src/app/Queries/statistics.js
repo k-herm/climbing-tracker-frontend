@@ -28,12 +28,30 @@ export const GET_STATISTICS = gql`
         }
         climbStyleChart{
           climbStyleChart {
-            grade
-            date
-            routeStyle
-            climbStyle
-            attempt
-            send
+            sport {
+              grade
+              date
+              routeStyle
+              climbStyle
+              attempt
+              send
+            }
+            trad {
+              grade
+              date
+              routeStyle
+              climbStyle
+              attempt
+              send
+            }
+            notSpecified {
+              grade
+              date
+              routeStyle
+              climbStyle
+              attempt
+              send
+            }
           }
           otherData {
             gradeRange
