@@ -13,7 +13,7 @@ const GradesSection = () => {
 
   if (loading || error) return <Chart loading={loading} error={error} />
 
-  const { gradesChart, otherData } = data.charts.chartData.gradesChart
+  const { gradesChart, otherData } = data.gradesChart.chartData.gradesChart
   gradesChart.forEach(dataPoint => {
     dataPoint.grade = formatGradeValue(dataPoint.grade)
   })

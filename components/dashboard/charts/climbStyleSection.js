@@ -12,7 +12,7 @@ const ClimbStyleSection = () => {
 
   if (loading || error) return <Chart loading={loading} error={error} />
 
-  const { climbStyleChart, otherData: styleOtherData } = data.charts.chartData.climbStyleChart
+  const { climbStyleChart, otherData: styleOtherData } = data.climbStyleChart.chartData.climbStyleChart
   const { sport, trad, notSpecified } = climbStyleChart
   const climbStyleCategories = styleOtherData.gradeRange.map(grade => formatGradeValue(grade))
 

@@ -14,8 +14,8 @@ query NumericStats($date: Date!) {
 `
 
 export const GET_GRADES_CHARTS = gql`
-  query charts {
-    charts {
+  query gradesChart {
+    gradesChart {
       chartData {
         gradesChart {
           gradesChart {
@@ -38,8 +38,8 @@ export const GET_GRADES_CHARTS = gql`
 `
 
 export const GET_CLIMBSTYLE_CHARTS = gql`
-  query charts {
-    charts {
+  query climbStyleChart {
+    climbStyleChart {
       chartData {
         climbStyleChart{
           climbStyleChart {
