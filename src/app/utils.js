@@ -31,4 +31,4 @@ export const formatGradeValue = (grade) =>
 //   return GRADES.slice(lowestIndex, highestIndex + 1)
 // }
 
-export const getMonth = (date) => MONTHS[new Date(date).getMonth()]
+export const getMonth = (date) => MONTHS[date.getMonth()]

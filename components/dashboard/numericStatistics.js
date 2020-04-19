@@ -39,13 +39,12 @@ StatContainer.propTypes = {
 }
 
 const NumericStatistics = ({ data }) => {
-
   const {
     totalVertical,
     highestRedpointGrade,
     totalDaysThisYear,
     pitchesThisMonth
-  } = data
+  } = data.numericStatistics
 
   const highestRedpoint = formatGradeValue(highestRedpointGrade)
   return (
