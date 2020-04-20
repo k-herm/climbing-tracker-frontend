@@ -18,17 +18,12 @@ const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi")
 const ClimbStyleChart = ({ categories, data, dateCategories }) => {
   const theme = useTheme()
   const { primary, secondary } = theme.palette
-  const { yellow } = theme.chart.colors
   // expensive with increasing climbs ?
   data.trad.forEach(dataPoint => {
     dataPoint.grade = formatGradeValue(dataPoint.grade)
     dataPoint.date = new Date(dataPoint.date)
   })
   data.sport.forEach(dataPoint => {
-    dataPoint.grade = formatGradeValue(dataPoint.grade)
-    dataPoint.date = new Date(dataPoint.date)
-  })
-  data.notSpecified.forEach(dataPoint => {
     dataPoint.grade = formatGradeValue(dataPoint.grade)
     dataPoint.date = new Date(dataPoint.date)
   })
@@ -81,7 +76,7 @@ const ClimbStyleChart = ({ categories, data, dateCategories }) => {
         gutter={20}
         colorScale={[primary.dark, secondary.dark, yellow]}
         data={[
-          { name: "Sport" }, { name: "Trad" }, { name: "Not Specified" }
+          { name: "Sport" }, { name: "Trad" }
         ]}
       />
       {/* calculate linear regression before plotting */}
@@ -95,18 +90,6 @@ const ClimbStyleChart = ({ categories, data, dateCategories }) => {
               onLoad: { duration: 500 }
           }}
         /> */}
-      <VictoryScatter
-        data={data.notSpecified}
-        x="date"
-        y="grade"
-        size={2.5}
-        style={{ data: { fill: yellow } }}
-        labels={({ datum }) => `${datum.grade}, ${
-          getMonth(datum.date).substr(0, 3)
-          } ${datum.date.getFullYear()}`
-        }
-        labelComponent={<VictoryTooltip constrainToVisibleArea />}
-      />
       <VictoryScatter
         data={data.sport}
         x="date"

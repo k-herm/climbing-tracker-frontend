@@ -14,23 +14,21 @@ query NumericStats($date: Date!) {
 `
 
 export const GET_GRADES_CHARTS = gql`
-  query gradesChart {
+  query GradesChart {
     gradesChart {
-      chartData {
-        gradesChart {
-          gradesChart {
-            grade
+      gradesChart {
+        chartData {
+          grade
+          count
+          attempts {
+            attemptType
             count
-            attempts {
-              attemptType
-              count
-              sendCount
-            }
+            sendCount
           }
-          otherData {
-            gradeRange
-            highestCount
-          }
+        }
+        otherData {
+          gradeRange
+          highestCount
         }
       }
     }
@@ -38,82 +36,30 @@ export const GET_GRADES_CHARTS = gql`
 `
 
 export const GET_CLIMBSTYLE_CHARTS = gql`
-  query climbStyleChart {
-    climbStyleChart {
-      chartData {
-        climbStyleChart{
-          climbStyleChart {
-            sport {
-              grade
-              date
-              routeStyle
-              climbStyle
-              attempt
-              send
-            }
-            trad {
-              grade
-              date
-              routeStyle
-              climbStyle
-              attempt
-              send
-            }
-            notSpecified {
-              grade
-              date
-              routeStyle
-              climbStyle
-              attempt
-              send
-            }
+  query ClimbStyleChart($routeStyle: [RouteStyleEnumT!]) {
+    climbStyleChart(routeStyle: $routeStyle){
+      climbStyleChart {
+        chartData {
+          sport {
+            grade
+            date
+            routeStyle
+            climbStyle
+            attempt
+            send
           }
-          otherData {
-            gradeRange
-            dateRange
+          trad {
+            grade
+            date
+            routeStyle
+            climbStyle
+            attempt
+            send
           }
         }
-      }
-    }
-  }
-`
-
-export const FILTER_CLIMBSTYLECHART = gql`
-  query ClimbStyleChartFilter($routeStyle: Array!) {
-    climbStyleChartFilter(routeStyle: $routeStyle) {
-      userId
-      chartData {
-        climbStyleChart{
-          climbStyleChart {
-            sport {
-              grade
-              date
-              routeStyle
-              climbStyle
-              attempt
-              send
-            }
-            trad {
-              grade
-              date
-              routeStyle
-              climbStyle
-              attempt
-              send
-            }
-            notSpecified {
-              grade
-              date
-              routeStyle
-              climbStyle
-              attempt
-              send
-            }
-          }
-          otherData {
-            gradeRange
-            dateRange
-          }
+        otherData {
+          gradeRange
+          dateRange
         }
       }
     }

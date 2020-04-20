@@ -11,7 +11,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     minWidth: '100%',
     height: '300px',
-    padding: '2rem'
+    padding: '1rem',
+    margin: '1rem'
   },
   chart: {
     margin: '1rem 0'

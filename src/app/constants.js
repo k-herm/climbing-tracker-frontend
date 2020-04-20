@@ -42,4 +42,18 @@ export const MONTHS = [
   "October",
   "November",
   "December"
-];
+]
+
+export const CLIMB_STYLES = [
+  "Crack",
+  "Crimpy",
+  "Technical",
+  "Pumpy",
+  "Offwidth",
+  "Fingers",
+  "Off-Fingers",
+  "Hands",
+  "Off-Hands",
+  "Fists",
+  "Off-Fists",
+]

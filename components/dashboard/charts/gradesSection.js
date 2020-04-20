@@ -13,24 +13,24 @@ const GradesSection = () => {
 
   if (loading || error) return <Chart loading={loading} error={error} />
 
-  const { gradesChart, otherData } = data.gradesChart.chartData.gradesChart
-  gradesChart.forEach(dataPoint => {
+  const { chartData, otherData } = data.gradesChart.gradesChart
+  chartData.forEach(dataPoint => {
     dataPoint.grade = formatGradeValue(dataPoint.grade)
   })
   const gradeChartCategories = otherData.gradeRange.map(grade => formatGradeValue(grade))
 
   return (
     <>
-      <Chart title="Total Climbs By Grade" noData={!gradesChart.length}>
+      <Chart title="Total Climbs By Grade" noData={!chartData.length}>
         <GradesBarChart
-          data={gradesChart}
+          data={chartData}
           categories={gradeChartCategories}
         />
       </Chart>
 
-      <Chart title="Total Climbs By Grade" noData={!gradesChart.length}>
+      <Chart title="Total Climbs By Grade" noData={!chartData.length}>
         <GradesAttemptChart
-          data={gradesChart}
+          data={chartData}
           categories={gradeChartCategories}
         />
       </Chart>
