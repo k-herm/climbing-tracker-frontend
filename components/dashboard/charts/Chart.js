@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     minWidth: '100%',
-    height: '300px',
+    height: '350px',
     padding: '1rem',
     margin: '1rem'
   },
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
     fontStyle: 'italic',
     border: '1.5px solid lightgrey',
     borderRadius: '1rem',
+    height: '350px',
     margin: '1rem',
     padding: '2rem'
   }
@@ -37,7 +38,7 @@ const NoDataLabel = () => {
   const { label } = useStyles()
   return (
     <Typography className={label} color='textSecondary'>
-      No climbs logged
+      No climbs entered yet!
     </Typography>
   )
 }
@@ -45,18 +46,14 @@ const NoDataLabel = () => {
 const Chart = ({ loading, error, children, title, noData }) => {
   const { chart, chartTitle, loadingContainer } = useStyles()
 
-  if (loading) {
+  if (loading || error) {
     return (
       <Container maxWidth='sm'>
         <Card className={loadingContainer} >
-          <CircularProgress />
+          {error ? <NetworkError /> : <CircularProgress />}
         </Card>
       </Container>
     )
-  }
-
-  if (error) {
-    return <NetworkError />
   }
 
   return (

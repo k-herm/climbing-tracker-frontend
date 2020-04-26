@@ -71,10 +71,10 @@ const ClimbStyleChart = ({ categories, data, dateCategories }) => {
         }}
       />
       <VictoryLegend
-        x={90} y={0}
+        x={150} y={0}
         orientation="horizontal"
         gutter={20}
-        colorScale={[primary.dark, secondary.dark, yellow]}
+        colorScale={[primary.dark, secondary.dark]}
         data={[
           { name: "Sport" }, { name: "Trad" }
         ]}
