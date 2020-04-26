@@ -15,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
       marginTop: theme.spacing(4),
       width: '100%'
     }
+  },
+  grid: {
+    '& .MuiGrid-item': {
+      margin: '1rem'
+    }
   }
 }))
 
@@ -29,7 +34,7 @@ const FormContainer = ({
         container
         justify="center"
         direction="column"
-        spacing={1}
+        className={classes.grid}
       >
         <h2>{title}</h2>
         {children}
