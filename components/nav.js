@@ -40,7 +40,8 @@ const Nav = ({ redirect }) => {
   const [addItem, setAddItem] = useState(null);
 
   useEffect(() => {
-    setAddItem(navItems[current].substr(1))
+    const item = navItems[current] ? navItems[current].substr(1) : null
+    setAddItem(item)
   }, [current])
 
   const handleChange = async (event, newValue) => {
