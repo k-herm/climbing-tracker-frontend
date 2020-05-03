@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
+import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
   Button,
@@ -10,7 +11,7 @@ import {
   Toolbar,
   Typography
 } from '@material-ui/core'
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@material-ui/icons/Close'
 
 import FormContainer from './formContainer'
 import AddClimbForm from './dashboard/addClimbForm'
@@ -68,6 +69,12 @@ const FullScreenFormModal = ({ addItem, open, onClose }) => {
       </Container>
     </Dialog>
   )
+}
+
+FullScreenFormModal.propTypes = {
+  addItem: PropTypes.string,
+  open: PropTypes.bool,
+  onClose: PropTypes.func
 }
 
 export default FullScreenFormModal
