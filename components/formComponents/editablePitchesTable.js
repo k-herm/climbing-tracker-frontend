@@ -41,7 +41,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const EditableTable = ({ columnHeaders, rowData, saveData }) => {
+const EditablePitchesTable = ({ columnHeaders, rowData, saveData }) => {
   const classes = useStyles()
 
   const [headers, setHeaders] = useState(columnHeaders)
@@ -178,10 +178,10 @@ const EditableTable = ({ columnHeaders, rowData, saveData }) => {
   )
 }
 
-EditableTable.propTypes = {
+EditablePitchesTable.propTypes = {
   columnHeaders: PropTypes.array,
   data: PropTypes.array,
   saveData: PropTypes.func
 }
 
-export default EditableTable
+export default EditablePitchesTable

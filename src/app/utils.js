@@ -2,14 +2,22 @@ import { GRADES, MONTHS } from './constants'
 
 export const getDateString = (date) => {
   const day = date.getDate()
+  const needDayPrefix = day < 10
   const month = date.getMonth() + 1
-  const needPrefix = month < 10
+  const needMonthPrefix = month < 10
   const year = date.getFullYear()
-  return `${year}-${needPrefix ? 0 : ''}${month}-${day}`
+  return `${year}-${
+    needMonthPrefix ? 0 : ''
+    }${month}-${
+    needDayPrefix ? 0 : ''
+    }${day}`
 }
 
 export const formatGradeValue = (grade) =>
   grade.replace(/_/, '').replace(/_/, '.')
+
+export const reverseFormatGradeValue = (grade) =>
+  '_'.concat(grade.replace('.', '_'))
 
 // export const getGradeCategories = (chart) => {
 //   const highestIndex = GRADES.findIndex((grade) =>

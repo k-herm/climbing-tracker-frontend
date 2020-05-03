@@ -13,7 +13,7 @@ import {
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
-import FormContainer from './formContainer'
+import FormContainer from './formComponents/formContainer'
 import AddClimbForm from './dashboard/addClimbForm'
 
 const useStyles = makeStyles((theme) => ({

@@ -21,6 +21,13 @@ const theme = createMuiTheme({
       blue: '#6573c3',
       red: '#f6685e'
     }
+  },
+  buttonGroup: {
+    '& button': {
+      margin: '1rem 0',
+      height: '40px',
+      lineHeight: 1.2
+    }
   }
 })
 

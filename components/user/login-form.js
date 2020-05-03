@@ -3,7 +3,7 @@ import Router from 'next/router'
 import { TextField, Grid, Button, Typography } from '@material-ui/core'
 
 import { UserContext } from '~/src/app/Contexts/UserStore'
-import FormContainer from '../formContainer'
+import FormContainer from '../formComponents/formContainer'
 import { postRequest } from '~/src/request'
 import { getAPIBaseURL } from '~/config'
 

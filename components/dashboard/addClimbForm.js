@@ -1,41 +1,21 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import 'date-fns'
 import {
   Box,
-  Button,
-  ButtonGroup,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
   Grid,
-  MenuItem,
-  Select,
   TextField,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import DateFnsUtils from '@date-io/date-fns'
-import {
-  MuiPickersUtilsProvider,
-  DatePicker,
-} from '@material-ui/pickers'
-import EditableTable from '../editableTable'
-import { GRADES } from '~/src/app/constants'
+
+import GradeSelect from '../formComponents/gradeSelect'
+import EditablePitchesTable from '../formComponents/editablePitchesTable'
+import ClimbStylesButtonGroup from '../formComponents/climbStyleButtonGroup'
+import AttemptButtonGroup from '../formComponents/attemptButtonGroup'
+import CustomDatePicker from '../formComponents/customDatePicker'
+
 import { reverseFormatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles(theme => ({
-  buttonGroup: {
-    '& button': {
-      margin: '1rem 0',
-      height: '40px',
-      lineHeight: 1.2
-    }
-  },
-  selectGroup: {
-    margin: '0',
-    minWidth: 120,
-  },
   flexGroup: {
     display: 'flex',
     alignItems: 'center',
@@ -51,7 +31,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AddClimbForm = ({ onSubmit }) => {
-  const { buttonGroup, selectGroup, flexGroup, form, textField } = useStyles()
+  const { flexGroup, form, textField } = useStyles()
   const [state, setState] = useState({
     name: null,
     location: null,
@@ -105,86 +85,32 @@ const AddClimbForm = ({ onSubmit }) => {
         />
       </Grid>
       <Grid item>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <DatePicker
-            id="date-picker"
-            autoOk
-            disableFuture
-            margin="normal"
-            label="Date completed"
-            name="date"
-            value={state.date}
-            format="MMM do, yyyy"
-            onChange={(value) => handleClick('date', value)}
-            KeyboardButtonProps={{
-              'aria-label': 'change date',
-            }}
-          />
-        </MuiPickersUtilsProvider>
+        <CustomDatePicker
+          initialState={state.date}
+          updateState={(value) => handleClick('date', value)}
+        />
       </Grid>
       <Grid item>
         <Box className={flexGroup}>
-          <ButtonGroup className={buttonGroup} color="primary" aria-label="climb style button group">
-            <Button
-              name="climbStyle"
-              variant={state.climbStyle === 'trad' ? "contained" : "outlined"}
-              onClick={() => handleClick('climbStyle', 'trad')}
-            >
-              Trad
-            </Button>
-            <Button
-              name="climbStyle"
-              variant={state.climbStyle === 'sport' ? "contained" : "outlined"}
-              onClick={() => handleClick('climbStyle', 'sport')}
-            >
-              Sport
-            </Button>
-          </ButtonGroup>
-          <ButtonGroup className={buttonGroup} color="primary" aria-label="attempt button group">
-            <Button
-              name="attempt"
-              variant={state.attempt === 'topRope' ? "contained" : "outlined"}
-              onClick={() => handleClick('attempt', 'topRope')}
-            >
-              Top Rope
-            </Button>
-            <Button
-              name="attempt"
-              variant={state.attempt === 'redpoint' ? "contained" : "outlined"}
-              onClick={() => handleClick('attempt', 'redpoint')}
-            >
-              Redpoint
-            </Button>
-            <Button
-              name="attempt"
-              variant={state.attempt === 'onsight' ? "contained" : "outlined"}
-              onClick={() => handleClick('attempt', 'onsight')}
-            >
-              Onsight
-            </Button>
-          </ButtonGroup>
+          <ClimbStylesButtonGroup
+            initialState={state.climbStyle}
+            updateState={(value) => handleClick('climbStyle', value)}
+          />
+          <AttemptButtonGroup
+            initialState={state.attempt}
+            updateState={(value) => handleClick('attempt', value)}
+          />
         </Box>
       </Grid>
       <Grid item>
         <Box className={flexGroup}>
-          <FormControl className={selectGroup}>
-            <InputLabel id="select-grade">Grade</InputLabel>
-            <Select
-              labelId="select-grade"
-              id="select-grade"
-              value={state.grade}
-              name="grade"
-              onChange={e => {
-                handleChange(e)
-                handleClick('pitches', [{ grade: e.target.value, numberPitches: 1 }])
-              }}
-              required
-            >
-              {GRADES.map(grade =>
-                <MenuItem value={grade}>{grade}</MenuItem>
-              )}
-            </Select>
-          </FormControl>
+          <GradeSelect
+            initialState={state.grade}
+            updateState={(e) => {
+              handleChange(e)
+              handleClick('pitches', [{ grade: e.target.value, numberPitches: 1 }])
+            }}
+          />
           <TextField
             name="totalLength"
             label="Total Length(m)"
@@ -197,7 +123,7 @@ const AddClimbForm = ({ onSubmit }) => {
         </Box>
       </Grid>
       <Grid item>
-        <EditableTable
+        <EditablePitchesTable
           columnHeaders={['Grade', '#Pitches']}
           rowData={state.pitches}
           saveData={(data) => handleClick('pitches', data)}
@@ -215,12 +141,11 @@ const AddClimbForm = ({ onSubmit }) => {
             labelPlacement="start"
             label="Send?"
           /> */}
-    </form>
+    </form >
   )
 }
 
 
-// pitches: [grade, numPitches]
 // route style
 
 AddClimbForm.propTypes = {
