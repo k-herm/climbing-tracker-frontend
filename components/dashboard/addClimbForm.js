@@ -65,21 +65,22 @@ const AddClimbForm = ({ onSubmit }) => {
   })
 
   const handleChange = e => {
-    setState({
-      ...state,
+    setState(prevState => ({
+      ...prevState,
       [e.target.name]: e.target.value
-    })
+    }))
     console.log(state)
   }
   const handleClick = (name, value) => {
-    setState({
-      ...state,
+    setState(prevState => ({
+      ...prevState,
       [name]: value
-    })
+    }))
     console.log(state)
   }
 
   //on submit - use reverseFormatGradeValue
+  //check state.pitches is not empty
 
   return (
     <form method="post" onSubmit={onSubmit} className={form}>
@@ -173,7 +174,10 @@ const AddClimbForm = ({ onSubmit }) => {
               id="select-grade"
               value={state.grade}
               name="grade"
-              onChange={handleChange}
+              onChange={e => {
+                handleChange(e)
+                handleClick('pitches', [{ grade: e.target.value, numberPitches: 1 }])
+              }}
               required
             >
               {GRADES.map(grade =>
@@ -195,10 +199,7 @@ const AddClimbForm = ({ onSubmit }) => {
       <Grid item>
         <EditableTable
           columnHeaders={['Grade', '#Pitches']}
-          rowData={!state.pitches.length && state.grade
-            ? [{ grade: state.grade, numberPitches: 1 }]
-            : state.pitches
-          }
+          rowData={state.pitches}
           saveData={(data) => handleClick('pitches', data)}
         />
       </Grid>

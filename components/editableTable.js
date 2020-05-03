@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -46,11 +46,13 @@ const EditableTable = ({ columnHeaders, rowData, saveData }) => {
 
   const [headers, setHeaders] = useState(columnHeaders)
   const [data, setData] = useState(rowData)
-  const [edit, setEdit] = useState(() => {
-    const length = rowData.length
-    return new Array(length).fill(false)
-  })
+  const [edit, setEdit] = useState(new Array(length).fill(false))
   const [isError, setIsError] = useState(false)
+
+  useEffect(() => {
+    setData(rowData)
+    setEdit(new Array(rowData.length).fill(false))
+  }, [rowData])
 
   const handleChange = (index, key, value) =>
     setData(prevState => {
@@ -85,10 +87,10 @@ const EditableTable = ({ columnHeaders, rowData, saveData }) => {
 
 
   const handleAddButton = () => {
-    setData(prevState => ([
+    setData(prevState => [
       ...prevState,
       { grade: '', numberPitches: null }
-    ]))
+    ])
     setEdit(prevState => [...prevState, false])
   }
 

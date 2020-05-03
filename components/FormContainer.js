@@ -5,7 +5,7 @@ import { Paper, Grid } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(2),
     '& h2': {
       color: theme.palette.primary.dark,
       textAlign: 'center'
