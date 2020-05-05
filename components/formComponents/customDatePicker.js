@@ -6,12 +6,20 @@ import {
   MuiPickersUtilsProvider,
   DatePicker,
 } from '@material-ui/pickers'
+import { makeStyles } from '@material-ui/core/styles'
 
+const useStyles = makeStyles(() => ({
+  container: {
+    width: 265
+  }
+}))
 const CustomDatePicker = ({ updateState, initialState }) => {
+  const { container } = useStyles()
   const [state, setState] = useState(initialState)
   return (
-    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <MuiPickersUtilsProvider utils={DateFnsUtils} >
       <DatePicker
+        className={container}
         id="date-picker"
         autoOk
         disableFuture
