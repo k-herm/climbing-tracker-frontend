@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useQuery } from '@apollo/react-hooks'
-import { Paper, Typography } from '@material-ui/core'
+import { Button, Grid, Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import InfoIcon from '@material-ui/icons/Info';
 
@@ -11,11 +11,14 @@ import ClimbStyleChipFilter from '../../formComponents/climbStyleChipFilter'
 import { GET_CLIMBSTYLE_CHARTS } from '~/src/app/Queries/statistics'
 import { formatGradeValue } from '~/src/app/utils'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
+  filterContainer: {
+    margin: theme.spacing(1)
+  },
   info: {
     verticalAlign: 'middle'
   }
-})
+}))
 
 const ChartData = ({ routeStyle }) => {
   const { data, error, loading } = useQuery(GET_CLIMBSTYLE_CHARTS, {
@@ -44,6 +47,29 @@ const ChartData = ({ routeStyle }) => {
   )
 }
 
+const ChipsFilter = ({ onApplyFilter }) => {
+  const { filterContainer } = useStyles()
+  const [filteredChips, setFilteredChips] = useState([])
+  return (
+    <Grid container alignItems="center" justify="center">
+      <Grid item sm={9}>
+        <ClimbStyleChipFilter updateState={(value) => setFilteredChips(value)} />
+      </Grid>
+      <Grid item sm={3}>
+        <Button
+          variant="contained"
+          color="secondary"
+          size="small"
+          className={filterContainer}
+          onClick={() => onApplyFilter(filteredChips)}
+        >
+          Apply Filter
+      </Button>
+      </Grid>
+    </Grid>
+  )
+}
+
 const ClimbStyleSection = () => {
   const { info } = useStyles()
   const [routeStyle, setRouteStyle] = useState([])
@@ -54,7 +80,7 @@ const ClimbStyleSection = () => {
       <Typography variant="caption" color="textSecondary" align="center" display="block">
         <InfoIcon className={info} /> Zoom and pan within the chart for data details
       </Typography>
-      <ClimbStyleChipFilter updateState={(value) => setRouteStyle(value)} />
+      <ChipsFilter onApplyFilter={(value) => setRouteStyle(value)} />
     </Paper>
   )
 }

@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
 const StatContainer = ({ title, data }) => {
   const { cardContainer, titleStyle } = useStyles()
   let value = data
-  if (!data) value = 'No Data'
+  if (!data) value = 0
   return (
     <Card className={cardContainer}>
       <CardContent>

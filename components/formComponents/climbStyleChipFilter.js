@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Chip } from '@material-ui/core'
 import DoneIcon from '@material-ui/icons/Done'
@@ -31,13 +31,13 @@ const ClimbStyleChipFilter = ({ updateState }) => {
 
   const [chips, setChips] = useState(new Array(CLIMB_STYLES.length).fill(false))
 
-  const handleFilter = () => {
+  useEffect(() => {
     const selectedRouteStyles = CLIMB_STYLES.reduce((arr, curr, i) => {
       if (chips[i]) arr.push(fixRouteStylesEnum(curr))
       return arr
     }, [])
     updateState(selectedRouteStyles)
-  }
+  }, [chips])
 
   return (
     <Box className={chipContainer}>
@@ -59,16 +59,6 @@ const ClimbStyleChipFilter = ({ updateState }) => {
           />
         </li>
       )}
-      <li key={CLIMB_STYLES.length}>
-        <Chip
-          label="Apply Filter"
-          size="small"
-          clickable
-          color="secondary"
-          className={chipStyle}
-          onClick={handleFilter}
-        />
-      </li>
     </Box>
   )
 }

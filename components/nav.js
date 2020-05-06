@@ -60,9 +60,11 @@ const Nav = ({ redirect }) => {
         <BottomNavigationAction label="Dashboard" icon={<BarChartIcon />} />
         <BottomNavigationAction label="Projects" icon={<FormatListBulletedRoundedIcon />} />
         <BottomNavigationAction label="Journal" icon={<CreateIcon />} />
-        <Fab aria-label="add" color="primary" className={floatingIcon}>
-          <AddIcon fontSize="large" onClick={() => setModalOpen(true)} />
-        </Fab>
+        {addItem &&
+          <Fab aria-label="add" color="primary" className={floatingIcon}>
+            <AddIcon fontSize="large" onClick={() => setModalOpen(true)} />
+          </Fab>
+        }
       </BottomNavigation>
       <FullScreenFormModal
         open={modalOpen}

@@ -44,7 +44,7 @@ const FullScreenFormModal = ({ addItem, open, onClose }) => {
   }, [addItem])
 
   const formPicker = {
-    dashboard: <AddClimbForm />,
+    dashboard: <AddClimbForm onClose={onClose} />,
   }
 
   return (
@@ -57,9 +57,6 @@ const FullScreenFormModal = ({ addItem, open, onClose }) => {
           <Typography variant="h6" className={classes.title}>
             Add
           </Typography>
-          <Button autoFocus color="inherit" onClick={onClose}>
-            save
-          </Button>
         </Toolbar>
       </AppBar>
       <Container maxWidth='sm'>

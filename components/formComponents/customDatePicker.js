@@ -41,7 +41,7 @@ const CustomDatePicker = ({ updateState, initialState }) => {
 }
 
 CustomDatePicker.propTypes = {
-  initialState: PropTypes.string,
+  initialState: PropTypes.date,
   updateState: PropTypes.func
 }
 
