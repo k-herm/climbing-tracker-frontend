@@ -32,16 +32,12 @@ const CustomDatePicker = ({ updateState, initialState }) => {
           setState(value)
           updateState(value)
         }}
-        KeyboardButtonProps={{
-          'aria-label': 'change date',
-        }}
       />
     </MuiPickersUtilsProvider>
   )
 }
 
 CustomDatePicker.propTypes = {
-  initialState: PropTypes.date,
   updateState: PropTypes.func
 }
 

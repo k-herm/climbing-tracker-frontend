@@ -34,8 +34,8 @@ const GradeSelect = ({ updateState, initialState }) => {
         }}
         required
       >
-        {GRADES.map(grade =>
-          <MenuItem value={grade}>{grade}</MenuItem>
+        {GRADES.map((grade, i) =>
+          <MenuItem value={grade} key={i}>{grade}</MenuItem>
         )}
       </Select>
     </FormControl>

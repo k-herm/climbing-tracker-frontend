@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import {
+  Backdrop,
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   Grid,
   TextField,
@@ -23,6 +25,10 @@ import { getDateString, reverseFormatGradeValue } from '~/src/app/utils'
 import { ADD_CLIMB } from '~/src/app/Mutations/climb'
 
 const useStyles = makeStyles(theme => ({
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
   flexGroup: {
     display: 'flex',
     alignItems: 'center',
@@ -44,8 +50,16 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AddClimbForm = ({ onClose }) => {
-  const [addClimb] = useMutation(ADD_CLIMB)
-  const { flexGroup, form, formControlCheck, textField } = useStyles()
+  const [addClimb] = useMutation(ADD_CLIMB, {
+    refetchQueries: [
+      'NumericStats',
+      'GradesChart',
+      'ClimbStyleChart'
+    ],
+    awaitRefetchQueries: true
+  })
+
+  const { backdrop, flexGroup, form, formControlCheck, textField } = useStyles()
   const [state, setState] = useState({
     name: '',
     location: '',
@@ -59,6 +73,7 @@ const AddClimbForm = ({ onClose }) => {
     send: false
   })
   const [error, setError] = useState(null)
+  const [openBackdrop, setOpenBackdrop] = useState(false)
 
   const handleClick = (name, value) => {
     setState(prevState => ({
@@ -82,7 +97,9 @@ const AddClimbForm = ({ onClose }) => {
         numberPitches: pitch.numberPitches
       }))
 
-      addClimb({ variables })
+      setOpenBackdrop(true)
+      await addClimb({ variables })
+      setOpenBackdrop(false)
       onClose()
     } catch (error) {
       setError(error)
@@ -96,6 +113,9 @@ const AddClimbForm = ({ onClose }) => {
           {`Oops! ${error}`}
         </Typography>
       }
+      <Backdrop open={openBackdrop} className={backdrop}>
+        <CircularProgress />
+      </Backdrop>
       <form method="post" onSubmit={onSubmit} className={form}>
         <Grid item>
           <TextField
@@ -120,7 +140,7 @@ const AddClimbForm = ({ onClose }) => {
         <Grid item>
           <CustomDatePicker
             initialState={state.date}
-            updateState={(value) => handleClick('date', new Date(value))}
+            updateState={(value) => handleClick('date', value)}
           />
         </Grid>
         <Grid item>
@@ -184,7 +204,7 @@ const AddClimbForm = ({ onClose }) => {
 
         <Button variant="contained" color="secondary" type="submit">
           Save
-      </Button>
+        </Button>
       </form >
     </>
   )

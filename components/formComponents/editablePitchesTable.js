@@ -100,7 +100,7 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData }) => {
       <Table className={classes.table} size="small" aria-label="pitches">
         <TableHead>
           <TableRow>
-            {headers.map(name => <TableCell>{name}</TableCell>)}
+            {headers.map((name, i) => <TableCell key={name + i}>{name}</TableCell>)}
             <TableCell align="right" className={classes.flexContainer}>
               <IconButton
                 className={classes.button}
