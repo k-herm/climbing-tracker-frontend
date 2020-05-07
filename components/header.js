@@ -10,6 +10,7 @@ import {
   Typography
 } from '@material-ui/core'
 import MenuIcon from '@material-ui/icons/Menu'
+import ArrowBackIcon from '@material-ui/icons/ArrowBack'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { postRequest } from '~/src/request'
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Header = ({ title }) => {
+const Header = ({ arrowBack, title }) => {
   const { container, titleStyle } = useStyles()
   const [anchorE1, setAnchorE1] = useState(null)
   const { setUser } = useContext(UserContext)
@@ -53,6 +54,16 @@ const Header = ({ title }) => {
   return (
     <AppBar position='static' color='secondary'>
       <Toolbar className={container}>
+        {arrowBack &&
+          <IconButton
+            edge='start'
+            color='inherit'
+            aria-label='back'
+          // onClick={handleClick}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+        }
         <Typography variant='h5' className={titleStyle}>
           {title}
         </Typography>

@@ -1,7 +1,7 @@
 import gql from 'graphql-tag'
 
 export const GET_NUMERIC_STATS = gql`
-query NumericStats($date: Date!) {
+  query NumericStats($date: Date!) {
     numericStats(date: $date) {
       numericStatistics {
         totalVertical

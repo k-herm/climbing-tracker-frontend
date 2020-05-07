@@ -7,7 +7,7 @@ import ClimbStyleSection from './climbStyleSection'
 
 const ChartsContainer = () => {
   return (
-    <Container maxWidth='sm'>
+    <Container maxWidth="md">
       <GradesSection />
       <ClimbStyleSection />
     </Container>

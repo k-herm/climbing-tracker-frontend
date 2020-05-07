@@ -42,12 +42,8 @@ const Dashboard = () => {
   return (
     <Box className={container}>
       <Header title='Dashboard' />
-
-      {loading ?
-        <Box>
-          <LinearProgress />
-        </Box>
-        :
+      {loading && <Box><LinearProgress /></Box>}
+      {data &&
         <>
           <Box className={message}>
             <Typography variant='h6' align='center' color='textSecondary'>

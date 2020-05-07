@@ -98,7 +98,7 @@ const ClimbStyleChart = ({ categories, data, dateCategories }) => {
         style={{ data: { fill: primary.dark } }}
         labels={({ datum }) => `${datum.grade}, ${
           getMonth(datum.date).substr(0, 3)
-          } ${datum.date.getFullYear()}`
+          } ${datum.date.getDate()}, ${datum.date.getFullYear()}`
         }
         labelComponent={<VictoryTooltip constrainToVisibleArea />}
       />
@@ -110,7 +110,7 @@ const ClimbStyleChart = ({ categories, data, dateCategories }) => {
         style={{ data: { fill: secondary.dark } }}
         labels={({ datum }) => `${datum.grade}, ${
           getMonth(datum.date).substr(0, 3)
-          } ${datum.date.getFullYear()}`
+          } ${datum.date.getDate()}, ${datum.date.getFullYear()}`
         }
         labelComponent={<VictoryTooltip constrainToVisibleArea />}
       />
