@@ -12,7 +12,6 @@ import FormatListBulletedRoundedIcon from '@material-ui/icons/FormatListBulleted
 import BarChartIcon from '@material-ui/icons/BarChart'
 import AddIcon from '@material-ui/icons/Add'
 
-import FullScreenFormModal from './formComponents/fullScreenFormModal'
 
 const useStyles = makeStyles((theme) => ({
   floatingIcon: {
@@ -34,44 +33,32 @@ const Nav = ({ redirect }) => {
 
   const getIndex = (path) => navItems.indexOf(path)
   const initialIndex = redirect ? getIndex(redirect) : getIndex(router.pathname)
-
-  const [modalOpen, setModalOpen] = useState(false)
-  const [current, setCurrent] = useState(initialIndex);
-  const [addItem, setAddItem] = useState(null);
-
-  useEffect(() => {
-    const item = navItems[current] ? navItems[current].substr(1) : null
-    setAddItem(item)
-  }, [current])
+  const [currentIndex, setCurrentIndex] = useState(initialIndex)
 
   const handleChange = async (event, newValue) => {
-    setCurrent(newValue);
+    setCurrentIndex(newValue);
     router.push(navItems[newValue])
   }
 
   return (
-    <>
-      <BottomNavigation
-        value={current}
-        onChange={handleChange}
-        showLabels
-        className={nav}
-      >
-        <BottomNavigationAction label="Dashboard" icon={<BarChartIcon />} />
-        <BottomNavigationAction label="Projects" icon={<FormatListBulletedRoundedIcon />} />
-        <BottomNavigationAction label="Journal" icon={<CreateIcon />} />
-        {addItem &&
-          <Fab aria-label="add" color="primary" className={floatingIcon}>
-            <AddIcon fontSize="large" onClick={() => setModalOpen(true)} />
-          </Fab>
-        }
-      </BottomNavigation>
-      <FullScreenFormModal
-        open={modalOpen}
-        onClose={() => setModalOpen(false)}
-        addItem={addItem}
-      />
-    </>
+    <BottomNavigation
+      value={currentIndex}
+      onChange={handleChange}
+      showLabels
+      className={nav}
+    >
+      <BottomNavigationAction label="Dashboard" icon={<BarChartIcon />} />
+      <BottomNavigationAction label="Projects" icon={<FormatListBulletedRoundedIcon />} />
+      <BottomNavigationAction label="Journal" icon={<CreateIcon />} />
+      {navItems[currentIndex] &&
+        <Fab aria-label="add" color="primary" className={floatingIcon}>
+          <AddIcon fontSize="large" onClick={() => {
+            setCurrentIndex(-1)
+            router.push(`${navItems[currentIndex]}/add`)
+          }} />
+        </Fab>
+      }
+    </BottomNavigation>
   )
 }
 
