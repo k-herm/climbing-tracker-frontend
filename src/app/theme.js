@@ -28,6 +28,9 @@ const theme = createMuiTheme({
       height: '40px',
       lineHeight: 1.2
     }
+  },
+  transition: {
+    duration: 200
   }
 })
 

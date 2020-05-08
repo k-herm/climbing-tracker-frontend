@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
@@ -35,6 +35,8 @@ const Nav = ({ redirect }) => {
   const initialIndex = redirect ? getIndex(redirect) : getIndex(router.pathname)
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
 
+  useEffect(() => setCurrentIndex(getIndex(router.pathname)), [router.pathname])
+
   const handleChange = async (event, newValue) => {
     setCurrentIndex(newValue);
     router.push(navItems[newValue])
@@ -52,10 +54,15 @@ const Nav = ({ redirect }) => {
       <BottomNavigationAction label="Journal" icon={<CreateIcon />} />
       {navItems[currentIndex] &&
         <Fab aria-label="add" color="primary" className={floatingIcon}>
-          <AddIcon fontSize="large" onClick={() => {
-            setCurrentIndex(-1)
-            router.push(`${navItems[currentIndex]}/add`)
-          }} />
+          <AddIcon
+            fontSize="large"
+            onClick={() => {
+              router.push({
+                pathname: '/add',
+                query: { page: navItems[currentIndex].substr(1) }
+              })
+            }}
+          />
         </Fab>
       }
     </BottomNavigation>
