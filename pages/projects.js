@@ -8,6 +8,7 @@ import NetworkError from '~/components/networkError'
 import ClickableList from '~/components/clickableList'
 import HeadlineCover from '~/components/headlineCover'
 import PageFakerModal from '~/components/PageFakerModal'
+import ProjectDataDisplay from '~/components/projects/projectDataDisplay'
 
 import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { formatGradeValue } from '~/src/app/utils'
@@ -38,42 +39,48 @@ const Projects = () => {
   return (
     <Box className={container}>
       <Header title='Projects' />
+
       {loading && <Box><LinearProgress /></Box>}
+
       <HeadlineCover image="/yosemite.jpg">
-        {data && data.projects.length ?
-          <ClickableList
-            listItems={data.projects.map(project => ({
-              primary: project.name,
-              secondary: `${formatGradeValue(project.grade)} - Completed Goals: ${
-                project.goals.reduce((acc, curr) => acc + curr.climbsCompleted.length, 0)
-                }/${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
-              onClick: () => {
-                setProjectData({ ...project })
-                setModalOpen(true)
-              }
-            }))}
-          />
-          :
-          <Card className={card}>
-            <Typography
-              className={headline}
-              align="center"
-              variant="h4"
-              color="textSecondary"
-            >
-              Let's start a project!
+        {data ?
+          (data.projects.length ?
+            <ClickableList
+              listItems={data.projects.map(project => ({
+                primary: project.name,
+                secondary: `${formatGradeValue(project.grade)} - Completed Goals: ${
+                  project.goals.reduce((acc, curr) => acc + curr.climbsCompleted.length, 0)
+                  }/${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
+                onClick: () => {
+                  setProjectData({ ...project })
+                  setModalOpen(true)
+                }
+              }))}
+            />
+            :
+            <Card className={card}>
+              <Typography
+                className={headline}
+                align="center"
+                variant="h4"
+                color="textSecondary"
+              >
+                Let's start a project!
             </Typography>
 
-          </Card>
+            </Card>)
+          : <></>
         }
       </HeadlineCover>
+
       <PageFakerModal
         open={modalOpen}
         onClose={() => {
           setModalOpen(false)
           setProjectData(null)
         }}
-        projectData={projectData}
+        title={projectData ? projectData.name : ""}
+        content={<ProjectDataDisplay data={projectData} />}
       />
     </Box>
   )
