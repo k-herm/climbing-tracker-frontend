@@ -1,29 +1,36 @@
-import React, { useContext } from 'react'
-import { Box, LinearProgress } from '@material-ui/core'
+import { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/react-hooks'
+import { Box, Card, LinearProgress, Typography } from '@material-ui/core'
 
-// import { UserContext } from '../src/app/UserStore'
 import Header from '~/components/header'
 import NetworkError from '~/components/networkError'
-import NavList from '~/components/navList'
+import ClickableList from '~/components/clickableList'
 import HeadlineCover from '~/components/headlineCover'
+import PageFakerModal from '~/components/PageFakerModal'
 
 import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
+  card: {
+    height: '70vh'
+  },
   container: {
     marginBottom: theme.page.navHeight
+  },
+  headline: {
+    margin: '3rem',
+    fontStyle: 'italic'
   }
 }))
 
 const Projects = () => {
-  const { container, list } = useStyles()
-  // const { id, name } = useContext(UserContext)
+  const { card, container, headline } = useStyles()
+  const [projectData, setProjectData] = useState(null)
+  const [modalOpen, setModalOpen] = useState(false)
   const { loading, data, error } = useQuery(GET_ALL_PROJECTS_DATA)
 
-  console.log(data)
   if (error) {
     return <NetworkError />
   }
@@ -33,18 +40,41 @@ const Projects = () => {
       <Header title='Projects' />
       {loading && <Box><LinearProgress /></Box>}
       <HeadlineCover image="/yosemite.jpg">
-        {data &&
-          <NavList
+        {data && data.projects.length ?
+          <ClickableList
             listItems={data.projects.map(project => ({
               primary: project.name,
               secondary: `${formatGradeValue(project.grade)} - Completed Goals: ${
                 project.goals.reduce((acc, curr) => acc + curr.climbsCompleted.length, 0)
                 }/${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
-              onClick: () => console.log('hello')
+              onClick: () => {
+                setProjectData({ ...project })
+                setModalOpen(true)
+              }
             }))}
           />
+          :
+          <Card className={card}>
+            <Typography
+              className={headline}
+              align="center"
+              variant="h4"
+              color="textSecondary"
+            >
+              Let's start a project!
+            </Typography>
+
+          </Card>
         }
       </HeadlineCover>
+      <PageFakerModal
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false)
+          setProjectData(null)
+        }}
+        projectData={projectData}
+      />
     </Box>
   )
 }

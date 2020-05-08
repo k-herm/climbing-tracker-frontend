@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const Header = ({ arrowBack, title }) => {
+const Header = ({ arrowBack, onArrowBack, title }) => {
   const { container, titleStyle } = useStyles()
   const [anchorE1, setAnchorE1] = useState(null)
   const { setUser } = useContext(UserContext)
@@ -59,7 +59,7 @@ const Header = ({ arrowBack, title }) => {
             edge='start'
             color='inherit'
             aria-label='back'
-          // onClick={handleClick}
+            onClick={onArrowBack}
           >
             <ArrowBackIcon />
           </IconButton>
@@ -96,6 +96,8 @@ const Header = ({ arrowBack, title }) => {
 }
 
 Header.propTypes = {
+  arrowBack: PropTypes.bool,
+  onArrowBack: PropTypes.func,
   title: PropTypes.string
 }
 

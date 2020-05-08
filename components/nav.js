@@ -12,7 +12,7 @@ import FormatListBulletedRoundedIcon from '@material-ui/icons/FormatListBulleted
 import BarChartIcon from '@material-ui/icons/BarChart'
 import AddIcon from '@material-ui/icons/Add'
 
-import FullScreenFormModal from './fullScreenFormModal'
+import FullScreenFormModal from './formComponents/fullScreenFormModal'
 
 const useStyles = makeStyles((theme) => ({
   floatingIcon: {

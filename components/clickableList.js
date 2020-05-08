@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   }
 })
 
-const NavList = ({ listItems }) => {
+const ClickableList = ({ listItems }) => {
   const classes = useStyles()
   return (
     <Box className={classes.container}>
@@ -42,8 +42,8 @@ const NavList = ({ listItems }) => {
   )
 }
 
-NavList.propTypes = {
+ClickableList.propTypes = {
   listItems: PropTypes.array
 }
 
-export default NavList
+export default ClickableList
