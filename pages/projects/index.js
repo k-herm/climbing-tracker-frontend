@@ -1,7 +1,6 @@
-import React from 'react'
+import { useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/react-hooks'
-import { useRouter } from 'next/router'
 import { Box, Card, LinearProgress, Typography } from '@material-ui/core'
 
 import Header from '~/components/header'
@@ -9,7 +8,7 @@ import NetworkError from '~/components/networkError'
 import ClickableList from '~/components/clickableList'
 import HeadlineCover from '~/components/headlineCover'
 
-
+import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
 import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { formatGradeValue } from '~/src/app/utils'
 
@@ -27,9 +26,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Projects = () => {
-  const router = useRouter()
+  const { setProjects } = useContext(ProjectsContext)
   const { card, container, headline } = useStyles()
   const { loading, data, error } = useQuery(GET_ALL_PROJECTS_DATA)
+
+  useEffect(() => {
+    if (data && data.projects.length) {
+      setProjects(data.projects)
+    }
+  }, [data])
 
   if (error) {
     return <NetworkError />
@@ -49,10 +54,7 @@ const Projects = () => {
                 secondary: `${formatGradeValue(project.grade)} - Completed Goals: ${
                   project.goals.reduce((acc, curr) => acc + curr.climbsCompleted.length, 0)
                   }/${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
-                onClick: () => router.push({
-                  pathname: `/projects/${project.name}`,
-                  query: { id: project._id }
-                })
+                id: project._id
               }))}
             />
             :
