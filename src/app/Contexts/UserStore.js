@@ -1,34 +1,23 @@
-import React, { Component } from 'react'
+import { createContext, useState } from 'react'
 
-export const UserContext = React.createContext({
+export const UserContext = createContext({
   id: null,
   name: null,
   setUser: () => { }
 })
 
-export class UserStore extends Component {
-  constructor(props) {
-    super(props)
+export const UserStore = ({ children }) => {
+  const setUserData = (id, name) => setUser({ id, name })
 
-    this.setUser = (id, name) => {
-      this.setState({
-        id,
-        name
-      })
-    }
+  const [user, setUser] = useState({
+    id: null,
+    name: null,
+    setUser: setUserData
+  })
 
-    this.state = {
-      id: null,
-      name: null,
-      setUser: this.setUser
-    }
-  }
-
-  render() {
-    return (
-      <UserContext.Provider value={this.state}>
-        {this.props.children}
-      </UserContext.Provider>
-    )
-  }
+  return (
+    <UserContext.Provider value={user}>
+      {children}
+    </UserContext.Provider>
+  )
 }

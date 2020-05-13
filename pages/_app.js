@@ -6,6 +6,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { ApolloProvider } from '@apollo/react-hooks'
 
 import { UserStore } from '~/src/app/Contexts/UserStore'
+import { ProjectsStore } from '~/src/app/Contexts/ProjectsStore'
 import createClient from '~/src/app/createClient'
 import theme from '~/src/app/theme'
 import Page from '~/src/app/page'
@@ -42,9 +43,11 @@ class iClimbApp extends App {
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <UserStore>
-            <Page>
-              <Component {...pageProps} />
-            </Page>
+            <ProjectsStore>
+              <Page>
+                <Component {...pageProps} />
+              </Page>
+            </ProjectsStore>
           </UserStore>
         </ThemeProvider>
       </ApolloProvider>

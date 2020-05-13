@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Box,
@@ -25,15 +26,20 @@ const ClickableList = ({ listItems }) => {
       <List component="nav" aria-label="list">
         {listItems.map((listItem, i) =>
           <Paper key={i}>
-            <ListItem button onClick={listItem.onClick}>
-              <ListItemText
-                primary={listItem.primary}
-                secondary={listItem.secondary}
-              />
-              <ListItemIcon>
-                <ChevronRightIcon />
-              </ListItemIcon>
-            </ListItem>
+            <Link
+              href={{ pathname: "/projects/[pid]", query: { id: listItem.id } }}
+              as={`/projects/${listItem.primary}?id=${listItem.id}`}
+            >
+              <ListItem button>
+                <ListItemText
+                  primary={listItem.primary}
+                  secondary={listItem.secondary}
+                />
+                <ListItemIcon>
+                  <ChevronRightIcon />
+                </ListItemIcon>
+              </ListItem>
+            </Link>
             <Divider />
           </Paper>
         )}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/react-hooks'
 import { Box, Card, LinearProgress, Typography } from '@material-ui/core'
@@ -7,9 +7,8 @@ import Header from '~/components/header'
 import NetworkError from '~/components/networkError'
 import ClickableList from '~/components/clickableList'
 import HeadlineCover from '~/components/headlineCover'
-import PageFakerModal from '~/components/PageFakerModal'
-import ProjectDataDisplay from '~/components/projects/projectDataDisplay'
 
+import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
 import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { formatGradeValue } from '~/src/app/utils'
 
@@ -27,10 +26,15 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Projects = () => {
+  const { setProjects } = useContext(ProjectsContext)
   const { card, container, headline } = useStyles()
-  const [projectData, setProjectData] = useState(null)
-  const [modalOpen, setModalOpen] = useState(false)
   const { loading, data, error } = useQuery(GET_ALL_PROJECTS_DATA)
+
+  useEffect(() => {
+    if (data && data.projects.length) {
+      setProjects(data.projects)
+    }
+  }, [data])
 
   if (error) {
     return <NetworkError />
@@ -41,7 +45,6 @@ const Projects = () => {
       <Header title='Projects' />
 
       {loading && <Box><LinearProgress /></Box>}
-
       <HeadlineCover image="/yosemite.jpg">
         {data ?
           (data.projects.length ?
@@ -51,10 +54,7 @@ const Projects = () => {
                 secondary: `${formatGradeValue(project.grade)} - Completed Goals: ${
                   project.goals.reduce((acc, curr) => acc + curr.climbsCompleted.length, 0)
                   }/${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
-                onClick: () => {
-                  setProjectData({ ...project })
-                  setModalOpen(true)
-                }
+                id: project._id
               }))}
             />
             :
@@ -72,16 +72,6 @@ const Projects = () => {
           : <></>
         }
       </HeadlineCover>
-
-      <PageFakerModal
-        open={modalOpen}
-        onClose={() => {
-          setModalOpen(false)
-          setProjectData(null)
-        }}
-        title={projectData ? projectData.name : ""}
-        content={<ProjectDataDisplay data={projectData} />}
-      />
     </Box>
   )
 }

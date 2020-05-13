@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   AppBar,
-  Button,
   Container,
   Dialog,
   IconButton,
@@ -14,7 +13,6 @@ import {
 import CloseIcon from '@material-ui/icons/Close'
 
 import FormContainer from './formContainer'
-import AddClimbForm from '../dashboard/addClimbForm'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -24,31 +22,26 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(2),
     flex: 1,
   },
+  transition: {
+    duration: theme.transition.duration
+  }
 }));
 
 const Transition = React.forwardRef((props, ref) =>
   <Slide direction="up" ref={ref} {...props} />
 )
 
-const FullScreenFormModal = ({ addItem, open, onClose }) => {
+const FullScreenFormModal = ({ formContent, item, open, onClose }) => {
   const classes = useStyles()
-  const [item, setItem] = useState(null)
-
-  useEffect(() => {
-    switch (addItem) {
-      case 'dashboard': return setItem('climb')
-      case 'projects': return setItem('project')
-      case 'journal': return setItem('journal entry')
-      default: return setItem(null)
-    }
-  }, [addItem])
-
-  const formPicker = {
-    dashboard: <AddClimbForm onClose={onClose} />,
-  }
-
   return (
-    <Dialog fullScreen open={open} onClose={onClose} scroll="paper" TransitionComponent={Transition}>
+    <Dialog
+      fullScreen
+      open={open}
+      onClose={onClose}
+      scroll="paper"
+      TransitionComponent={Transition}
+      transitionDuration={classes.transition.duration}
+    >
       <AppBar className={classes.appBar}>
         <Toolbar>
           <IconButton edge="start" color="inherit" onClick={onClose} aria-label="close">
@@ -61,7 +54,7 @@ const FullScreenFormModal = ({ addItem, open, onClose }) => {
       </AppBar>
       <Container maxWidth='sm'>
         <FormContainer title={`Enter a ${item}`}>
-          {formPicker[addItem]}
+          {formContent}
         </FormContainer>
       </Container>
     </Dialog>
@@ -69,7 +62,8 @@ const FullScreenFormModal = ({ addItem, open, onClose }) => {
 }
 
 FullScreenFormModal.propTypes = {
-  addItem: PropTypes.string,
+  formContent: PropTypes.node,
+  item: PropTypes.string,
   open: PropTypes.bool,
   onClose: PropTypes.func
 }
