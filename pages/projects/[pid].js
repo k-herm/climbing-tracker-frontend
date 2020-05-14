@@ -6,6 +6,7 @@ import PageModal from '~/components/pageModal'
 import HeadlineCover from '~/components/headlineCover'
 import DetailsCard from '~/components/projects/detailsCard'
 import AttemptsCard from '~/components/projects/attemptsCard'
+import GoalsCard from '~/components/projects/GoalsCard'
 
 import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
 
@@ -51,6 +52,7 @@ const ProjectPage = () => {
       <HeadlineCover image="/mountain2.jpg">
         <DetailsCard data={currentProject} />
         <AttemptsCard attempts={currentProject.attempts} />
+        <GoalsCard projectId={currentProject._id} />
       </HeadlineCover>
     </PageModal>
   )

@@ -32,3 +32,17 @@ export const GET_ALL_PROJECTS_DATA = gql`
     }
   }
 `
+
+export const GET_GOALS_FOR_PROJECT = gql`
+  query getGoalsForProject($projectId: ID) {
+    goals(projectId: $projectId) {
+      grade
+      numberClimbsToComplete
+      climbsCompleted {
+        name
+        completedDate
+      }
+      climbStyle
+    }
+  }
+`
