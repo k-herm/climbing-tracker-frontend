@@ -7,7 +7,7 @@ import Header from '~/components/header'
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    backgroundColor: '#fafafa'
+    backgroundColor: theme.palette.background.default
   },
   transition: {
     duration: theme.transition.duration

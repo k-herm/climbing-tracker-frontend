@@ -26,17 +26,23 @@ const AttemptsCard = ({ attempts }) => {
       </Typography>
       <Grid container alignItems="center" justify="center" spacing={1}>
         <Typography variant='h4' className={classes.stat} color='secondary'>
-          {attempts.find(attempt => attempt.attemptType === 'redpoint').count}
+          {attempts && attempts.length
+            ? attempts.find(attempt => attempt.attemptType === 'redpoint').count
+            : 0
+          }
         </Typography>
-        <Typography variant='h5' className={classes.stat} color='text'>
+        <Typography variant='h5' className={classes.stat} color='textPrimary'>
           redpoints
         </Typography>
       </Grid>
       <Grid container alignItems="center" justify="center" spacing={1}>
         <Typography variant='h4' className={classes.stat} color='secondary'>
-          {attempts.find(attempt => attempt.attemptType === 'topRope').count}
+          {attempts && attempts.length
+            ? attempts.find(attempt => attempt.attemptType === 'topRope').count
+            : 0
+          }
         </Typography>
-        <Typography variant='h5' className={classes.stat} color='text'>
+        <Typography variant='h5' className={classes.stat} color='textPrimary'>
           top ropes
         </Typography>
       </Grid>

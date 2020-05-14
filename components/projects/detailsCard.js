@@ -3,15 +3,33 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Card, Grid, IconButton, Typography } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
+import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
-import { formatGradeValue } from '~/src/app/utils'
+import { formatGradeValue, getDateString } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   card: {
     padding: theme.spacing(2),
+    display: 'grid',
+    justifyItems: 'center',
+    overflow: 'visible',
   },
   container: {
     margin: `${theme.spacing(1)}px 0`
+  },
+  complete: {
+    margin: 0,
+    padding: theme.spacing(1),
+    position: 'relative',
+    top: `-${theme.spacing(6)}px`,
+    border: `2px solid ${theme.palette.primary.main}`,
+    width: '70%',
+    display: 'grid',
+    justifyItems: 'center',
+    gridGap: theme.spacing(1),
+    '& > svg': {
+      verticalAighn: 'bottom'
+    }
   },
   grade: {
     fontWeight: 400,
@@ -31,6 +49,17 @@ const DetailsCard = ({ data }) => {
   if (!data) return null
   return (
     <Card className={classes.card}>
+      {
+        data.completedDate &&
+        <Card className={classes.complete}>
+          <Typography variant='h5' color='primary'>
+            <CheckCircleOutlineIcon fontSize="large" /> Completed!
+          </Typography>
+          <Typography variant='subtitle' color='textSecondary'>
+            {getDateString(date.completedDate)}
+          </Typography>
+        </Card>
+      }
       <Grid
         className={classes.container}
         container
@@ -55,10 +84,11 @@ const DetailsCard = ({ data }) => {
         className={classes.container}
         justify="space-between"
       >
-
         <Grid item>
           <Typography variant="body1" className={classes.location} color="textSecondary">
-            {data.location && `${data.location} | `}{`${numPitches} ${pitchString}`}
+            {data.location && `${data.location} | `}
+            {`${numPitches} ${pitchString}`}
+            {data.totalLength && ` | ${data.totalLength} m`}
           </Typography>
         </Grid>
 
