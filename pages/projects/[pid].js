@@ -2,9 +2,10 @@ import { useState, useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 
-import PageModal from '~/components/PageModal'
+import PageModal from '~/components/pageModal'
 import HeadlineCover from '~/components/headlineCover'
 import DetailsCard from '~/components/projects/detailsCard'
+import AttemptsCard from '~/components/projects/attemptsCard'
 
 import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
 
@@ -40,15 +41,17 @@ const ProjectPage = () => {
     )
   }
 
+  if (!currentProject) return <></>
   return (
     <PageModal
       open={openPage}
       onClose={handleClose}
-      title={currentProject ? currentProject.name : ''}
+      title={currentProject.name}
     >
-      {/* <HeadlineCover image="/mountain2.jpg">
-            <DetailsCard data={} />
-          </HeadlineCover> */}
+      <HeadlineCover image="/mountain2.jpg">
+        <DetailsCard data={currentProject} />
+        <AttemptsCard attempts={currentProject.attempts} />
+      </HeadlineCover>
     </PageModal>
   )
 }

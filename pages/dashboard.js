@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/react-hooks'
 import Header from '~/components/header'
 import NetworkError from '~/components/networkError'
 import NumericStatistics from '~/components/dashboard/numericStatistics'
-import ChartsContainer from '~/components/dashboard/charts/ChartsContainer'
+import ChartsContainer from '~/components/dashboard/charts/chartsContainer'
 
 import { GET_NUMERIC_STATS } from '~/src/app/Queries/statistics'
 import { useUserData } from '~/src/app/Hooks/userData'

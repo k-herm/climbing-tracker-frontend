@@ -67,6 +67,7 @@ const DetailsCard = ({ data }) => {
             aria-label="edit project details"
             variant="contained"
             size="small"
+          //onClick
           >
             <EditIcon fontSize="small" />
           </IconButton>

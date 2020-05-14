@@ -6,6 +6,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import Header from '~/components/header'
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    backgroundColor: '#fafafa'
+  },
   transition: {
     duration: theme.transition.duration
   }
@@ -25,6 +28,7 @@ const PageModal = ({ children, open, onClose, title }) => {
       scroll="paper"
       TransitionComponent={Transition}
       transitionDuration={classes.transition.duration}
+      PaperProps={{ className: classes.container }}
     >
       <Header title={title} arrowBack={true} onArrowBack={onClose} />
       {children}
