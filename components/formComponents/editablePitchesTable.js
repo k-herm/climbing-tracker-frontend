@@ -34,14 +34,14 @@ const useStyles = makeStyles(theme => ({
   },
   flexContainer: {
     display: 'flex',
-    padding: `${theme.spacing(2)} 0`
+    padding: theme.spacing(1.4)
   },
   divider: {
     margin: '0 5px'
   }
 }))
 
-const EditablePitchesTable = ({ columnHeaders, rowData, saveData }) => {
+const EditablePitchesTable = ({ columnHeaders, rowData, saveData, getIsInEdit }) => {
   const classes = useStyles()
 
   const [headers, setHeaders] = useState(columnHeaders)
@@ -52,6 +52,7 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData }) => {
   useEffect(() => {
     setData(rowData)
     setEdit(new Array(rowData.length).fill(false))
+    getIsInEdit(false)
   }, [rowData])
 
   const handleChange = (index, key, value) =>
@@ -74,16 +75,18 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData }) => {
       saveData(data)
     }
     setEdit(editArr)
+    editArr.includes(true) ? getIsInEdit(true) : getIsInEdit(false)
   }
 
-  const handleDeleteButton = (i) =>
+  const handleDeleteButton = (i) => {
+    setIsError(false)
     setData(prevState => {
       const data = [...prevState]
       data.splice(i, 1)
-      setIsError(false)
       saveData(data)
       return data
     })
+  }
 
 
   const handleAddButton = () => {
@@ -143,7 +146,10 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData }) => {
               <TableCell>
                 {edit[i] ?
                   <TextField
-                    inputProps={{ 'aria-label': 'numberPitches' }}
+                    inputProps={{
+                      'aria-label': 'numberPitches',
+                      'min': '1'
+                    }}
                     value={data[i].numberPitches}
                     type="number"
                     onChange={e => handleChange(i, 'numberPitches', e.target.value)}
@@ -181,7 +187,8 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData }) => {
 EditablePitchesTable.propTypes = {
   columnHeaders: PropTypes.array,
   data: PropTypes.array,
-  saveData: PropTypes.func
+  getIsInEdit: PropTypes.func,
+  saveData: PropTypes.func,
 }
 
 export default EditablePitchesTable

@@ -23,14 +23,8 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: '1rem'
   },
   label: {
-    textAlign: 'center',
-    fontSize: '1.2rem',
-    fontStyle: 'italic',
-    border: '1.5px solid lightgrey',
-    borderRadius: '1rem',
-    height: '350px',
-    margin: '1rem',
-    padding: '2rem'
+    ...theme.noDataBox,
+    height: '350px'
   }
 }))
 

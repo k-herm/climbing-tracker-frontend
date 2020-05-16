@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import {
@@ -73,8 +73,10 @@ const AddClimbForm = ({ onClose }) => {
     send: false
   })
   const [error, setError] = useState(null)
+  const [isTableInEdit, setIsTableInEdit] = useState(false)
   const [openBackdrop, setOpenBackdrop] = useState(false)
 
+  useEffect(() => console.log(isTableInEdit), [isTableInEdit])
   const handleClick = (name, value) => {
     setState(prevState => ({
       ...prevState,
@@ -88,7 +90,9 @@ const AddClimbForm = ({ onClose }) => {
       if (!state.grade || !state.pitches.length) {
         throw new Error('Please fill in the grade and pitches table.')
       }
-
+      if (isTableInEdit) {
+        throw new Error('Please complete pitches table.')
+      }
       const variables = { ...state }
       variables.date = getDateString(variables.date)
       variables.grade = reverseFormatGradeValue(variables.grade)
@@ -196,6 +200,7 @@ const AddClimbForm = ({ onClose }) => {
             columnHeaders={['Grade', '#Pitches']}
             rowData={state.pitches}
             saveData={(data) => handleClick('pitches', data)}
+            getIsInEdit={(val) => setIsTableInEdit(val)}
           />
         </Grid>
         <Grid item>
