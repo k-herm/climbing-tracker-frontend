@@ -41,10 +41,8 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const EditablePitchesTable = ({ columnHeaders, rowData, saveData, getIsInEdit }) => {
+const EditablePitchesTable = ({ rowData, saveData, getIsInEdit }) => {
   const classes = useStyles()
-
-  const [headers, setHeaders] = useState(columnHeaders)
   const [data, setData] = useState(rowData)
   const [edit, setEdit] = useState(new Array(length).fill(false))
   const [isError, setIsError] = useState(false)
@@ -92,7 +90,7 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData, getIsInEdit })
   const handleAddButton = () => {
     setData(prevState => [
       ...prevState,
-      { grade: '', numberPitches: null }
+      { grade: '', numberPitches: 1 }
     ])
     setEdit(prevState => [...prevState, false])
     getIsInEdit(true)
@@ -104,7 +102,8 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData, getIsInEdit })
       <Table className={classes.table} size="small" aria-label="pitches">
         <TableHead>
           <TableRow>
-            {headers.map((name, i) => <TableCell key={name + i}>{name}</TableCell>)}
+            <TableCell>Grade</TableCell>
+            <TableCell>#Pitches</TableCell>
             <TableCell align="right" className={classes.flexContainer}>
               <IconButton
                 className={classes.button}
@@ -186,7 +185,6 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData, getIsInEdit })
 }
 
 EditablePitchesTable.propTypes = {
-  columnHeaders: PropTypes.array,
   data: PropTypes.array,
   getIsInEdit: PropTypes.func,
   saveData: PropTypes.func,

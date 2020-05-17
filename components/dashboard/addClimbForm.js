@@ -87,10 +87,10 @@ const AddClimbForm = ({ onClose }) => {
     e.preventDefault()
     try {
       if (!state.grade || !state.pitches.length) {
-        throw new Error('Please fill in the grade and pitches table.')
+        throw new Error('Looks like the grade or pitches is missing.')
       }
       if (isTableInEdit) {
-        throw new Error('Please complete pitches table.')
+        throw new Error('Looks like the pitches table is still being edited.')
       }
       const variables = { ...state }
       variables.date = getDateString(variables.date)
@@ -196,7 +196,6 @@ const AddClimbForm = ({ onClose }) => {
         </Grid>
         <Grid item>
           <EditablePitchesTable
-            columnHeaders={['Grade', '#Pitches']}
             rowData={state.pitches}
             saveData={(data) => handleClick('pitches', data)}
             getIsInEdit={(val) => setIsTableInEdit(val)}
