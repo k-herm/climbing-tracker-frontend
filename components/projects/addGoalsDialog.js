@@ -3,20 +3,18 @@ import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
 import {
-  Box,
   Button,
-  ButtonGroup,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogContentText,
   DialogActions,
   Grid,
-  TextField
 } from '@material-ui/core'
 
 import GoalTable from './goalTable'
-import { formatGradeValue } from '~/src/app/utils'
+import { ADD_GOAL } from '~/src/app/Mutations/project'
+import { formatGradeValue, reverseFormatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   createButton: {
@@ -32,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 const AddGoalsDialog = ({ open, onClose, projectData }) => {
   const classes = useStyles()
   const [addGoal] = useMutation(ADD_GOAL)
+  const [error, setError] = useState(null)
   const [goals, setGoals] = useState(() => {
     if (projectData.goals.length) {
       return projectData.goals.map(goal => ({
@@ -41,9 +40,6 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
     }
     return []
   })
-  const [error, setError] = useState(null)
-
-  useEffect(() => console.log(goals), [goals])
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -53,7 +49,15 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
       }
       setError(null)
 
-      // onClose()
+      goals.forEach(goal => {
+        const variables = {
+          projectId: projectData._id,
+          grade: reverseFormatGradeValue(goal.grade),
+          numberClimbsToComplete: Number.parseInt(goal.numberClimbsToComplete)
+        }
+        addGoal({ variables })
+      })
+      onClose()
     }
     catch (error) {
       setError(error)

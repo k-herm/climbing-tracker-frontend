@@ -52,10 +52,7 @@ const GoalsCard = ({ project }) => {
   const { data, loading, error } = useQuery(GET_GOALS_FOR_PROJECT, {
     variables: { projectId: project._id }
   })
-  const [openDialog, setOpenDialog] = useState(true)
-
-  // console.log(data)
-
+  const [openDialog, setOpenDialog] = useState(false)
 
   return (
     <>
