@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import {
@@ -76,7 +76,6 @@ const AddClimbForm = ({ onClose }) => {
   const [isTableInEdit, setIsTableInEdit] = useState(false)
   const [openBackdrop, setOpenBackdrop] = useState(false)
 
-  useEffect(() => console.log(isTableInEdit), [isTableInEdit])
   const handleClick = (name, value) => {
     setState(prevState => ({
       ...prevState,
@@ -98,7 +97,7 @@ const AddClimbForm = ({ onClose }) => {
       variables.grade = reverseFormatGradeValue(variables.grade)
       variables.pitches = variables.pitches.map(pitch => ({
         grade: reverseFormatGradeValue(pitch.grade),
-        numberPitches: pitch.numberPitches
+        numberPitches: Number.parseInt(pitch.numberPitches)
       }))
 
       setOpenBackdrop(true)

@@ -95,6 +95,7 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData, getIsInEdit })
       { grade: '', numberPitches: null }
     ])
     setEdit(prevState => [...prevState, false])
+    getIsInEdit(true)
   }
 
 
@@ -137,7 +138,7 @@ const EditablePitchesTable = ({ columnHeaders, rowData, saveData, getIsInEdit })
                     onChange={e => handleChange(i, 'grade', e.target.value)}
                   >
                     {GRADES.map(grade =>
-                      <MenuItem value={grade}>{grade}</MenuItem>
+                      <MenuItem value={grade} key={grade}>{grade}</MenuItem>
                     )}
                   </Select>
                   : row.grade
