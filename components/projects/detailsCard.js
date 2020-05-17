@@ -5,7 +5,7 @@ import { Card, Grid, IconButton, Typography } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
-import { formatGradeValue, getDateString } from '~/src/app/utils'
+import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -27,9 +27,9 @@ const useStyles = makeStyles((theme) => ({
     display: 'grid',
     justifyItems: 'center',
     gridGap: theme.spacing(1),
-    '& > svg': {
-      verticalAighn: 'bottom'
-    }
+  },
+  check: {
+    verticalAlign: 'bottom'
   },
   grade: {
     fontWeight: 400,
@@ -52,11 +52,11 @@ const DetailsCard = ({ data }) => {
       {
         data.completedDate &&
         <Card className={classes.complete}>
-          <Typography variant='h5' color='primary'>
-            <CheckCircleOutlineIcon fontSize="large" /> Completed!
+          <Typography variant="h5" color="primary">
+            <CheckCircleOutlineIcon fontSize="large" className={classes.check} /> Completed!
           </Typography>
-          <Typography variant='subtitle' color='textSecondary'>
-            {getDateString(date.completedDate)}
+          <Typography variant="subtitle1" color="textSecondary">
+            {new Date(data.completedDate).toDateString()}
           </Typography>
         </Card>
       }

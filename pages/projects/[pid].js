@@ -52,7 +52,7 @@ const ProjectPage = () => {
       <HeadlineCover image="/mountain2.jpg">
         <DetailsCard data={currentProject} />
         <AttemptsCard attempts={currentProject.attempts} />
-        <GoalsCard projectId={currentProject._id} />
+        <GoalsCard project={currentProject} />
       </HeadlineCover>
     </PageModal>
   )

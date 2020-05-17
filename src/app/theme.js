@@ -29,8 +29,20 @@ const theme = createMuiTheme({
       lineHeight: 1.2
     }
   },
+  button: {
+    maxWidth: '200px'
+  },
   transition: {
     duration: 200
+  },
+  noDataBox: {
+    textAlign: 'center',
+    fontSize: '1.2rem',
+    fontStyle: 'italic',
+    border: '1.5px solid lightgrey',
+    borderRadius: '1rem',
+    margin: '1rem',
+    padding: '2rem'
   }
 })
 
