@@ -2,11 +2,12 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useQuery } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
-import { Box, Card, CircularProgress, IconButton, Typography } from '@material-ui/core'
+import { Box, Card, CardContent, CircularProgress, IconButton, Typography } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 
 import NetworkError from '~/components/networkError'
 import AddGoalsDialog from './addGoalsDialog'
+import GoalsList from './goalsList'
 
 import { GET_GOALS_FOR_PROJECT } from '~/src/app/Queries/projectData'
 
@@ -76,6 +77,10 @@ const GoalsCard = ({ project }) => {
           </Box>)
         }
         {data && !data.goals.length && <NoDataLabel />}
+        <Typography variant="body1" color="textSecondary" align="center" gutterBottom>
+          Add climbs to check off the list!
+        </Typography>
+        <GoalsList data={data && data.goals} />
       </Card>
       <AddGoalsDialog
         open={openDialog}

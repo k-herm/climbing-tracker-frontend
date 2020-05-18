@@ -19,26 +19,6 @@ export const formatGradeValue = (grade) =>
 export const reverseFormatGradeValue = (grade) =>
   '_'.concat(grade.replace('.', '_'))
 
-// export const getGradeCategories = (chart) => {
-//   const highestIndex = GRADES.findIndex((grade) =>
-//     grade === chart[chart.length - 1].grade
-//   )
-//   const lowestIndex = GRADES.findIndex((grade) =>
-//     grade === chart[0].grade
-//   )
-//   return GRADES.slice(lowestIndex, highestIndex + 1)
-// }
-
-// export const getGradeCategoriesFromArray = (array) => {
-//   const highestIndex = GRADES.findIndex((grade) =>
-//     grade === array[array.length - 1]
-//   )
-//   const lowestIndex = GRADES.findIndex((grade) =>
-//     grade === array[0]
-//   )
-//   return GRADES.slice(lowestIndex, highestIndex + 1)
-// }
-
 export const getMonth = (date) => MONTHS[date.getMonth()]
 
 export const sortTwoGrades = (a, b) => {
@@ -62,13 +42,13 @@ export const sortTwoGrades = (a, b) => {
   else return 0
 }
 
-const getHigherGrade = (a, b) => {
-  const val = sortTwoGrades(a, b)
-  switch (val) {
-    case -1: return b
-    default: return a
-  }
-}
+// export const getHigherGrade = (a, b) => {
+//   const val = sortTwoGrades(a, b)
+//   switch (val) {
+//     case -1: return b
+//     default: return a
+//   }
+// }
 
 export const sortArrayOfObjectsByGrade = (gradesArray, key) =>
   gradesArray.sort((a, b) => sortTwoGrades(a[key], b[key]))

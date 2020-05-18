@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     lineHeight: 0.85,
   },
-  location: {
+  marginLeft: {
     marginLeft: theme.spacing(1)
   }
 }))
@@ -73,7 +73,7 @@ const DetailsCard = ({ data }) => {
           </Typography>
         </Grid>
         <Grid item>
-          <Typography variant="body1">
+          <Typography variant="body1" className={classes.marginLeft}>
             {data.climbStyle}
           </Typography>
         </Grid>
@@ -85,7 +85,7 @@ const DetailsCard = ({ data }) => {
         justify="space-between"
       >
         <Grid item>
-          <Typography variant="body1" className={classes.location} color="textSecondary">
+          <Typography variant="body1" className={classes.marginLeft} color="textSecondary">
             {data.location && `${data.location} | `}
             {`${numPitches} ${pitchString}`}
             {data.totalLength && ` | ${data.totalLength} m`}
