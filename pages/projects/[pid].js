@@ -6,7 +6,7 @@ import PageModal from '~/components/pageModal'
 import HeadlineCover from '~/components/headlineCover'
 import DetailsCard from '~/components/projects/detailsCard'
 import AttemptsCard from '~/components/projects/attemptsCard'
-import GoalsCard from '~/components/projects/GoalsCard'
+import GoalsCard from '~/components/projects/goals/GoalsCard'
 
 import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
 

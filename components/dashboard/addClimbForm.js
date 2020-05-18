@@ -20,6 +20,7 @@ import ClimbStylesButtonGroup from '../formComponents/climbStyleButtonGroup'
 import AttemptButtonGroup from '../formComponents/attemptButtonGroup'
 import CustomDatePicker from '../formComponents/customDatePicker'
 import ClimbStyleChipFilter from '../formComponents/climbStyleChipFilter'
+import Notification from '../notification'
 
 import { getDateString, reverseFormatGradeValue } from '~/src/app/utils'
 import { ADD_CLIMB } from '~/src/app/Mutations/climb'
@@ -50,7 +51,10 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AddClimbForm = ({ onClose }) => {
-  const [addClimb] = useMutation(ADD_CLIMB, {
+  const [addClimb, {
+    loading: mutationLoading,
+    error: mutationError
+  }] = useMutation(ADD_CLIMB, {
     refetchQueries: [
       'NumericStats',
       'GradesChart',
@@ -75,6 +79,7 @@ const AddClimbForm = ({ onClose }) => {
   const [error, setError] = useState(null)
   const [isTableInEdit, setIsTableInEdit] = useState(false)
   const [openBackdrop, setOpenBackdrop] = useState(false)
+  const [isErrorNotification, setIsErrorNotification] = useState(false)
 
   const handleClick = (name, value) => {
     setState(prevState => ({
@@ -83,7 +88,7 @@ const AddClimbForm = ({ onClose }) => {
     }))
   }
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault()
     try {
       if (!state.grade || !state.pitches.length) {
@@ -101,9 +106,16 @@ const AddClimbForm = ({ onClose }) => {
       }))
 
       setOpenBackdrop(true)
-      await addClimb({ variables })
-      setOpenBackdrop(false)
-      onClose()
+      addClimb({ variables })
+
+      if (!mutationLoading) {
+        setOpenBackdrop(false)
+        if (mutationError) {
+          setIsErrorNotification(true)
+          setTimeout(() => setIsErrorNotification(false), 4000)
+        }
+        onClose()
+      }
     } catch (error) {
       setError(error)
     }
@@ -116,9 +128,18 @@ const AddClimbForm = ({ onClose }) => {
           {`Oops! ${error}`}
         </Typography>
       }
+
       <Backdrop open={openBackdrop} className={backdrop}>
         <CircularProgress />
       </Backdrop>
+
+      <Notification
+        id="addClimbError"
+        open={isErrorNotification}
+        message="There was an error saving your climb. Please try again"
+        severity="error"
+      />
+
       <form method="post" onSubmit={onSubmit} className={form}>
         <Grid item>
           <TextField

@@ -16,7 +16,7 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-import GradeSelect from '../formComponents/gradeSelect'
+import GradeSelect from '../../formComponents/gradeSelect'
 
 const useStyles = makeStyles(theme => ({
   button: {
