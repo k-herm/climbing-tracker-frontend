@@ -21,26 +21,26 @@ export const reverseFormatGradeValue = (grade) =>
 
 export const getMonth = (date) => MONTHS[date.getMonth()]
 
-export const sortTwoGrades = (a, b) => {
-  const getLetter = (grade) => {
-    let letter = ''
-    if (/[a-d]/.test(grade)) {
-      letter = grade.slice(-1)
-    }
-    return letter
-  }
+// export const sortTwoGrades = (a, b) => {
+//   const getLetter = (grade) => {
+//     let letter = ''
+//     if (/[a-d]/.test(grade)) {
+//       letter = grade.slice(-1)
+//     }
+//     return letter
+//   }
 
-  const letter1 = getLetter(a)
-  const letter2 = getLetter(b)
-  const grade1 = parseInt(a.replace("5.", ""))
-  const grade2 = parseInt(b.replace("5.", ""))
-  if (grade1 - grade2 < 0) return -1
-  else if (grade1 - grade2 > 0) return 1
+//   const letter1 = getLetter(a)
+//   const letter2 = getLetter(b)
+//   const grade1 = parseInt(a.replace("5.", ""))
+//   const grade2 = parseInt(b.replace("5.", ""))
+//   if (grade1 - grade2 < 0) return -1
+//   else if (grade1 - grade2 > 0) return 1
 
-  if (letter1 < letter2) return -1
-  else if (letter1 > letter2) return 1
-  else return 0
-}
+//   if (letter1 < letter2) return -1
+//   else if (letter1 > letter2) return 1
+//   else return 0
+// }
 
 // export const getHigherGrade = (a, b) => {
 //   const val = sortTwoGrades(a, b)
@@ -50,5 +50,5 @@ export const sortTwoGrades = (a, b) => {
 //   }
 // }
 
-export const sortArrayOfObjectsByGrade = (gradesArray, key) =>
-  gradesArray.sort((a, b) => sortTwoGrades(a[key], b[key]))
+// export const sortArrayOfObjectsByGrade = (gradesArray, key) =>
+//   gradesArray.sort((a, b) => sortTwoGrades(a[key], b[key]))

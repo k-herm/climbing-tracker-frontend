@@ -10,7 +10,6 @@ export const ADD_GOAL = gql`
       projectId: $projectId,
       grade: $grade,
       numberClimbsToComplete: $numberClimbsToComplete,
-      climbsCompleted: []
     ) {
       _id
     }

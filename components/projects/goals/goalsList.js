@@ -4,7 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Box } from '@material-ui/core'
 
 import ClimbDataButton from './climbDataButton'
-import { formatGradeValue, sortArrayOfObjectsByGrade } from '~/src/app/utils'
+import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   boxContainer: {
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const GoalsList = ({ data, pyramidView }) => {
+const GoalsList = ({ data, pyramidView, openDialog }) => {
   const classes = useStyles()
   const [goals, setGoals] = useState(data)
   const [isPyramidView, setIsPyramidView] = useState(pyramidView)
@@ -25,7 +25,6 @@ const GoalsList = ({ data, pyramidView }) => {
   useEffect(() => {
     if (data) {
       const goals = data.map(goal => ({ ...goal, grade: formatGradeValue(goal.grade) }))
-      sortArrayOfObjectsByGrade(goals, 'grade')
       setGoals(goals)
 
 
@@ -37,107 +36,77 @@ const GoalsList = ({ data, pyramidView }) => {
 
   useEffect(() => setIsPyramidView(pyramidView), [pyramidView])
 
+  // return network error else List
   return (
-    <Box className={classes.boxContainer}>
-      <Box className={classes.flexContainer}>
-        <ClimbDataButton
-          grade="5.6"
-          climbName="hello derr"
-          onClick={() => console.log('hellloooo')}
-        />
-      </Box>
+    <>
+      {isPyramidView ?
+        <Box className={classes.boxContainer}>
+          <Box className={classes.flexContainer}>
+            <ClimbDataButton
+              grade="5.6"
+              climbName="hello derr"
+              onClick={() => openDialog()}
+              enable={true}
+            />
+          </Box>
 
-      <Box className={classes.flexContainer}>
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-      </Box>
+          <Box className={classes.flexContainer}>
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+          </Box>
 
-      <Box className={classes.flexContainer}>
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-      </Box>
+          <Box className={classes.flexContainer}>
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+          </Box>
 
-      <Box className={classes.flexContainer}>
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-        <ClimbDataButton
-          grade="5.6"
-        />
-      </Box>
+          <Box className={classes.flexContainer}>
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+            <ClimbDataButton
+              grade="5.6"
+            />
+          </Box>
 
-    </Box>
-
-    // <Grid
-    //   container
-    //   // className={classes.goalsContainer}
-    //   direction="column"
-    //   // justify="center"
-    //   // alignContent="center"
-    //   alignItems="center"
-    //   spacing={1}
-    // >
-    //   <Grid item>
-    //     <ClimbDataButton
-    //       grade="5.6"
-    //     />
-    //   </Grid>
-    //   <Grid item>
-    //     <ClimbDataButton
-    //       grade="5.6"
-    //     />
-    //     <ClimbDataButton
-    //       grade="5.6"
-    //     />
-    //   </Grid>
-    //   <Grid item wrap="nowrap">
-
-    //     <ClimbDataButton
-    //       grade="5.6"
-    //     />
-    //     <ClimbDataButton
-    //       grade="5.6"
-    //     />
-    //     <ClimbDataButton
-    //       grade="5.6"
-    //     />
-    //     <ClimbDataButton
-    //       grade="5.6"
-    //     />
-    //   </Grid>
-    // </Grid>
+        </Box>
+        :
+        <></>
+      }
+    </>
   )
 }
 
 GoalsList.propTypes = {
   data: PropTypes.array,
-  pyramidView: PropTypes.bool
+  pyramidView: PropTypes.bool,
+  openDialog: PropTypes.func
 }
 
 export default GoalsList

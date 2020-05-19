@@ -19,10 +19,6 @@ export const GET_ALL_PROJECTS_DATA = gql`
         _id
         grade
         numberClimbsToComplete
-        climbsCompleted {
-          name
-          completedDate
-        }
       }
       attempts {
         attemptType
@@ -34,15 +30,14 @@ export const GET_ALL_PROJECTS_DATA = gql`
 `
 
 export const GET_GOALS_FOR_PROJECT = gql`
-  query getGoalsForProject($projectId: ID) {
-    goals(projectId: $projectId) {
+  query getGoalsForProject($projectId: ID, $climbStyle: ClimbStyleEnum) {
+    goals(projectId: $projectId, climbStyle: $climbStyle) {
       grade
       numberClimbsToComplete
       climbsCompleted {
         name
         completedDate
       }
-      climbStyle
     }
   }
 `

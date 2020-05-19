@@ -51,9 +51,8 @@ const Projects = () => {
             <ClickableList
               listItems={data.projects.map(project => ({
                 primary: project.name,
-                secondary: `${formatGradeValue(project.grade)} - Completed Goals: ${
-                  project.goals.reduce((acc, curr) => acc + curr.climbsCompleted.length, 0)
-                  }/${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
+                secondary: `${formatGradeValue(project.grade)} - Number of Goals:
+                  ${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
                 id: project._id
               }))}
             />

@@ -22,7 +22,7 @@ const ClimbDataDialog = ({ open, onClose, data }) => {
 
   return (
     <Dialog open={open} onClose={onClose} aria-labelledby="climbData-dialog">
-      <DialogTitle>Completed Goal</DialogTitle>
+      <DialogTitle>Completed Goal!</DialogTitle>
       <DialogContent>
         <DialogContentText>
           Having intermediate goals can help you achieve your project. Add custom goals or have them created for you.
