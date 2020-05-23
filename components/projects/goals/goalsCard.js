@@ -72,20 +72,22 @@ const GoalsCard = ({ project }) => {
             <AddCircleIcon fontSize="large" />
           </IconButton>
         </Typography>
+        {data && !data.goals.length
+          ? <NoDataLabel />
+          : <Typography variant="body1" color="textSecondary" align="center" gutterBottom>
+            Add climbs similar to your project to check off the list!
+            </Typography>
+        }
         {
           (loading || error) &&
           (<Box className={classes.centerFlex}>
             {error ? <NetworkError /> : <CircularProgress />}
           </Box>)
         }
-        {data && !data.goals.length && <NoDataLabel />}
-        <Typography variant="body1" color="textSecondary" align="center" gutterBottom>
-          Add climbs similar to your project to check off the list!
-        </Typography>
         <GoalsList
           data={data && data.goals}
           openDialog={() => setOpenClimbData(true)}
-          pyramidView={true}
+          pyramidView={false}
         />
       </Card>
       <AddGoalsDialog

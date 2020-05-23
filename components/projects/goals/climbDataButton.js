@@ -6,7 +6,7 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    backgroundColor: '#FAF4ED'
+    backgroundColor: theme.custom.creme
   },
   container: {
     display: 'grid',

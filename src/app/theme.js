@@ -11,7 +11,8 @@ const theme = createMuiTheme({
     error: '#fdecea',
     warning: '#fff4e5',
     info: '#e8f4fd',
-    success: '#edf7ed'
+    success: '#edf7ed',
+    creme: '#faf4ed'
   },
   typography: {
     useNextVariants: true,

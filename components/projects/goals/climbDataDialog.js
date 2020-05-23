@@ -28,6 +28,7 @@ const ClimbDataDialog = ({ open, onClose, data }) => {
           Having intermediate goals can help you achieve your project. Add custom goals or have them created for you.
         </DialogContentText>
 
+        {/* DATA  */}
         <DialogActions>
           <Button variant="contained" color="secondary" onClick={onClose}>
             Close

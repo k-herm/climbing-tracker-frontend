@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { Box } from '@material-ui/core'
 
 import ClimbDataButton from './climbDataButton'
+import ClimbDataListItem from './climbDataListItem'
 import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +35,7 @@ const GoalsList = ({ data, pyramidView, openDialog }) => {
     }
   }, [data])
 
+  //set pyramid view automatically if certain number of climbs?
   useEffect(() => setIsPyramidView(pyramidView), [pyramidView])
 
   // return network error else List
@@ -97,7 +99,9 @@ const GoalsList = ({ data, pyramidView, openDialog }) => {
 
         </Box>
         :
-        <></>
+        <>
+          {goals && goals.map((goal, i) => <ClimbDataListItem key={i} data={goal} />)}
+        </>
       }
     </>
   )
