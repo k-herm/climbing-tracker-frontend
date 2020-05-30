@@ -32,7 +32,7 @@ const createEmptyGoal = () => ({
   numberClimbsToComplete: 1
 })
 
-const GoalTable = ({ currentGoals, setCurrentGoals }) => {
+const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
   const classes = useStyles()
   const [goals, setGoals] = useState([...currentGoals])
   const [isError, setIsError] = useState(false)
@@ -75,19 +75,24 @@ const GoalTable = ({ currentGoals, setCurrentGoals }) => {
       <Table size="small" aria-label="goals table">
         <TableHead>
           <TableRow>
-            <TableCell align="left" colSpan="2">
-              Goals
+            <TableCell align="left">
+              Grade
+            </TableCell>
+            <TableCell align="left">
+              #Goal Climbs to Complete
             </TableCell>
             <TableCell align="right">
-              <IconButton
-                className={classes.button}
-                color="primary"
-                aria-label="add goal"
-                component="span"
-                onClick={handleAdd}
-              >
-                <AddCircleIcon />
-              </IconButton>
+              {editable &&
+                <IconButton
+                  className={classes.button}
+                  color="primary"
+                  aria-label="add goal"
+                  component="span"
+                  onClick={handleAdd}
+                >
+                  <AddCircleIcon />
+                </IconButton>
+              }
             </TableCell>
           </TableRow>
           {isError &&
@@ -105,33 +110,43 @@ const GoalTable = ({ currentGoals, setCurrentGoals }) => {
           {goals.map((goal, i) =>
             <TableRow key={i}>
               <TableCell>
-                <GradeSelect
-                  initialState={goal.grade}
-                  updateState={e => handleChange(i, 'grade', e.target.value)}
-                />
+                {editable
+                  ?
+                  <GradeSelect
+                    noLabel
+                    initialState={goal.grade}
+                    updateState={e => handleChange(i, 'grade', e.target.value)}
+                  />
+                  : goal.grade
+                }
               </TableCell>
               <TableCell>
-                <TextField
-                  name="numberClimbsToComplete"
-                  label="Climbs To Complete"
-                  inputProps={{
-                    'aria-label': 'numberClimbsToComplete',
-                    'min': '1'
-                  }}
-                  value={goal.numberClimbsToComplete}
-                  type="number"
-                  onChange={e => handleChange(i, 'numberClimbsToComplete', e.target.value)}
-                />
+                {editable
+                  ?
+                  <TextField
+                    name="numberClimbsToComplete"
+                    inputProps={{
+                      'aria-label': 'numberClimbsToComplete',
+                      'min': '1'
+                    }}
+                    value={goal.numberClimbsToComplete}
+                    type="number"
+                    onChange={e => handleChange(i, 'numberClimbsToComplete', e.target.value)}
+                  />
+                  : goal.numberClimbsToComplete
+                }
               </TableCell>
               <TableCell align="right">
-                <IconButton
-                  className={classes.button}
-                  aria-label="delete goal"
-                  component="span"
-                  onClick={() => handleDelete(i)}
-                >
-                  <DeleteIcon />
-                </IconButton>
+                {editable &&
+                  <IconButton
+                    className={classes.button}
+                    aria-label="delete goal"
+                    component="span"
+                    onClick={() => handleDelete(i)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                }
               </TableCell>
             </TableRow>
           )}
@@ -143,7 +158,12 @@ const GoalTable = ({ currentGoals, setCurrentGoals }) => {
 
 GoalTable.propTypes = {
   currentGoals: PropTypes.array,
+  editable: PropTypes.bool,
   setCurrentGoals: PropTypes.func
+}
+
+GoalTable.defaultProps = {
+  editable: true
 }
 
 export default GoalTable

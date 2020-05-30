@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useQuery } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
@@ -56,6 +56,17 @@ const GoalsCard = ({ project }) => {
   })
   const [openDialog, setOpenDialog] = useState(false)
   const [openClimbData, setOpenClimbData] = useState(false)
+  const [isCustomGoals, setIsCustomGoals] = useState(true)
+
+  useEffect(() => {
+    if (data && data.goals.length) {
+      if (!data.goals[0].isCustom) {
+        setIsCustomGoals(false)
+        return
+      }
+      setIsCustomGoals(true)
+    }
+  }, [data])
 
   return (
     <>
@@ -87,14 +98,16 @@ const GoalsCard = ({ project }) => {
         <GoalsList
           data={data && data.goals}
           openDialog={() => setOpenClimbData(true)}
-          pyramidView={false}
+          pyramidView={!isCustomGoals}
         />
       </Card>
       <AddGoalsDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
         projectData={project}
+        isCustomGoals={isCustomGoals}
       />
+      {/* for pyramid buttons only */}
       <ClimbDataDialog
         open={openClimbData}
         onClose={() => setOpenClimbData(false)}

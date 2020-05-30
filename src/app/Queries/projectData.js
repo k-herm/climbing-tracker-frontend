@@ -19,6 +19,7 @@ export const GET_ALL_PROJECTS_DATA = gql`
         _id
         grade
         numberClimbsToComplete
+        isCustom
       }
       attempts {
         attemptType
@@ -34,6 +35,7 @@ export const GET_GOALS_FOR_PROJECT = gql`
     goals(projectId: $projectId, climbStyle: $climbStyle) {
       grade
       numberClimbsToComplete
+      isCustom
       climbsCompleted {
         name
         completedDate

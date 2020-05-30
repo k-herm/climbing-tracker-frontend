@@ -17,12 +17,12 @@ const useStyles = makeStyles({
   },
 })
 
-const GradeSelect = ({ updateState, initialState }) => {
+const GradeSelect = ({ updateState, initialState, noLabel }) => {
   const { selectGroup } = useStyles()
   const [state, setState] = useState(initialState)
   return (
     <FormControl className={selectGroup}>
-      <InputLabel id="select-grade">Grade</InputLabel>
+      {!noLabel && <InputLabel id="select-grade">Grade</InputLabel>}
       <Select
         labelId="select-grade"
         id="select-grade"
@@ -44,7 +44,12 @@ const GradeSelect = ({ updateState, initialState }) => {
 
 GradeSelect.propTypes = {
   initialState: PropTypes.string,
-  updateState: PropTypes.func
+  updateState: PropTypes.func,
+  noLabel: PropTypes.bool
+}
+
+GradeSelect.defaultProps = {
+  noLabel: false
 }
 
 export default GradeSelect
