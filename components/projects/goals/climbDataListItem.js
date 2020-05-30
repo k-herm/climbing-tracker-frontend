@@ -1,10 +1,9 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Box,
   Card,
-  CardContent,
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
@@ -35,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
   },
   subtitle: {
     fontWeight: 'bold'
+  },
+  detailsContainer: {
+    width: '100%'
+  },
+  climbName: {
+    fontStyle: 'italic'
   }
 }))
 
@@ -64,15 +69,25 @@ const ClimbDataListItem = ({ data }) => {
           </Box>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Grid spacing={1} direction="column" alignItems="flex-start">
+          <Grid spacing={1} direction="column" alignItems="flex-start" className={classes.detailsContainer}>
             <Typography color="secondary" className={classes.subtitle} gutterBottom>
               {`${data.climbsCompleted.length} / ${data.numberClimbsToComplete}`} Completed
             </Typography>
+
             {data.climbsCompleted.length &&
               data.climbsCompleted.map(climb =>
-                <Typography gutterBottom>
-                  <Bullet />{climb.name}: {climb.completedDate}
-                </Typography>
+                <Grid item container spacing={1}>
+                  <Grid item xs={7} sm={8}>
+                    <Typography className={classes.climbName} noWrap gutterBottom>
+                      <Bullet />{climb.name}:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={5} sm={4}>
+                    <Typography noWrap gutterBottom>
+                      {climb.completedDate}
+                    </Typography>
+                  </Grid>
+                </Grid>
               )
             }
           </Grid>
