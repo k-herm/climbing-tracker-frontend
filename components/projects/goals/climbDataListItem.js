@@ -69,14 +69,20 @@ const ClimbDataListItem = ({ data }) => {
           </Box>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <Grid spacing={1} direction="column" alignItems="flex-start" className={classes.detailsContainer}>
+          <Grid
+            className={classes.detailsContainer}
+            container
+            direction="column"
+            spacing={1}
+            alignItems="flex-start"
+          >
             <Typography color="secondary" className={classes.subtitle} gutterBottom>
               {`${data.climbsCompleted.length} / ${data.numberClimbsToComplete}`} Completed
             </Typography>
 
             {data.climbsCompleted.length &&
-              data.climbsCompleted.map(climb =>
-                <Grid item container spacing={1}>
+              data.climbsCompleted.map((climb, i) =>
+                <Grid item container spacing={1} key={i}>
                   <Grid item xs={7} sm={8}>
                     <Typography className={classes.climbName} noWrap gutterBottom>
                       <Bullet />{climb.name}:

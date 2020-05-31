@@ -33,6 +33,7 @@ export const GET_ALL_PROJECTS_DATA = gql`
 export const GET_GOALS_FOR_PROJECT = gql`
   query getGoalsForProject($projectId: ID, $climbStyle: ClimbStyleEnum) {
     goals(projectId: $projectId, climbStyle: $climbStyle) {
+      _id
       grade
       numberClimbsToComplete
       isCustom

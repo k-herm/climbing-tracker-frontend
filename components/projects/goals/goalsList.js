@@ -48,7 +48,7 @@ const GoalsList = ({ data, pyramidView, openDialog }) => {
               grade="5.6"
               climbName="hello derr"
               onClick={() => openDialog()}
-              enable={true}
+            // disabled
             />
           </Box>
 

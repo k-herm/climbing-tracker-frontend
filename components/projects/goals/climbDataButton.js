@@ -6,7 +6,10 @@ import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    backgroundColor: theme.custom.creme
+    backgroundColor: theme.custom.creme,
+    '&[disabled]': {
+      backgroundColor: theme.custom.creme
+    }
   },
   container: {
     display: 'grid',
@@ -17,19 +20,20 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const ClimbDataButton = ({ enable, grade, onClick }) => {
+const ClimbDataButton = ({ disabled, grade, onClick }) => {
   const { container, button } = useStyles()
   const EMPTY = '__________'
 
   return (
     <Button
-      variant={enable ? "contained" : "disabled"}
+      variant="contained"
       className={button}
       onClick={onClick}
+      disabled={disabled}
     >
       <Box className={container}>
         <Typography variant="h6" color="secondary">{grade}</Typography>
-        {enable ?
+        {disabled ?
           <CheckCircleOutlineIcon fontSize="large" color="primary" /> :
           <>
             <Typography variant="body2" noWrap={true}>{EMPTY}</Typography>
@@ -42,7 +46,7 @@ const ClimbDataButton = ({ enable, grade, onClick }) => {
 }
 
 ClimbDataButton.propTypes = {
-  enable: PropTypes.bool,
+  disabled: PropTypes.bool,
   grade: PropTypes.string,
   onClick: PropTypes.func
 }

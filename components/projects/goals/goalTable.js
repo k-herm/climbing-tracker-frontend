@@ -64,7 +64,7 @@ const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
   const handleDelete = (i) => {
     setGoals(prevState => {
       const state = [...prevState]
-      state.splice(i, 1)
+      state[i].isDeleted = true
       setCurrentGoals(state)
       return state
     })
@@ -79,7 +79,7 @@ const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
               Grade
             </TableCell>
             <TableCell align="left">
-              #Goal Climbs to Complete
+              # Routes to Complete
             </TableCell>
             <TableCell align="right">
               {editable &&
@@ -107,7 +107,7 @@ const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
         </TableHead>
 
         <TableBody>
-          {goals.map((goal, i) =>
+          {goals.map((goal, i) => !goal.isDeleted &&
             <TableRow key={i}>
               <TableCell>
                 {editable

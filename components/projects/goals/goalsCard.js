@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
 import { Box, Card, CircularProgress, IconButton, Typography } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
+import EditIcon from '@material-ui/icons/Edit'
 
 import NetworkError from '~/components/networkError'
 import AddGoalsDialog from './addGoalsDialog'
@@ -56,17 +57,7 @@ const GoalsCard = ({ project }) => {
   })
   const [openDialog, setOpenDialog] = useState(false)
   const [openClimbData, setOpenClimbData] = useState(false)
-  const [isCustomGoals, setIsCustomGoals] = useState(true)
-
-  useEffect(() => {
-    if (data && data.goals.length) {
-      if (!data.goals[0].isCustom) {
-        setIsCustomGoals(false)
-        return
-      }
-      setIsCustomGoals(true)
-    }
-  }, [data])
+  const isCustomGoals = project.goals.length ? project.goals[0].isCustom : true
 
   return (
     <>
@@ -80,7 +71,7 @@ const GoalsCard = ({ project }) => {
             component="span"
             onClick={() => setOpenDialog(true)}
           >
-            <AddCircleIcon fontSize="large" />
+            {project.goals.length ? <EditIcon fontSize="medium" /> : <AddCircleIcon fontSize="large" />}
           </IconButton>
         </Typography>
         {data && !data.goals.length
@@ -105,7 +96,6 @@ const GoalsCard = ({ project }) => {
         open={openDialog}
         onClose={() => setOpenDialog(false)}
         projectData={project}
-        isCustomGoals={isCustomGoals}
       />
       {/* for pyramid buttons only */}
       <ClimbDataDialog
