@@ -43,15 +43,17 @@ const Nav = ({ redirect }) => {
   }
 
   return (
-    <BottomNavigation
-      value={currentIndex}
-      onChange={handleChange}
-      showLabels
-      className={nav}
-    >
-      <BottomNavigationAction label="Dashboard" icon={<BarChartIcon />} />
-      <BottomNavigationAction label="Projects" icon={<FormatListBulletedRoundedIcon />} />
-      <BottomNavigationAction label="Journal" icon={<CreateIcon />} />
+    <>
+      <BottomNavigation
+        value={currentIndex}
+        onChange={handleChange}
+        showLabels
+        className={nav}
+      >
+        <BottomNavigationAction label="Dashboard" icon={<BarChartIcon />} />
+        <BottomNavigationAction label="Projects" icon={<FormatListBulletedRoundedIcon />} />
+        <BottomNavigationAction label="Journal" icon={<CreateIcon />} />
+      </BottomNavigation>
       {navItems[currentIndex] &&
         <Fab aria-label="add" color="primary" className={floatingIcon}>
           <AddIcon
@@ -65,7 +67,7 @@ const Nav = ({ redirect }) => {
           />
         </Fab>
       }
-    </BottomNavigation>
+    </>
   )
 }
 

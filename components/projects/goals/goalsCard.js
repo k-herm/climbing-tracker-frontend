@@ -71,7 +71,7 @@ const GoalsCard = ({ project }) => {
             component="span"
             onClick={() => setOpenDialog(true)}
           >
-            {project.goals.length ? <EditIcon fontSize="medium" /> : <AddCircleIcon fontSize="large" />}
+            {project.goals.length ? <EditIcon /> : <AddCircleIcon fontSize="large" />}
           </IconButton>
         </Typography>
         {data && !data.goals.length
