@@ -48,6 +48,9 @@ export const DELETE_GOAL = gql`
   mutation DeleteGoal($id: ID!) {
     deleteGoal(id: $id) {
       _id
+      grade
+      numberClimbsToComplete
+      isCustom
     }
   }
 `

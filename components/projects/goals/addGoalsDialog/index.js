@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
@@ -48,10 +48,6 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
     return []
   })
 
-  useEffect(() => {
-    console.log("isCustom", isCustom)
-  }, [isCustom])
-
   const onCloseConfirmDialog = () => setIsConfirmDialogOpen(false)
   const onConfirm = () => {
     if (goals.length) {
@@ -88,7 +84,12 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
         throw new Error("Looks like you're missing some information.")
       }
       setError(null)
-      actions.setGoalsMutations(goals, isCustom, addGoal, editGoal, deleteGoal)
+      actions.setGoalsMutations(
+        projectData._id,
+        goals,
+        isCustom,
+        [addGoal, editGoal, deleteGoal]
+      )
       onClose()
     }
     catch (error) {

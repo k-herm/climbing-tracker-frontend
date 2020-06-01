@@ -1,22 +1,55 @@
 import { reverseFormatGradeValue } from '~/src/app/utils'
 import { GRADES } from '~/src/app/constants'
+import { GET_ALL_PROJECTS_DATA, GET_GOALS_FOR_PROJECT } from '~/src/app/Queries/projectData'
 
-export const setGoalsMutations = (goals, isCustom, add, edit, del) => {
+const optimisticResponse = (type, goal) => ({
+  __typename: 'Mutation',
+  [`${type}Goal`]: {
+    __typename: 'Goal',
+    _id: goal._id,
+    grade: goal.grade,
+    numberClimbsToComplete: goal.numberClimbsToComplete,
+    isCustom: goal.isCustom,
+  }
+})
+
+// export const deleteUpdate = (cache, data) => {
+//   // const projectData = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })
+//   const goalData = cache.readQuery({ query: GET_GOALS_FOR_PROJECT })
+//   // console.log('projectData', projectData)
+//   console.log('goalData', goalData)
+
+//   const goalId = data.deleteGoal._id
+//   // projectData.projects.goals = projectData.projects.goals.filter(goal => goal._id !== goalId)
+//   goalData.goals = goalData.goals.filter(goal => goal._id !== goalId)
+
+//   // cache.writeQuery({ query: GET_ALL_PROJECTS_DATA, data: { projects: projectData } })
+//   cache.writeQuery({ query: GET_GOALS_FOR_PROJECT, data: { goals: goalData } })
+// }
+
+export const setGoalsMutations = (projectId, goals, isCustom, [add, edit, del]) => {
   return goals.forEach(goal => {
     if (goal._id && goal.isDeleted) {
-      del({ variables: { id: goal._id } })
+      del({
+        variables: { id: goal._id },
+        optimisticResponse: optimisticResponse('delete', goal),
+        // update: (cache, { data }) => deleteUpdate(cache, data)
+      })
       return
     }
 
     const variables = {
-      projectId: projectData._id,
+      projectId,
       grade: reverseFormatGradeValue(goal.grade),
       numberClimbsToComplete: Number.parseInt(goal.numberClimbsToComplete),
       isCustom
     }
 
     if (goal._id) {
-      edit({ variables: { id: goal._id, ...variables } })
+      edit({
+        variables: { id: goal._id, ...variables },
+        optimisticResponse: optimisticResponse('edit', goal)
+      })
       return
     }
     add({ variables })
