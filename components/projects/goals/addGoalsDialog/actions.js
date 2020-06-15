@@ -6,53 +6,73 @@ const optimisticResponse = (type, goal) => ({
   __typename: 'Mutation',
   [`${type}Goal`]: {
     __typename: 'Goal',
-    _id: goal._id,
-    grade: goal.grade,
-    numberClimbsToComplete: goal.numberClimbsToComplete,
-    isCustom: goal.isCustom,
+    ...goal
   }
 })
 
-// export const deleteUpdate = (cache, data) => {
-//   // const projectData = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })
-//   const goalData = cache.readQuery({ query: GET_GOALS_FOR_PROJECT })
-//   // console.log('projectData', projectData)
-//   console.log('goalData', goalData)
+const update = (cache, goalData, projectData, type) => {
+  const projects = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })
+  const project = projects.projects.find(project => project._id === projectData._id)
 
-//   const goalId = data.deleteGoal._id
-//   // projectData.projects.goals = projectData.projects.goals.filter(goal => goal._id !== goalId)
-//   goalData.goals = goalData.goals.filter(goal => goal._id !== goalId)
+  const goalId = goalData._id
+  const goals = cache.readQuery({
+    query: GET_GOALS_FOR_PROJECT,
+    variables: { projectId: projectData._id, climbStyle: projectData.climbStyle }
+  })
 
-//   // cache.writeQuery({ query: GET_ALL_PROJECTS_DATA, data: { projects: projectData } })
-//   cache.writeQuery({ query: GET_GOALS_FOR_PROJECT, data: { goals: goalData } })
-// }
+  console.log("GOALDATA>", goalData);
+  if (type === 'delete') {
+    project.goals = project.goals.filter(goal => goal._id !== goalId)
+    goals.goals = goals.goals.filter(goal => goal._id !== goalId)
+  }
+  if (type === 'add') {
+    project.goals = [...project.goals, { ...goalData }]
+    goals.goals = [...goals.goals, { ...goalData }]
+  }
 
-export const setGoalsMutations = (projectId, goals, isCustom, [add, edit, del]) => {
+  cache.writeQuery({ query: GET_ALL_PROJECTS_DATA, data: projects })
+  cache.writeQuery({
+    query: GET_GOALS_FOR_PROJECT,
+    variables: { projectId: projectData._id, climbStyle: projectData.climbStyle },
+    data: goals
+  })
+}
+
+export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]) => {
   return goals.forEach(goal => {
     if (goal._id && goal.isDeleted) {
       del({
         variables: { id: goal._id },
-        optimisticResponse: optimisticResponse('delete', goal),
-        // update: (cache, { data }) => deleteUpdate(cache, data)
+        update: (cache, { data }) => update(cache, data.deleteGoal, projectData, 'delete'),
+        optimisticResponse: optimisticResponse('delete', goal)
       })
       return
     }
-
     const variables = {
-      projectId,
+      projectId: projectData._id,
       grade: reverseFormatGradeValue(goal.grade),
       numberClimbsToComplete: Number.parseInt(goal.numberClimbsToComplete),
-      isCustom
+      isCustom,
+      climbStyle: projectData.climbStyle
+    }
+    // ADDING EXTRA GOALS WHEN IT SHOULD BE EDITING
+    if (goal._id) {
+      edit({ variables: { id: goal._id, ...variables } })
+      return
     }
 
-    if (goal._id) {
-      edit({
-        variables: { id: goal._id, ...variables },
-        optimisticResponse: optimisticResponse('edit', goal)
+    if (!goal._id) {
+      add({
+        variables,
+        update: (cache, { data }) => update(cache, data.addGoal, projectData, 'add'),
+        optimisticResponse: optimisticResponse('add', {
+          _id: '1',
+          ...variables,
+          climbsCompleted: []
+        })
       })
       return
     }
-    add({ variables })
     return
   })
 }

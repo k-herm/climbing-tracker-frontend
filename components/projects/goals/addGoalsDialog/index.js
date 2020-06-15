@@ -85,7 +85,7 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
       }
       setError(null)
       actions.setGoalsMutations(
-        projectData._id,
+        projectData,
         goals,
         isCustom,
         [addGoal, editGoal, deleteGoal]
