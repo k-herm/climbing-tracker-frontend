@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/react-hooks'
 import { Box, Card, LinearProgress, Typography } from '@material-ui/core'
@@ -8,7 +8,7 @@ import NetworkError from '~/components/networkError'
 import ClickableList from '~/components/clickableList'
 import HeadlineCover from '~/components/headlineCover'
 
-import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
+import { useProjects } from '~/src/app/Hooks/useProjects'
 import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { formatGradeValue } from '~/src/app/utils'
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Projects = () => {
-  const { setProjects } = useContext(ProjectsContext)
+  const { state: projects, setProjects } = useProjects()
   const { card, container, headline } = useStyles()
   const { loading, data, error } = useQuery(GET_ALL_PROJECTS_DATA)
 
@@ -46,13 +46,13 @@ const Projects = () => {
 
       {loading && <Box><LinearProgress /></Box>}
       <HeadlineCover image="/yosemite.jpg">
-        {data ?
-          (data.projects.length ?
+        {loading ? <></> :
+          (projects.length ?
             <ClickableList
               listItems={data.projects.map(project => ({
                 primary: project.name,
                 secondary: `${formatGradeValue(project.grade)} - Number of Goals:
-                  ${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
+                ${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
                 id: project._id
               }))}
             />
@@ -66,9 +66,7 @@ const Projects = () => {
               >
                 Let's start a project!
             </Typography>
-
             </Card>)
-          : <></>
         }
       </HeadlineCover>
     </Box>

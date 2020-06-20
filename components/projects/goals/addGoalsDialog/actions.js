@@ -20,7 +20,6 @@ const update = (cache, goalData, projectData, type) => {
     variables: { projectId: projectData._id, climbStyle: projectData.climbStyle }
   })
 
-  console.log("GOALDATA>", goalData);
   if (type === 'delete') {
     project.goals = project.goals.filter(goal => goal._id !== goalId)
     goals.goals = goals.goals.filter(goal => goal._id !== goalId)
@@ -39,6 +38,7 @@ const update = (cache, goalData, projectData, type) => {
 }
 
 export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]) => {
+  console.log("GOALSSSSSS>", goals);
   return goals.forEach(goal => {
     if (goal._id && goal.isDeleted) {
       del({
@@ -56,6 +56,7 @@ export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]
       climbStyle: projectData.climbStyle
     }
     // ADDING EXTRA GOALS WHEN IT SHOULD BE EDITING
+    // TABLE NOT SYNCED - adding additional goals to array, not deleting, etc
     if (goal._id) {
       edit({ variables: { id: goal._id, ...variables } })
       return

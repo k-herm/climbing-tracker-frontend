@@ -8,7 +8,7 @@ import DetailsCard from '~/components/projects/detailsCard'
 import AttemptsCard from '~/components/projects/attemptsCard'
 import GoalsCard from '~/components/projects/goals/GoalsCard'
 
-import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
+import { useProjects } from '~/src/app/Hooks/useProjects'
 
 const useStyles = makeStyles((theme) => ({
   transition: {
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 const ProjectPage = () => {
   const classes = useStyles()
   const router = useRouter()
-  const { projects } = useContext(ProjectsContext)
+  const { state: projects } = useProjects()
   const [openPage, setOpenPage] = useState(true)
   const [currentProject, setCurrentProject] = useState(null)
 

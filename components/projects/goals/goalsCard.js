@@ -12,6 +12,7 @@ import GoalsList from './goalsList'
 import ClimbDataDialog from './climbDataDialog'
 
 import { GET_GOALS_FOR_PROJECT } from '~/src/app/Queries/projectData'
+import { useProjects } from '~/src/app/Hooks/useProjects'
 
 const useStyles = makeStyles((theme) => ({
   addButton: {
@@ -52,12 +53,19 @@ const NoDataLabel = () => {
 
 const GoalsCard = ({ project }) => {
   const classes = useStyles()
+  const { state: projects, setGoals } = useProjects()
   const { data, loading, error } = useQuery(GET_GOALS_FOR_PROJECT, {
     variables: { projectId: project._id, climbStyle: project.climbStyle }
   })
   const [openDialog, setOpenDialog] = useState(false)
   const [openClimbData, setOpenClimbData] = useState(false)
   const isCustomGoals = project.goals.length ? project.goals[0].isCustom : true
+
+  useEffect(() => {
+    if (data && data.goals.length) {
+      setGoals(project._id, data.goals)
+    }
+  }, [data])
 
   return (
     <>
