@@ -6,26 +6,24 @@ export const ProjectsContext = createContext()
 // return state for selectors (does not re-render)
 
 const setGoalData = (state, payload) => {
-  const project = state.find(project => project._id === payload.projectId)
+  const project = state.projects.find(project => project._id === payload.projectId)
   project.goals = [...payload.goals]
-  return [...state]
+  return { projects: [...state.projects] }
 }
 
 
-const initialState = []
+const initialState = { projects: [] }
 
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case 'SET_PROJECTS':
-      return [...payload]
+      return { projects: [...payload] }
     case 'SET_GOAL_DATA':
       return setGoalData(state, payload)
     case 'ADD_GOAL':
     case 'DELETE_GOAL':
     case 'UPDATE_GOAL':
     case 'CLEAR_ALL_GOALS':
-    case 'GET_PROJECT_DATA':
-      return state.find(project => project._id === payload)
     default:
       throw new Error('ProjectContext Error: Not recognized action type')
   }

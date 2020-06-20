@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Projects = () => {
-  const { state: projects, setProjects } = useProjects()
+  const { setProjects } = useProjects()
   const { card, container, headline } = useStyles()
   const { loading, data, error } = useQuery(GET_ALL_PROJECTS_DATA)
 
@@ -46,8 +46,8 @@ const Projects = () => {
 
       {loading && <Box><LinearProgress /></Box>}
       <HeadlineCover image="/yosemite.jpg">
-        {loading ? <></> :
-          (projects.length ?
+        {data ?
+          (data.projects.length ?
             <ClickableList
               listItems={data.projects.map(project => ({
                 primary: project.name,
@@ -67,6 +67,7 @@ const Projects = () => {
                 Let's start a project!
             </Typography>
             </Card>)
+          : <></>
         }
       </HeadlineCover>
     </Box>

@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 
@@ -19,20 +19,20 @@ const useStyles = makeStyles((theme) => ({
 const ProjectPage = () => {
   const classes = useStyles()
   const router = useRouter()
-  const { state: projects } = useProjects()
+
+  const { getProject } = useProjects()
+
   const [openPage, setOpenPage] = useState(true)
-  const [currentProject, setCurrentProject] = useState(null)
+  const [project, setProject] = useState(null)
 
   useEffect(() => {
-    if (projects.length && router.query) {
-      setCurrentProject(projects.find(project =>
-        project._id.toString() === router.query.id
-      ))
+    const project = getProject(router.query.id)
+    if (project) {
+      setProject(project)
+      return
     }
-    if (!projects.length && router.query) {
-      router.push('/projects')
-    }
-  }, [projects, router.query])
+    router.push('/projects')
+  }, [router.query])
 
   const handleClose = () => {
     setOpenPage(false)
@@ -42,17 +42,18 @@ const ProjectPage = () => {
     )
   }
 
-  if (!currentProject) return <></>
+  if (!project) return null
+
   return (
     <PageModal
       open={openPage}
       onClose={handleClose}
-      title={currentProject.name}
+      title={project && project.name}
     >
       <HeadlineCover image="/mountain2.jpg">
-        <DetailsCard data={currentProject} />
-        <AttemptsCard attempts={currentProject.attempts} />
-        <GoalsCard project={currentProject} />
+        <DetailsCard data={project} />
+        <AttemptsCard attempts={project.attempts} />
+        <GoalsCard project={project} />
       </HeadlineCover>
     </PageModal>
   )

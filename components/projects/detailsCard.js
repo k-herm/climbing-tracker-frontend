@@ -1,10 +1,11 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Card, Grid, IconButton, Typography } from '@material-ui/core'
 import EditIcon from '@material-ui/icons/Edit'
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
+import { useProjects } from '~/src/app/Hooks/useProjects'
 import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -43,10 +44,11 @@ const useStyles = makeStyles((theme) => ({
 const DetailsCard = ({ data }) => {
   const classes = useStyles()
 
+  if (!data) return null
+
   const numPitches = data.pitches.reduce((arr, curr) => arr + curr.numberPitches, 0)
   const pitchString = numPitches > 1 ? 'Pitches' : 'Pitch'
 
-  if (!data) return null
   return (
     <Card className={classes.card}>
       {
@@ -108,6 +110,6 @@ const DetailsCard = ({ data }) => {
 }
 
 DetailsCard.propTypes = {
-  data: PropTypes.object
+  projectId: PropTypes.string
 }
 export default DetailsCard

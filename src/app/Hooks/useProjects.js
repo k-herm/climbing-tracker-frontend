@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import { ProjectsContext } from '../Contexts/ProjectsStore'
 
 export const useProjects = () => {
@@ -14,15 +14,18 @@ export const useProjects = () => {
     payload: { projectId, goals }
   })
 
-  const getProject = (projectId) => dispatch({
-    type: 'GET_PROJECT_DATA',
-    payload: projectId
-  })
+  const getProject = (projectId) => state.projects.find(project => project._id === projectId)
+
+  const getGoals = (projectId) => {
+    const project = getProject(projectId)
+    return project.goals
+  }
 
   return {
     state,
     setProjects,
     setGoals,
     getProject,
+    getGoals
   }
 }

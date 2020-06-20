@@ -53,10 +53,12 @@ const NoDataLabel = () => {
 
 const GoalsCard = ({ project }) => {
   const classes = useStyles()
-  const { state: projects, setGoals } = useProjects()
+  const { setGoals } = useProjects()
+
   const { data, loading, error } = useQuery(GET_GOALS_FOR_PROJECT, {
     variables: { projectId: project._id, climbStyle: project.climbStyle }
   })
+
   const [openDialog, setOpenDialog] = useState(false)
   const [openClimbData, setOpenClimbData] = useState(false)
   const isCustomGoals = project.goals.length ? project.goals[0].isCustom : true
@@ -100,6 +102,7 @@ const GoalsCard = ({ project }) => {
           pyramidView={!isCustomGoals}
         />
       </Card>
+
       <AddGoalsDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
@@ -116,7 +119,7 @@ const GoalsCard = ({ project }) => {
 }
 
 GoalsCard.propTypes = {
-  project: PropTypes.object
+  projectId: PropTypes.string
 }
 
 export default GoalsCard
