@@ -1,4 +1,4 @@
-import { reverseFormatGradeValue } from '~/src/app/utils'
+import { formatGradeValue, reverseFormatGradeValue } from '~/src/app/utils'
 import { GRADES } from '~/src/app/constants'
 import { GET_ALL_PROJECTS_DATA, GET_GOALS_FOR_PROJECT } from '~/src/app/Queries/projectData'
 
@@ -20,7 +20,6 @@ const update = (cache, goalData, projectData, type) => {
     variables: { projectId: projectData._id, climbStyle: projectData.climbStyle }
   })
 
-  console.log("GOALDATA>", goalData);
   if (type === 'delete') {
     project.goals = project.goals.filter(goal => goal._id !== goalId)
     goals.goals = goals.goals.filter(goal => goal._id !== goalId)
@@ -55,7 +54,7 @@ export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]
       isCustom,
       climbStyle: projectData.climbStyle
     }
-    // ADDING EXTRA GOALS WHEN IT SHOULD BE EDITING
+
     if (goal._id) {
       edit({ variables: { id: goal._id, ...variables } })
       return
@@ -77,25 +76,40 @@ export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]
   })
 }
 
-export const deleteAllGoals = (goals, del) => {
+export const deleteAllGoals = (projectData, goals, del) => {
   return goals.forEach(goal =>
-    del({ variables: { id: goal._id } })
+    del({
+      variables: { id: goal._id },
+      update: (cache, { data }) => update(cache, data.deleteGoal, projectData, 'delete'),
+      optimisticResponse: optimisticResponse('delete', goal)
+    })
   )
 }
 
-export const createPyramid = (projectGrade, projectId, addGoal) => {
+export const createPyramid = (projectData, addGoal) => {
   const NUM_CLIMBS = [2, 4, 3, 3]
+  const projectGrade = formatGradeValue(projectData.grade)
   const index = GRADES.findIndex(grade => grade === projectGrade)
 
   for (let i = 0; i < 4; i++) {
     if (index - i - 1 < 0) break
+
+    const variables = {
+      projectId: projectData._id,
+      climbStyle: projectData.climbStyle,
+      grade: reverseFormatGradeValue(GRADES[index - i - 1]),
+      numberClimbsToComplete: NUM_CLIMBS[i],
+      isCustom: false
+    }
+
     addGoal({
-      variables: {
-        projectId,
-        grade: reverseFormatGradeValue(GRADES[index - i - 1]),
-        numberClimbsToComplete: NUM_CLIMBS[i],
-        isCustom: false
-      }
+      variables,
+      update: (cache, { data }) => update(cache, data.addGoal, projectData, 'add'),
+      optimisticResponse: optimisticResponse('add', {
+        _id: '1',
+        ...variables,
+        climbsCompleted: []
+      })
     })
   }
 }

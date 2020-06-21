@@ -57,7 +57,21 @@ const GoalsCard = ({ project }) => {
   })
   const [openDialog, setOpenDialog] = useState(false)
   const [openClimbData, setOpenClimbData] = useState(false)
-  const isCustomGoals = project.goals.length ? project.goals[0].isCustom : true
+  const [isCustom, setIsCustom] = useState(true)
+
+  const [projectData, setProjectData] = useState(project)
+  useEffect(() => {
+    if (data) {
+      setProjectData({
+        ...project,
+        goals: [...data.goals]
+      })
+
+      data.goals.length ? setIsCustom(data.goals[0].isCustom) : setIsCustom(true)
+    } else {
+      setProjectData({ ...project, goals: [] })
+    }
+  }, [data])
 
   return (
     <>
@@ -71,7 +85,7 @@ const GoalsCard = ({ project }) => {
             component="span"
             onClick={() => setOpenDialog(true)}
           >
-            {project.goals.length ? <EditIcon /> : <AddCircleIcon fontSize="large" />}
+            {data && data.goals.length ? <EditIcon /> : <AddCircleIcon fontSize="large" />}
           </IconButton>
         </Typography>
         {data && !data.goals.length
@@ -89,13 +103,13 @@ const GoalsCard = ({ project }) => {
         <GoalsList
           data={data && data.goals}
           openDialog={() => setOpenClimbData(true)}
-          pyramidView={!isCustomGoals}
+          pyramidView={!isCustom}
         />
       </Card>
       <AddGoalsDialog
         open={openDialog}
         onClose={() => setOpenDialog(false)}
-        projectData={project}
+        projectData={projectData}
       />
       {/* for pyramid buttons only */}
       <ClimbDataDialog

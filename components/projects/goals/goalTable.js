@@ -32,15 +32,15 @@ const createEmptyGoal = () => ({
   numberClimbsToComplete: 1
 })
 
-const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
+const GoalTable = ({ goals, editable, setGoals }) => {
   const classes = useStyles()
-  const [goals, setGoals] = useState([...currentGoals])
   const [isError, setIsError] = useState(false)
 
-  const isNewGrade = (grade) => !goals.some(goal => goal.grade === grade)
+  const isGradeInList = (grade) =>
+    goals.some(goal => goal.grade === grade && !goal.isDeleted)
 
   const handleChange = (index, key, value) => {
-    if (key === 'grade' && !isNewGrade(value)) {
+    if (key === 'grade' && isGradeInList(value)) {
       setIsError(true)
       return
     }
@@ -51,21 +51,18 @@ const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
     setGoals(prevState => {
       const state = [...prevState]
       state[index][key] = value
-      setCurrentGoals(state)
       return state
     })
   }
 
   const handleAdd = () => {
     setGoals([...goals, createEmptyGoal()])
-    setCurrentGoals(goals)
   }
 
   const handleDelete = (i) => {
     setGoals(prevState => {
       const state = [...prevState]
       state[i].isDeleted = true
-      setCurrentGoals(state)
       return state
     })
   }
@@ -157,9 +154,9 @@ const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
 }
 
 GoalTable.propTypes = {
-  currentGoals: PropTypes.array,
+  goals: PropTypes.array,
   editable: PropTypes.bool,
-  setCurrentGoals: PropTypes.func
+  setGoals: PropTypes.func
 }
 
 GoalTable.defaultProps = {

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
@@ -38,20 +38,23 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
   const [isCustom, setIsCustom] = useState(projectData.goals.length ? projectData.goals[0].isCustom : true)
   const [error, setError] = useState(null)
-  const [goals, setGoals] = useState(() => {
+  const [goals, setGoals] = useState([])
+
+  useEffect(() => {
     if (projectData.goals.length) {
-      return projectData.goals.map(goal => ({
+      setGoals(() => projectData.goals.map(goal => ({
         ...goal,
         grade: formatGradeValue(goal.grade)
-      }))
+      })))
+    } else {
+      setGoals([])
     }
-    return []
-  })
+  }, [projectData.goals])
 
   const onCloseConfirmDialog = () => setIsConfirmDialogOpen(false)
   const onConfirm = () => {
     if (goals.length) {
-      actions.deleteAllGoals(goals, deleteGoal)
+      actions.deleteAllGoals(projectData, goals, deleteGoal)
       setGoals([])
       setIsConfirmDialogOpen(false)
     }
@@ -60,11 +63,7 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
     setIsCustom(!isCustom)
 
     if (buildPyramid) {
-      actions.createPyramid(
-        formatGradeValue(projectData.grade),
-        projectData._id,
-        addGoal
-      )
+      actions.createPyramid(projectData, addGoal)
       onClose()
     }
   }
@@ -80,7 +79,7 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      if (!goals.length || goals.some(goal => goal.grade === '')) {
+      if (goals.some(goal => goal.grade === '')) {
         throw new Error("Looks like you're missing some information.")
       }
       setError(null)
@@ -125,7 +124,7 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
               </DialogContentText>
             }
             <form method="post" onSubmit={onSubmit}>
-              <GoalTable currentGoals={goals} setCurrentGoals={setGoals} editable={isCustom} />
+              <GoalTable goals={goals} setGoals={setGoals} editable={isCustom} />
               <DialogActions>
                 <Button color="secondary" onClick={onClose}>
                   Cancel
