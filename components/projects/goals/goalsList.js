@@ -18,25 +18,36 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const GoalsList = ({ data, pyramidView, openDialog }) => {
+const GoalsList = ({ projectData, data, pyramidView, openDialog }) => {
   const classes = useStyles()
   const [goals, setGoals] = useState(data)
   const [isPyramidView, setIsPyramidView] = useState(pyramidView)
 
   useEffect(() => {
     if (data) {
-      const goals = data.map(goal => ({ ...goal, grade: formatGradeValue(goal.grade) }))
+      const goals = data.map(goal => ({ ...goal, grade: formatGradeValue(goal.grade) })).reverse()
       setGoals(goals)
-
-
-
-
-      console.log(goals)
     }
   }, [data])
 
   //set pyramid view automatically if certain number of climbs?
   useEffect(() => setIsPyramidView(pyramidView), [pyramidView])
+
+  const ClimbDataButtons = (goal) => {
+    const climbButtons = []
+    for (let i = 0; i < goal.numberClimbsToComplete; i++) {
+      const climbName = goal.climbsCompleted[i] ? goal.climbsCompleted[i].name : null
+      climbButtons.push(
+        <ClimbDataButton
+          key={i + climbName}
+          grade={goal.grade}
+          onClick={openDialog}
+          disabled={!climbName}
+        />
+      )
+    }
+    return climbButtons
+  }
 
   // return network error else List
   return (
@@ -45,58 +56,22 @@ const GoalsList = ({ data, pyramidView, openDialog }) => {
         <Box className={classes.boxContainer}>
           <Box className={classes.flexContainer}>
             <ClimbDataButton
-              grade="5.6"
-              climbName="hello derr"
-              onClick={() => openDialog()}
-            // disabled
+              grade={formatGradeValue(projectData.grade)}
+              climbName={projectData.name}
+            // onClick
             />
           </Box>
 
           <Box className={classes.flexContainer}>
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
+            {ClimbDataButtons(goals[0])}
           </Box>
-
           <Box className={classes.flexContainer}>
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
+            {ClimbDataButtons(goals[1])}
           </Box>
-
           <Box className={classes.flexContainer}>
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
-            <ClimbDataButton
-              grade="5.6"
-            />
+            {ClimbDataButtons(goals[2])}
+            {ClimbDataButtons(goals[3])}
           </Box>
-
         </Box>
         :
         <>
@@ -108,6 +83,7 @@ const GoalsList = ({ data, pyramidView, openDialog }) => {
 }
 
 GoalsList.propTypes = {
+  projectData: PropTypes.object,
   data: PropTypes.array,
   pyramidView: PropTypes.bool,
   openDialog: PropTypes.func

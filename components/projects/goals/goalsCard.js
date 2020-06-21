@@ -101,6 +101,7 @@ const GoalsCard = ({ project }) => {
           </Box>)
         }
         <GoalsList
+          projectData={projectData}
           data={data && data.goals}
           openDialog={() => setOpenClimbData(true)}
           pyramidView={!isCustom}

@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }))
 
-const ClimbDataButton = ({ disabled, grade, onClick }) => {
+const ClimbDataButton = ({ disabled, climbName, grade, onClick }) => {
   const { container, button } = useStyles()
   const EMPTY = '__________'
 
@@ -33,11 +33,11 @@ const ClimbDataButton = ({ disabled, grade, onClick }) => {
     >
       <Box className={container}>
         <Typography variant="h6" color="secondary">{grade}</Typography>
-        {disabled ?
+        {!disabled ?
           <CheckCircleOutlineIcon fontSize="large" color="primary" /> :
           <>
-            <Typography variant="body2" noWrap={true}>{EMPTY}</Typography>
-            <Typography variant="caption">{EMPTY}</Typography>
+            <Typography variant="body2" noWrap={true}>{climbName || EMPTY}</Typography>
+            {!climbName && <Typography variant="caption">{EMPTY}</Typography>}
           </>
         }
       </Box>
@@ -48,6 +48,7 @@ const ClimbDataButton = ({ disabled, grade, onClick }) => {
 ClimbDataButton.propTypes = {
   disabled: PropTypes.bool,
   grade: PropTypes.string,
+  climbName: PropTypes.string,
   onClick: PropTypes.func
 }
 
