@@ -30,18 +30,22 @@ const GoalsList = ({ projectData, data, pyramidView, openDialog }) => {
     }
   }, [data])
 
-  //set pyramid view automatically if certain number of climbs?
   useEffect(() => setIsPyramidView(pyramidView), [pyramidView])
 
   const ClimbDataButtons = (goal) => {
     const climbButtons = []
     for (let i = 0; i < goal.numberClimbsToComplete; i++) {
       const climbName = goal.climbsCompleted[i] ? goal.climbsCompleted[i].name : null
+      const dialogData = {
+        grade: goal.grade,
+        name: goal.climbsCompleted[i].name,
+        completedDate: goal.climbsCompleted[i].completedDate,
+      }
       climbButtons.push(
         <ClimbDataButton
           key={i + climbName}
           grade={goal.grade}
-          onClick={openDialog}
+          onClick={() => openDialog(dialogData)}
           disabled={!climbName}
         />
       )
@@ -49,7 +53,7 @@ const GoalsList = ({ projectData, data, pyramidView, openDialog }) => {
     return climbButtons
   }
 
-  // return network error else List
+  // TODO ONCLICK PROJECT BUTTON
   return (
     <>
       {isPyramidView ?
@@ -58,6 +62,7 @@ const GoalsList = ({ projectData, data, pyramidView, openDialog }) => {
             <ClimbDataButton
               grade={formatGradeValue(projectData.grade)}
               climbName={projectData.name}
+              disabled
             // onClick
             />
           </Box>

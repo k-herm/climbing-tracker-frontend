@@ -58,6 +58,7 @@ const GoalsCard = ({ project }) => {
   const [openDialog, setOpenDialog] = useState(false)
   const [openClimbData, setOpenClimbData] = useState(false)
   const [isCustom, setIsCustom] = useState(true)
+  const [goalButtonData, setGoalButtonData] = useState({})
 
   const [projectData, setProjectData] = useState(project)
   useEffect(() => {
@@ -103,7 +104,10 @@ const GoalsCard = ({ project }) => {
         <GoalsList
           projectData={projectData}
           data={data && data.goals}
-          openDialog={() => setOpenClimbData(true)}
+          openDialog={(goal) => {
+            setGoalButtonData(goal)
+            setOpenClimbData(true)
+          }}
           pyramidView={!isCustom}
         />
       </Card>
@@ -112,11 +116,11 @@ const GoalsCard = ({ project }) => {
         onClose={() => setOpenDialog(false)}
         projectData={projectData}
       />
-      {/* for pyramid buttons only */}
+      {/* dialog triggered in pyramid buttons only */}
       <ClimbDataDialog
         open={openClimbData}
         onClose={() => setOpenClimbData(false)}
-      // data={data && data.}
+        data={goalButtonData}
       />
     </>
   )

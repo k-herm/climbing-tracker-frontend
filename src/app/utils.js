@@ -1,4 +1,4 @@
-import { GRADES, MONTHS } from './constants'
+import { MONTHS } from './constants'
 
 export const getDateString = (date) => {
   const day = date.getDate()
@@ -20,35 +20,3 @@ export const reverseFormatGradeValue = (grade) =>
   '_'.concat(grade.replace('.', '_'))
 
 export const getMonth = (date) => MONTHS[date.getMonth()]
-
-// export const sortTwoGrades = (a, b) => {
-//   const getLetter = (grade) => {
-//     let letter = ''
-//     if (/[a-d]/.test(grade)) {
-//       letter = grade.slice(-1)
-//     }
-//     return letter
-//   }
-
-//   const letter1 = getLetter(a)
-//   const letter2 = getLetter(b)
-//   const grade1 = parseInt(a.replace("5.", ""))
-//   const grade2 = parseInt(b.replace("5.", ""))
-//   if (grade1 - grade2 < 0) return -1
-//   else if (grade1 - grade2 > 0) return 1
-
-//   if (letter1 < letter2) return -1
-//   else if (letter1 > letter2) return 1
-//   else return 0
-// }
-
-// export const getHigherGrade = (a, b) => {
-//   const val = sortTwoGrades(a, b)
-//   switch (val) {
-//     case -1: return b
-//     default: return a
-//   }
-// }
-
-// export const sortArrayOfObjectsByGrade = (gradesArray, key) =>
-//   gradesArray.sort((a, b) => sortTwoGrades(a[key], b[key]))
