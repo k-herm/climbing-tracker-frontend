@@ -18,6 +18,10 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import GradeSelect from '../../formComponents/gradeSelect'
 
+import { useProjects } from '~/src/app/Hooks/useProjects'
+import { formatGradeValue } from '~/src/app/utils'
+
+
 const useStyles = makeStyles(theme => ({
   button: {
     padding: 0
@@ -32,9 +36,14 @@ const createEmptyGoal = () => ({
   numberClimbsToComplete: 1
 })
 
-const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
+const GoalTable = ({ projectId }) => {
   const classes = useStyles()
-  const [goals, setGoals] = useState([...currentGoals])
+  const { getGoals, editGoal, addGoal, deleteGoal } = useProjects()
+
+  const goals = getGoals(projectId)
+  goals.forEach(goal => goal.grade = formatGradeValue(goal.grade))
+
+  const editable = goals.length ? goals[0].isCustom : true
   const [isError, setIsError] = useState(false)
 
   const isNewGrade = (grade) => !goals.some(goal => goal.grade === grade)
@@ -48,27 +57,12 @@ const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
       return
     }
     setIsError(false)
-    setGoals(prevState => {
-      const state = [...prevState]
-      state[index][key] = value
-      setCurrentGoals(state)
-      return state
-    })
+    editGoal(projectId, index, key, value)
   }
 
-  const handleAdd = () => {
-    setGoals([...goals, createEmptyGoal()])
-    setCurrentGoals(goals)
-  }
+  const handleAdd = () => addGoal(projectId, createEmptyGoal())
 
-  const handleDelete = (i) => {
-    setGoals(prevState => {
-      const state = [...prevState]
-      state[i].isDeleted = true
-      setCurrentGoals(state)
-      return state
-    })
-  }
+  const handleDelete = (i) => deleteGoal(projectId, i)
 
   return (
     <TableContainer component={Paper} className={classes.container}>
@@ -157,9 +151,8 @@ const GoalTable = ({ currentGoals, editable, setCurrentGoals }) => {
 }
 
 GoalTable.propTypes = {
-  currentGoals: PropTypes.array,
+  projectId: PropTypes.string,
   editable: PropTypes.bool,
-  setCurrentGoals: PropTypes.func
 }
 
 GoalTable.defaultProps = {

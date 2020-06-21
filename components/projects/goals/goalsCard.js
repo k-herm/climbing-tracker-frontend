@@ -109,11 +109,11 @@ const GoalsCard = ({ project }) => {
         projectData={project}
       />
       {/* for pyramid buttons only */}
-      <ClimbDataDialog
+      {/* <ClimbDataDialog
         open={openClimbData}
         onClose={() => setOpenClimbData(false)}
       // data={data && data.}
-      />
+      /> */}
     </>
   )
 }

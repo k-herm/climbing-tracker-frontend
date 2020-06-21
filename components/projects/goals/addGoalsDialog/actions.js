@@ -1,4 +1,4 @@
-import { reverseFormatGradeValue } from '~/src/app/utils'
+import { formatGradeValue, reverseFormatGradeValue } from '~/src/app/utils'
 import { GRADES } from '~/src/app/constants'
 import { GET_ALL_PROJECTS_DATA, GET_GOALS_FOR_PROJECT } from '~/src/app/Queries/projectData'
 
@@ -28,6 +28,14 @@ const update = (cache, goalData, projectData, type) => {
     project.goals = [...project.goals, { ...goalData }]
     goals.goals = [...goals.goals, { ...goalData }]
   }
+  if (type === 'edit') {
+    const newGoals = [...project.goals]
+    const goalToEdit = newGoals.find(goal => goal._id === goalId)
+    //READ ONLY
+    goalToEdit = { ...goalData }
+    project.goals = [...newGoals]
+    goals.goals = [...newGoals]
+  }
 
   cache.writeQuery({ query: GET_ALL_PROJECTS_DATA, data: projects })
   cache.writeQuery({
@@ -38,7 +46,6 @@ const update = (cache, goalData, projectData, type) => {
 }
 
 export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]) => {
-  console.log("GOALSSSSSS>", goals);
   return goals.forEach(goal => {
     if (goal._id && goal.isDeleted) {
       del({
@@ -58,7 +65,10 @@ export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]
     // ADDING EXTRA GOALS WHEN IT SHOULD BE EDITING
     // TABLE NOT SYNCED - adding additional goals to array, not deleting, etc
     if (goal._id) {
-      edit({ variables: { id: goal._id, ...variables } })
+      edit({
+        variables: { id: goal._id, ...variables },
+        update: (cache, { data }) => update(cache, data.editGoal, projectData, 'edit'),
+      })
       return
     }
 
@@ -84,19 +94,26 @@ export const deleteAllGoals = (goals, del) => {
   )
 }
 
-export const createPyramid = (projectGrade, projectId, addGoal) => {
+export const createPyramid = (projectData, addGoalMutation, addGoalToState) => {
   const NUM_CLIMBS = [2, 4, 3, 3]
+  const projectGrade = formatGradeValue(projectData.grade)
   const index = GRADES.findIndex(grade => grade === projectGrade)
 
   for (let i = 0; i < 4; i++) {
     if (index - i - 1 < 0) break
-    addGoal({
-      variables: {
-        projectId,
-        grade: reverseFormatGradeValue(GRADES[index - i - 1]),
-        numberClimbsToComplete: NUM_CLIMBS[i],
-        isCustom: false
-      }
+
+    const variables = {
+      projectId: projectData._id,
+      climbStyle: projectData.climbStyle,
+      grade: reverseFormatGradeValue(GRADES[index - i - 1]),
+      numberClimbsToComplete: NUM_CLIMBS[i],
+      isCustom: false
+    }
+
+    addGoalMutation({
+      variables,
+      update: (cache, { data }) => update(cache, data.addGoal, projectData, 'add'),
     })
+    // addGoalToState(projectData._id, { ...variables })
   }
 }

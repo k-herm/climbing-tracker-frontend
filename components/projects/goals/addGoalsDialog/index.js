@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
@@ -13,9 +13,11 @@ import {
 } from '@material-ui/core'
 import ConfirmDialog from '~/components/confirmDialog'
 import GoalTable from '../goalTable'
+
 import { ADD_GOAL, EDIT_GOAL, DELETE_GOAL } from '~/src/app/Mutations/project'
-import { formatGradeValue } from '~/src/app/utils'
 import * as actions from './actions'
+import { useProjects } from '~/src/app/Hooks/useProjects'
+import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
 
 const useStyles = makeStyles((theme) => ({
   createButton: {
@@ -30,29 +32,29 @@ const useStyles = makeStyles((theme) => ({
 
 const AddGoalsDialog = ({ open, onClose, projectData }) => {
   const classes = useStyles()
+  const [state] = useContext(ProjectsContext)
+  const projectIndex = state.projects.findIndex(project => project._id === projectData._id)
+
+  const [goals, setGoals] = useState([])
+  const { getGoals, addGoal: addGoalToState, clearGoals } = useProjects()
+
+  useEffect(() => {
+    setGoals(state.projects[projectIndex].goals)
+  }, [state.projects[projectIndex].goals])
 
   const [addGoal] = useMutation(ADD_GOAL)
   const [editGoal] = useMutation(EDIT_GOAL)
   const [deleteGoal] = useMutation(DELETE_GOAL)
 
   const [isConfirmDialogOpen, setIsConfirmDialogOpen] = useState(false)
-  const [isCustom, setIsCustom] = useState(projectData.goals.length ? projectData.goals[0].isCustom : true)
+  const [isCustom, setIsCustom] = useState(goals.length ? goals[0].isCustom : true)
   const [error, setError] = useState(null)
-  const [goals, setGoals] = useState(() => {
-    if (projectData.goals.length) {
-      return projectData.goals.map(goal => ({
-        ...goal,
-        grade: formatGradeValue(goal.grade)
-      }))
-    }
-    return []
-  })
 
   const onCloseConfirmDialog = () => setIsConfirmDialogOpen(false)
   const onConfirm = () => {
     if (goals.length) {
       actions.deleteAllGoals(goals, deleteGoal)
-      setGoals([])
+      clearGoals(projectData._id)
       setIsConfirmDialogOpen(false)
     }
 
@@ -61,13 +63,15 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
 
     if (buildPyramid) {
       actions.createPyramid(
-        formatGradeValue(projectData.grade),
-        projectData._id,
-        addGoal
+        projectData,
+        addGoal,
+        addGoalToState
       )
       onClose()
     }
   }
+
+
 
   const switchIsCustom = () => {
     if (goals.length) {
@@ -125,7 +129,7 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
               </DialogContentText>
             }
             <form method="post" onSubmit={onSubmit}>
-              <GoalTable currentGoals={goals} setCurrentGoals={setGoals} editable={isCustom} />
+              <GoalTable projectId={projectData._id} />
               <DialogActions>
                 <Button color="secondary" onClick={onClose}>
                   Cancel
