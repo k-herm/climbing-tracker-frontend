@@ -99,7 +99,7 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
   return (
     <>
       {!isConfirmDialogOpen ?
-        <Dialog open={open} onClose={onClose} aria-labelledby="add-goal-dialog">
+        <Dialog open={open} onClose={onClose} aria-labelledby="add-goal-dialog" maxWidth="lg">
           <DialogTitle>Add Goals</DialogTitle>
           <DialogContent>
             <DialogContentText>

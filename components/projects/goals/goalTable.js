@@ -69,7 +69,7 @@ const GoalTable = ({ goals, editable, setGoals }) => {
 
   return (
     <TableContainer component={Paper} className={classes.container}>
-      <Table size="small" aria-label="goals table">
+      <Table size="small" aria-label="goals-table">
         <TableHead>
           <TableRow>
             <TableCell align="left">

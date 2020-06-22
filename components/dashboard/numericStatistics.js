@@ -51,7 +51,7 @@ const NumericStatistics = ({ data }) => {
     <Container maxWidth='sm'>
       <Grid container spacing={1}>
         <Grid item xs={6}>
-          <StatContainer title='Total Vertical' data={totalVertical} />
+          <StatContainer title='Total Vertical (m)' data={totalVertical} />
         </Grid>
         <Grid item xs={6}>
           <StatContainer title='Highest Redpoint' data={highestRedpoint} />

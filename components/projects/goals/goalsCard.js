@@ -31,13 +31,15 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     textAlign: 'center',
-    margin: theme.spacing(2),
     position: 'relative',
     margin: `${theme.spacing(2)}px 0`
   },
   label: {
     ...theme.noDataBox,
     height: '100px'
+  },
+  topMargin: {
+    marginTop: theme.spacing(4)
   }
 }))
 
@@ -101,15 +103,17 @@ const GoalsCard = ({ project }) => {
             {error ? <NetworkError /> : <CircularProgress />}
           </Box>)
         }
-        <GoalsList
-          projectData={projectData}
-          data={data && data.goals}
-          openDialog={(goal) => {
-            setGoalButtonData(goal)
-            setOpenClimbData(true)
-          }}
-          pyramidView={!isCustom}
-        />
+        <Box className={classes.topMargin}>
+          <GoalsList
+            projectData={projectData}
+            data={data && data.goals}
+            openDialog={(goal) => {
+              setGoalButtonData(goal)
+              setOpenClimbData(true)
+            }}
+            pyramidView={!isCustom}
+          />
+        </Box>
       </Card>
       <AddGoalsDialog
         open={openDialog}
