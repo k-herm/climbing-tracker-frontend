@@ -10,11 +10,12 @@ import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles(() => ({
   container: {
-    width: 265
+    maxWidth: ({ maxWidth }) => maxWidth || 265,
+    margin: 0
   }
 }))
-const CustomDatePicker = ({ updateState, initialState }) => {
-  const { container } = useStyles()
+const CustomDatePicker = ({ label, maxWidth, updateState, initialState }) => {
+  const { container } = useStyles({ maxWidth })
   const [state, setState] = useState(initialState)
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils} >
@@ -24,7 +25,7 @@ const CustomDatePicker = ({ updateState, initialState }) => {
         autoOk
         disableFuture
         margin="normal"
-        label="Date completed"
+        label={label}
         name="date"
         value={state}
         format="MMM do, yyyy"
@@ -38,7 +39,13 @@ const CustomDatePicker = ({ updateState, initialState }) => {
 }
 
 CustomDatePicker.propTypes = {
+  label: PropTypes.string,
+  maxWidth: PropTypes.number,
   updateState: PropTypes.func
+}
+
+CustomDatePicker.defaultProps = {
+  maxWidth: 265
 }
 
 export default CustomDatePicker

@@ -163,6 +163,7 @@ const AddClimbForm = ({ onClose }) => {
         </Grid>
         <Grid item>
           <CustomDatePicker
+            label="Date Completed"
             initialState={state.date}
             updateState={(value) => handleClick('date', value)}
           />

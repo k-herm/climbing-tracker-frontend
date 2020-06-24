@@ -25,13 +25,21 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   container: {
-    margin: `${theme.spacing(2)}px 0`
+    margin: `${theme.spacing(2)}px 0`,
+  },
+  textField: {
+    width: '75px'
+  },
+  itemRow: {
+    '& > .MuiTableCell-sizeSmall': {
+      padding: theme.spacing(1)
+    }
   }
 }))
 
 const createEmptyAttempt = () => ({
   date: new Date(),
-  attemptType: 'Redpoint',
+  attemptType: 'redpoint',
   numberOfAttempts: 1,
   send: false
 })
@@ -39,6 +47,12 @@ const createEmptyAttempt = () => ({
 const AttemptTable = ({ attempts, setAttempts }) => {
   const classes = useStyles()
   const [isError, setIsError] = useState(false)
+
+  useEffect(() => {
+    if (!attempts.length) {
+      setAttempts([createEmptyAttempt()])
+    }
+  }, [])
 
   // const isDuplicate = () =>
   //   attempts.some(goal => goal.grade === grade && !goal.isDeleted)
@@ -72,7 +86,7 @@ const AttemptTable = ({ attempts, setAttempts }) => {
     <TableContainer component={Paper} className={classes.container}>
       <Table size="small" aria-label="attempts-table">
         <TableHead>
-          <TableRow>
+          <TableRow className={classes.itemRow}>
             <TableCell align="left">
               Attempt
             </TableCell>
@@ -107,7 +121,7 @@ const AttemptTable = ({ attempts, setAttempts }) => {
 
         <TableBody>
           {attempts.map((attempt, i) =>
-            <TableRow key={i}>
+            <TableRow key={i} className={classes.itemRow}>
               <TableCell>
                 <Select
                   labelId="select-attempt-type"
@@ -121,6 +135,7 @@ const AttemptTable = ({ attempts, setAttempts }) => {
               </TableCell>
               <TableCell>
                 <TextField
+                  className={classes.textField}
                   name="numberOfAttempts"
                   inputProps={{
                     'aria-label': 'numberOfAttempts',
@@ -132,7 +147,10 @@ const AttemptTable = ({ attempts, setAttempts }) => {
                 />
               </TableCell>
               <TableCell>
-                <CustomDatePicker updateState={value => handleChange(i, 'date', value)} />
+                <CustomDatePicker
+                  maxWidth={150}
+                  updateState={value => handleChange(i, 'date', value)}
+                />
               </TableCell>
               <TableCell align="right">
                 <IconButton

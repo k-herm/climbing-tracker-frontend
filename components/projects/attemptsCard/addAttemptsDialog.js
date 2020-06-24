@@ -11,6 +11,7 @@ import {
   DialogActions,
   Grid,
 } from '@material-ui/core'
+import { useMediaQuery } from '@material-ui/core'
 import AttemptTable from './attemptTable'
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +27,8 @@ const useStyles = makeStyles((theme) => ({
 
 const AddAttemptsDialog = ({ open, onClose, projectData }) => {
   const classes = useStyles()
-
+  const fullScreen = useMediaQuery('(max-width: 420px)')
+  console.log(fullScreen)
   const [attempts, setAttempts] = useState([])
   // const [addGoal] = useMutation(ADD_GOAL)
   // const [editGoal] = useMutation(EDIT_GOAL)
@@ -55,7 +57,13 @@ const AddAttemptsDialog = ({ open, onClose, projectData }) => {
   }
 
   return (
-    <Dialog open={open} onClose={onClose} aria-labelledby="add-attempt-dialog" maxWidth="lg">
+    <Dialog
+      open={open}
+      onClose={onClose}
+      aria-labelledby="add-attempt-dialog"
+      maxWidth="lg"
+      fullScreen={fullScreen}
+    >
       <DialogTitle>Add Project Attempts</DialogTitle>
       <DialogContent>
         {/* <DialogContentText>
