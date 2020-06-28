@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react'
+import { Fragment } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -19,6 +19,8 @@ import AddCircleIcon from '@material-ui/icons/AddCircle'
 import DeleteIcon from '@material-ui/icons/Delete'
 
 import CustomDatePicker from '../../formComponents/customDatePicker'
+
+import { useAttemptTable } from './useAttemptTable'
 
 const useStyles = makeStyles(theme => ({
   button: {
@@ -56,58 +58,29 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const createEmptyAttempt = () => ({
-  date: new Date(),
-  attemptType: 'redpoint',
-  numberOfAttempts: 1,
-  send: false
-})
-
 const CondensedAttemptTable = ({ attempts, setAttempts }) => {
   const classes = useStyles()
 
-  const [isError, setIsError] = useState(false)
-
-  useEffect(() => {
-    if (!attempts.length) {
-      setAttempts([createEmptyAttempt()])
-    }
-  }, [])
-
-  // const isDuplicate = () =>
-  //   attempts.some(goal => goal.grade === grade && !goal.isDeleted)
-
-  const handleChange = (index, key, value) => {
-    // if (isDuplicate(value)) {
-    //   setIsError(true)
-    //   return
-    // }
-    // setIsError(false)
-    setAttempts(prevState => {
-      const state = [...prevState]
-      state[index][key] = value
-      return state
-    })
-  }
-
-  const handleAdd = () => {
-    setAttempts([...attempts, createEmptyAttempt()])
-  }
-
-  const handleDelete = (i) => {
-    setAttempts(prevState => {
-      const state = [...prevState]
-      state.splice(i, 1)
-      return state
-    })
-  }
+  const {
+    handleChange,
+    handleAdd,
+    handleDelete,
+    isError
+  } = useAttemptTable(attempts, setAttempts)
 
   return (
     <TableContainer component={Paper} className={classes.container}>
       <Table size="small" aria-label="attempts-table-condensed">
         <TableHead>
           <TableRow className={classes.headerRow}>
-            <TableCell align="right" colspan="3">
+            {isError &&
+              <TableCell align="left" colSpan="2">
+                <Typography variant="caption" color="error" align='center'>
+                  Oops! Cannot contain duplicate entries.
+                  </Typography>
+              </TableCell>
+            }
+            <TableCell align="right" colspan={isError ? '1' : '3'}>
               <IconButton
                 className={classes.button}
                 color="primary"
@@ -130,6 +103,7 @@ const CondensedAttemptTable = ({ attempts, setAttempts }) => {
                 </TableCell>
                 <TableCell>
                   <CustomDatePicker
+                    initialState={attempt.date}
                     maxWidth={150}
                     updateState={value => handleChange(i, 'date', value)}
                   />

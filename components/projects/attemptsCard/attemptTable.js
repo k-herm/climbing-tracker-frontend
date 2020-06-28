@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import {
@@ -20,6 +20,8 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import CustomDatePicker from '../../formComponents/customDatePicker'
 
+import { useAttemptTable } from './useAttemptTable'
+
 const useStyles = makeStyles(theme => ({
   button: {
     padding: 0
@@ -37,51 +39,15 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const createEmptyAttempt = () => ({
-  date: new Date(),
-  attemptType: 'redpoint',
-  numberOfAttempts: 1,
-  send: false
-})
-
 const AttemptTable = ({ attempts, setAttempts }) => {
   const classes = useStyles()
 
-  const [isError, setIsError] = useState(false)
-
-  useEffect(() => {
-    if (!attempts.length) {
-      setAttempts([createEmptyAttempt()])
-    }
-  }, [])
-
-  // const isDuplicate = () =>
-  //   attempts.some(goal => goal.grade === grade && !goal.isDeleted)
-
-  const handleChange = (index, key, value) => {
-    // if (isDuplicate(value)) {
-    //   setIsError(true)
-    //   return
-    // }
-    // setIsError(false)
-    setAttempts(prevState => {
-      const state = [...prevState]
-      state[index][key] = value
-      return state
-    })
-  }
-
-  const handleAdd = () => {
-    setAttempts([...attempts, createEmptyAttempt()])
-  }
-
-  const handleDelete = (i) => {
-    setAttempts(prevState => {
-      const state = [...prevState]
-      state.splice(i, 1)
-      return state
-    })
-  }
+  const {
+    handleChange,
+    handleAdd,
+    handleDelete,
+    isError
+  } = useAttemptTable(attempts, setAttempts)
 
   return (
     <TableContainer component={Paper} className={classes.container}>
@@ -125,6 +91,7 @@ const AttemptTable = ({ attempts, setAttempts }) => {
             <TableRow key={i} className={classes.itemRow}>
               <TableCell>
                 <CustomDatePicker
+                  initialState={attempt.date}
                   maxWidth={150}
                   updateState={value => handleChange(i, 'date', value)}
                 />
