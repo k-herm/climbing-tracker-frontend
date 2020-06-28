@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
+import { useMediaQuery } from '@material-ui/core'
 import {
   Button,
   Dialog,
@@ -18,6 +19,11 @@ import { formatGradeValue } from '~/src/app/utils'
 import * as actions from './actions'
 
 const useStyles = makeStyles((theme) => ({
+  widerDialog: {
+    '& .MuiDialog-paper': {
+      margin: theme.spacing(1)
+    }
+  },
   createButton: {
     maxWidth: theme.button.maxWidth
   },
@@ -30,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const AddGoalsDialog = ({ open, onClose, projectData }) => {
   const classes = useStyles()
+  const widerDialog = useMediaQuery('(max-width: 420px)')
 
   const [addGoal] = useMutation(ADD_GOAL)
   const [editGoal] = useMutation(EDIT_GOAL)
@@ -99,7 +106,13 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
   return (
     <>
       {!isConfirmDialogOpen ?
-        <Dialog open={open} onClose={onClose} aria-labelledby="add-goal-dialog" maxWidth="lg">
+        <Dialog
+          open={open}
+          onClose={onClose}
+          aria-labelledby="add-goal-dialog"
+          maxWidth="sm"
+          className={widerDialog ? classes.widerDialog : undefined}
+        >
           <DialogTitle>Add Goals</DialogTitle>
           <DialogContent>
             <DialogContentText>
@@ -124,7 +137,9 @@ const AddGoalsDialog = ({ open, onClose, projectData }) => {
               </DialogContentText>
             }
             <form method="post" onSubmit={onSubmit}>
-              <GoalTable goals={goals} setGoals={setGoals} editable={isCustom} />
+              <Grid container justify="center">
+                <GoalTable goals={goals} setGoals={setGoals} editable={isCustom} />
+              </Grid>
               <DialogActions>
                 <Button color="secondary" onClick={onClose}>
                   Cancel

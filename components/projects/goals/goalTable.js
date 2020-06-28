@@ -23,7 +23,20 @@ const useStyles = makeStyles(theme => ({
     padding: 0
   },
   container: {
-    margin: `${theme.spacing(2)}px 0`
+    margin: `${theme.spacing(2)}px 0`,
+    maxWidth: 450,
+    '& .MuiTableCell-sizeSmall': {
+      paddingRight: theme.spacing(2)
+    }
+  },
+  tableCell: {
+    maxWidth: 200,
+    '& input[type="number"]': {
+      maxWidth: 150
+    }
+  },
+  tableCellIcon: {
+    maxWidth: 40
   }
 }))
 
@@ -106,7 +119,7 @@ const GoalTable = ({ goals, editable, setGoals }) => {
         <TableBody>
           {goals.map((goal, i) => !goal.isDeleted &&
             <TableRow key={i}>
-              <TableCell>
+              <TableCell className={classes.tableCell}>
                 {editable
                   ?
                   <GradeSelect
@@ -117,7 +130,7 @@ const GoalTable = ({ goals, editable, setGoals }) => {
                   : goal.grade
                 }
               </TableCell>
-              <TableCell>
+              <TableCell className={classes.tableCell}>
                 {editable
                   ?
                   <TextField
@@ -133,7 +146,7 @@ const GoalTable = ({ goals, editable, setGoals }) => {
                   : goal.numberClimbsToComplete
                 }
               </TableCell>
-              <TableCell align="right">
+              <TableCell align="right" className={classes.tableCellIcon}>
                 {editable &&
                   <IconButton
                     className={classes.button}

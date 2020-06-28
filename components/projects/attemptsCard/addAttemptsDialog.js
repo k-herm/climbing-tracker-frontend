@@ -13,8 +13,14 @@ import {
 } from '@material-ui/core'
 import { useMediaQuery } from '@material-ui/core'
 import AttemptTable from './attemptTable'
+import CondensedAttemptTable from './condensedAttemptTable'
 
 const useStyles = makeStyles((theme) => ({
+  widerDialog: {
+    '& .MuiDialog-paper': {
+      margin: theme.spacing(1)
+    }
+  },
   createButton: {
     maxWidth: theme.button.maxWidth
   },
@@ -27,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
 
 const AddAttemptsDialog = ({ open, onClose, projectData }) => {
   const classes = useStyles()
-  const fullScreen = useMediaQuery('(max-width: 420px)')
-  console.log(fullScreen)
+  const widerDialog = useMediaQuery('(max-width: 420px)')
+  const condenseTable = useMediaQuery('(max-width: 540px)')
+
   const [attempts, setAttempts] = useState([])
   // const [addGoal] = useMutation(ADD_GOAL)
   // const [editGoal] = useMutation(EDIT_GOAL)
@@ -61,8 +68,8 @@ const AddAttemptsDialog = ({ open, onClose, projectData }) => {
       open={open}
       onClose={onClose}
       aria-labelledby="add-attempt-dialog"
-      maxWidth="lg"
-      fullScreen={fullScreen}
+      maxWidth="sm"
+      className={widerDialog ? classes.widerDialog : undefined}
     >
       <DialogTitle>Add Project Attempts</DialogTitle>
       <DialogContent>
@@ -70,14 +77,19 @@ const AddAttemptsDialog = ({ open, onClose, projectData }) => {
           Having intermediate goals can help you achieve your project. Add custom goals or have them created for you.
         </DialogContentText> */}
 
-        <AttemptTable attempts={attempts} setAttempts={setAttempts} />
 
         {/* {error &&
               <DialogContentText className={classes.errorMessage}>
-                {`Oops! ${error}`}
+              {`Oops! ${error}`}
               </DialogContentText>
             } */}
         <form method="post" onSubmit={onSubmit}>
+          <Grid container justify="center">
+            {condenseTable
+              ? <CondensedAttemptTable attempts={attempts} setAttempts={setAttempts} />
+              : <AttemptTable attempts={attempts} setAttempts={setAttempts} />
+            }
+          </Grid>
           <DialogActions>
             <Button color="secondary" onClick={onClose}>
               Cancel

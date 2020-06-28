@@ -28,11 +28,11 @@ const useStyles = makeStyles(theme => ({
     margin: `${theme.spacing(2)}px 0`,
   },
   textField: {
-    width: '75px'
+    maxWidth: '75px'
   },
   itemRow: {
     '& > .MuiTableCell-sizeSmall': {
-      padding: theme.spacing(1)
+      paddingRight: theme.spacing(2)
     }
   }
 }))
@@ -46,6 +46,7 @@ const createEmptyAttempt = () => ({
 
 const AttemptTable = ({ attempts, setAttempts }) => {
   const classes = useStyles()
+
   const [isError, setIsError] = useState(false)
 
   useEffect(() => {
@@ -88,13 +89,13 @@ const AttemptTable = ({ attempts, setAttempts }) => {
         <TableHead>
           <TableRow className={classes.itemRow}>
             <TableCell align="left">
+              Date
+              </TableCell>
+            <TableCell align="left">
               Attempt
             </TableCell>
             <TableCell align="left">
-              # Attempts
-            </TableCell>
-            <TableCell align="left">
-              Date
+              # Tries
             </TableCell>
             <TableCell align="right">
               <IconButton
@@ -123,6 +124,12 @@ const AttemptTable = ({ attempts, setAttempts }) => {
           {attempts.map((attempt, i) =>
             <TableRow key={i} className={classes.itemRow}>
               <TableCell>
+                <CustomDatePicker
+                  maxWidth={150}
+                  updateState={value => handleChange(i, 'date', value)}
+                />
+              </TableCell>
+              <TableCell>
                 <Select
                   labelId="select-attempt-type"
                   value={attempt.attemptType}
@@ -144,12 +151,6 @@ const AttemptTable = ({ attempts, setAttempts }) => {
                   value={attempt.numberOfAttempts}
                   type="number"
                   onChange={e => handleChange(i, 'numberOfAttempts', e.target.value)}
-                />
-              </TableCell>
-              <TableCell>
-                <CustomDatePicker
-                  maxWidth={150}
-                  updateState={value => handleChange(i, 'date', value)}
                 />
               </TableCell>
               <TableCell align="right">
@@ -175,8 +176,8 @@ AttemptTable.propTypes = {
   setattempts: PropTypes.func
 }
 
-// AttemptTable.defaultProps = {
-//   editable: true
-// }
+AttemptTable.defaultProps = {
+  attempts: []
+}
 
 export default AttemptTable

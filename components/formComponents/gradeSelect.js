@@ -13,7 +13,7 @@ import { GRADES } from '~/src/app/constants'
 const useStyles = makeStyles({
   selectGroup: {
     margin: '0',
-    minWidth: 120,
+    width: '100%',
   },
 })
 
