@@ -1,12 +1,13 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Box, LinearProgress, Typography } from '@material-ui/core'
+import { Box, Container, LinearProgress, Typography } from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
 
 import Header from '~/components/header'
 import NetworkError from '~/components/networkError'
 import NumericStatistics from '~/components/dashboard/numericStatistics'
-import ChartsContainer from '~/components/dashboard/charts/chartsContainer'
+import GradesSection from '~/components/dashboard/charts/gradesSection'
+import ClimbStyleSection from '~/components/dashboard/charts/climbStyleSection'
 
 import { GET_NUMERIC_STATS } from '~/src/app/Queries/statistics'
 import { useUserData } from '~/src/app/Hooks/userData'
@@ -60,7 +61,10 @@ const Dashboard = () => {
               Analytics
             </Typography>
           </Box>
-          <ChartsContainer />
+          <Container maxWidth="md">
+            <GradesSection />
+            <ClimbStyleSection />
+          </Container>
         </>
       }
     </Box>

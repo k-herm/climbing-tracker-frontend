@@ -1,12 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import {
-  Backdrop,
   Box,
   Button,
   Checkbox,
-  CircularProgress,
   FormControlLabel,
   Grid,
   TextField,
@@ -15,21 +13,18 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 
 import GradeSelect from '../formComponents/gradeSelect'
-import EditablePitchesTable from '../formComponents/editablePitchesTable'
+import PitchesTable from '../formComponents/pitchesTable'
 import ClimbStylesButtonGroup from '../formComponents/climbStyleButtonGroup'
 import AttemptButtonGroup from '../formComponents/attemptButtonGroup'
 import CustomDatePicker from '../formComponents/customDatePicker'
 import ClimbStyleChipFilter from '../formComponents/climbStyleChipFilter'
 import Notification from '../notification'
 
-import { getDateString, reverseFormatGradeValue } from '~/src/app/utils'
+import { getDateString, formatGradeValue, reverseFormatGradeValue, getHigherGrade } from '~/src/app/utils'
 import { ADD_CLIMB } from '~/src/app/Mutations/climb'
+import { GET_NUMERIC_STATS, GET_GRADES_CHARTS, GET_CLIMBSTYLE_CHARTS } from '~/src/app/Queries/statistics'
 
 const useStyles = makeStyles(theme => ({
-  backdrop: {
-    zIndex: theme.zIndex.drawer + 1,
-    color: '#fff',
-  },
   flexGroup: {
     display: 'flex',
     alignItems: 'center',
@@ -51,10 +46,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const AddClimbForm = ({ onClose }) => {
-  const [addClimb, {
-    loading: mutationLoading,
-    error: mutationError
-  }] = useMutation(ADD_CLIMB, {
+  const { flexGroup, form, formControlCheck, textField } = useStyles()
+
+  const [addClimb, { error: mutationError }] = useMutation(ADD_CLIMB, {
     refetchQueries: [
       'NumericStats',
       'GradesChart',
@@ -63,7 +57,6 @@ const AddClimbForm = ({ onClose }) => {
     awaitRefetchQueries: true
   })
 
-  const { backdrop, flexGroup, form, formControlCheck, textField } = useStyles()
   const [state, setState] = useState({
     name: '',
     location: '',
@@ -77,9 +70,14 @@ const AddClimbForm = ({ onClose }) => {
     send: false
   })
   const [error, setError] = useState(null)
-  const [isTableInEdit, setIsTableInEdit] = useState(false)
-  const [openBackdrop, setOpenBackdrop] = useState(false)
   const [isErrorNotification, setIsErrorNotification] = useState(false)
+
+  useEffect(() => {
+    if (mutationError) {
+      setIsErrorNotification(true)
+      setTimeout(() => setIsErrorNotification(false), 4000)
+    }
+  }, [mutationError])
 
   const handleClick = (name, value) => {
     setState(prevState => ({
@@ -91,12 +89,10 @@ const AddClimbForm = ({ onClose }) => {
   const onSubmit = (e) => {
     e.preventDefault()
     try {
-      if (!state.grade || !state.pitches.length) {
-        throw new Error('Looks like the grade or pitches is missing.')
+      if (!state.pitches.length) {
+        throw new Error('Looks like the grade or number of pitches is missing.')
       }
-      if (isTableInEdit) {
-        throw new Error('Looks like the pitches table is still being edited.')
-      }
+
       const variables = { ...state }
       variables.date = getDateString(variables.date)
       variables.grade = reverseFormatGradeValue(variables.grade)
@@ -105,17 +101,8 @@ const AddClimbForm = ({ onClose }) => {
         numberPitches: Number.parseInt(pitch.numberPitches)
       }))
 
-      setOpenBackdrop(true)
       addClimb({ variables })
-
-      if (!mutationLoading) {
-        setOpenBackdrop(false)
-        if (mutationError) {
-          setIsErrorNotification(true)
-          setTimeout(() => setIsErrorNotification(false), 4000)
-        }
-        onClose()
-      }
+      onClose()
     } catch (error) {
       setError(error)
     }
@@ -123,16 +110,6 @@ const AddClimbForm = ({ onClose }) => {
 
   return (
     <>
-      {error &&
-        <Typography variant="caption" color="error" align="center">
-          {`Oops! ${error}`}
-        </Typography>
-      }
-
-      <Backdrop open={openBackdrop} className={backdrop}>
-        <CircularProgress />
-      </Backdrop>
-
       <Notification
         id="addClimbError"
         open={isErrorNotification}
@@ -216,11 +193,17 @@ const AddClimbForm = ({ onClose }) => {
             />
           </Box>
         </Grid>
+        {error &&
+          <Grid item>
+            <Typography variant="caption" color="error" align="center">
+              {`Oops! ${error}`}
+            </Typography>
+          </Grid>
+        }
         <Grid item>
-          <EditablePitchesTable
+          <PitchesTable
             rowData={state.pitches}
             saveData={(data) => handleClick('pitches', data)}
-            getIsInEdit={(val) => setIsTableInEdit(val)}
           />
         </Grid>
         <Grid item>
