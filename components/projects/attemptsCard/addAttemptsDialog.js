@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
@@ -14,6 +14,10 @@ import {
 import { useMediaQuery } from '@material-ui/core'
 import AttemptTable from './attemptTable'
 import CondensedAttemptTable from './condensedAttemptTable'
+
+import { ADD_ATTEMPT } from '~/src/app/Mutations/project'
+import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
+import { getDateString } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   widerDialog: {
@@ -36,26 +40,54 @@ const AddAttemptsDialog = ({ open, onClose, projectData }) => {
   const widerDialog = useMediaQuery('(max-width: 420px)')
   const condenseTable = useMediaQuery('(max-width: 540px)')
 
+  const [error, setError] = useState('')
   const [attempts, setAttempts] = useState([])
-  // const [addGoal] = useMutation(ADD_GOAL)
-  // const [editGoal] = useMutation(EDIT_GOAL)
-  // const [deleteGoal] = useMutation(DELETE_GOAL)
+  const [addAttempt] = useMutation(ADD_ATTEMPT)
 
-  // const [error, setError] = useState(null)
+  const updateMutation = (cache, attempt) => {
+    const projects = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })
+    const project = projects.projects.find(project => project._id === projectData._id)
+    const newAttempt = project.attempts.find(a => a.attemptType === attempt.attemptType)
+    if (!newAttempt) {
+      project.attempts = [{
+        attemptType: attempt.attemptType,
+        count: 1,
+        sendCount: 0
+      }]
+    }
+    else {
+      newAttempt.count += 1
+    }
+
+    cache.writeQuery({ query: GET_ALL_PROJECTS_DATA, data: projects })
+  }
 
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      // if (goals.some(goal => goal.grade === '')) {
-      //   throw new Error("Looks like you're missing some information.")
-      // }
-      // setError(null)
-      // actions.setGoalsMutations(
-      //   projectData,
-      //   goals,
-      //   isCustom,
-      //   [addGoal, editGoal, deleteGoal]
-      // )
+      attempts.forEach(attempt => {
+        const variables = {
+          projectId: projectData._id,
+          date: getDateString(attempt.date),
+          attemptType: attempt.attemptType,
+          send: attempt.send
+        }
+
+        for (let i = 0; i < attempt.numberOfAttempts; i++) {
+          addAttempt({
+            variables,
+            update: (cache, { data }) => updateMutation(cache, attempt),
+            optimisticResponse: {
+              __typename: 'Mutation',
+              addAttempt: {
+                __typename: 'Attempt',
+                _id: '1',
+                ...variables
+              }
+            }
+          })
+        }
+      })
       onClose()
     }
     catch (error) {
@@ -73,16 +105,11 @@ const AddAttemptsDialog = ({ open, onClose, projectData }) => {
     >
       <DialogTitle>Add Project Attempts</DialogTitle>
       <DialogContent>
-        {/* <DialogContentText>
-          Having intermediate goals can help you achieve your project. Add custom goals or have them created for you.
-        </DialogContentText> */}
-
-
-        {/* {error &&
-              <DialogContentText className={classes.errorMessage}>
-              {`Oops! ${error}`}
-              </DialogContentText>
-            } */}
+        {error &&
+          <DialogContentText className={classes.errorMessage}>
+            {`Oops! ${error}`}
+          </DialogContentText>
+        }
         <form method="post" onSubmit={onSubmit}>
           <Grid container justify="center">
             {condenseTable

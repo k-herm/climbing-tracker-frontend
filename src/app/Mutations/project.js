@@ -64,22 +64,24 @@ export const DELETE_GOAL = gql`
   }
 `
 
-
-// args: {
-//   projectId: {
-//     type: GraphQLID,
-//     description: 'Project Id'
-//   },
-//   date: {
-//     type: GraphQLDate,
-//     description: 'Date attempted'
-//   },
-//   attemptType: {
-//     type: new GraphQLNonNull(AttemptEnum),
-//     description: 'Style of attempt'
-//   },
-//   send: {
-//     type: new GraphQLNonNull(GraphQLBoolean),
-//     description: 'climb without takes or falls'
-//   }
-// },
+export const ADD_ATTEMPT = gql`
+  mutation AddAttempt(
+    $projectId: ID,
+    $date: Date,
+    $attemptType: AttemptEnum!,
+    $send: Boolean!
+  ) {
+    addAttempt(
+      projectId: $projectId,
+      date: $date,
+      attemptType: $attemptType,
+      send: $send
+    ) {
+      _id,
+      projectId,
+      date,
+      attemptType,
+      send
+    }
+  }
+`

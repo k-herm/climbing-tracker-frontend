@@ -80,7 +80,7 @@ const CondensedAttemptTable = ({ attempts, setAttempts }) => {
                   </Typography>
               </TableCell>
             }
-            <TableCell align="right" colspan={isError ? '1' : '3'}>
+            <TableCell align="right" colSpan={isError ? '1' : '3'}>
               <IconButton
                 className={classes.button}
                 color="primary"
@@ -104,7 +104,6 @@ const CondensedAttemptTable = ({ attempts, setAttempts }) => {
                 <TableCell>
                   <CustomDatePicker
                     initialState={attempt.date}
-                    maxWidth={150}
                     updateState={value => handleChange(i, 'date', value)}
                   />
                 </TableCell>
