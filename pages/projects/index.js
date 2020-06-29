@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import { useQuery } from '@apollo/react-hooks'
 import { Box, Card, LinearProgress, Typography } from '@material-ui/core'
@@ -8,7 +8,6 @@ import NetworkError from '~/components/networkError'
 import ClickableList from '~/components/clickableList'
 import HeadlineCover from '~/components/headlineCover'
 
-import { ProjectsContext } from '~/src/app/Contexts/ProjectsStore'
 import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { formatGradeValue } from '~/src/app/utils'
 
@@ -26,15 +25,8 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Projects = () => {
-  const { setProjects } = useContext(ProjectsContext)
   const { card, container, headline } = useStyles()
   const { loading, data, error } = useQuery(GET_ALL_PROJECTS_DATA)
-
-  useEffect(() => {
-    if (data && data.projects.length) {
-      setProjects(data.projects)
-    }
-  }, [data])
 
   if (error) {
     return <NetworkError />

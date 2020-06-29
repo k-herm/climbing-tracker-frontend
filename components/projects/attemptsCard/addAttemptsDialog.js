@@ -50,6 +50,7 @@ const AddAttemptsDialog = ({ open, onClose, projectData }) => {
     const newAttempt = project.attempts.find(a => a.attemptType === attempt.attemptType)
     if (!newAttempt) {
       project.attempts = [{
+        __typename: 'AttemptTypes',
         attemptType: attempt.attemptType,
         count: 1,
         sendCount: 0
