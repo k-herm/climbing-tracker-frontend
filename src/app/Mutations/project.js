@@ -1,5 +1,42 @@
 import gql from 'graphql-tag'
 
+export const ADD_PROJECT = gql`
+  mutation AddProject(
+    $name: String!,
+    $location: String,
+    $completedDate: Date,
+    $climbStyle: ClimbStyleEnum!,
+    $grade: GradeEnum!,
+    $totalLength: Int,
+    $pitches: [PitchInput]!,
+    $routeStyle: [RouteStyleEnumT],
+  ) {
+    addProject(
+      name: $name,
+      location: $location,
+      completedDate: $completedDate
+      climbStyle: $climbStyle,
+      grade: $grade,
+      totalLength: $totalLength,
+      pitches: $pitches,
+      routeStyle: $routeStyle,
+    ) {
+      _id
+      name
+      location
+      completedDate
+      climbStyle
+      grade
+      totalLength
+      pitches {
+        grade
+        numberPitches
+      }
+      routeStyle
+    }
+  }
+`
+
 export const ADD_GOAL = gql`
   mutation AddGoal(
     $projectId: ID,

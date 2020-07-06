@@ -52,7 +52,7 @@ const FullScreenFormModal = ({ formContent, item, open, onClose }) => {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container maxWidth='sm'>
+      <Container maxWidth='sm' disableGutters>
         <FormContainer title={`Enter a ${item}`}>
           {formContent}
         </FormContainer>

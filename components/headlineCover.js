@@ -12,7 +12,7 @@ const useStyles = makeStyles({
     marginTop: '-10%'
   },
   emptySpace: {
-    height: '20vh'
+    height: '30vh'
   },
   media: {
     width: '100%'

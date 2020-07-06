@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import FullScreenFormModal from '~/components/formComponents/fullScreenFormModal'
 import AddClimbForm from '~/components/dashboard/addClimbForm'
+import AddProjectForm from '~/components/projects/addProjectForm'
 
 const useStyles = makeStyles((theme) => ({
   transition: {
@@ -16,7 +17,8 @@ const AddItem = () => {
   const [modalOpen, setModalOpen] = useState(true)
   const router = useRouter()
 
-  const [page, setPage] = useState(router.query.page)
+  const page = router.query.page
+  // const [page, setPage] = useState(router.query.page)
   const [item, setItem] = useState(null)
 
   useEffect(() => {
@@ -38,6 +40,7 @@ const AddItem = () => {
 
   const formPicker = {
     dashboard: <AddClimbForm onClose={handleOnClose} />,
+    projects: <AddProjectForm onClose={handleOnClose} />
   }
 
   return (
