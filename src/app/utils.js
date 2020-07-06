@@ -50,3 +50,6 @@ export const getHigherGrade = (a, b) => {
     case 1: return a
   }
 }
+
+export const sortArrayOfObjectsByGrade = (gradesArray, key) =>
+  gradesArray.sort((a, b) => sortTwoGrades(a[key], b[key]))

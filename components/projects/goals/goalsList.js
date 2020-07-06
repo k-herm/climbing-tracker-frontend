@@ -5,7 +5,7 @@ import { Box } from '@material-ui/core'
 
 import ClimbDataButton from './climbDataButton'
 import ClimbDataListItem from './climbDataListItem'
-import { formatGradeValue } from '~/src/app/utils'
+import { formatGradeValue, sortArrayOfObjectsByGrade } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
   boxContainer: {
@@ -25,7 +25,13 @@ const GoalsList = ({ projectData, data, pyramidView, openDialog }) => {
 
   useEffect(() => {
     if (data) {
-      const goals = data.map(goal => ({ ...goal, grade: formatGradeValue(goal.grade) })).reverse()
+      const goals = sortArrayOfObjectsByGrade(
+        data.map(goal => ({
+          ...goal,
+          grade: formatGradeValue(goal.grade)
+        })),
+        'grade'
+      ).reverse()
       setGoals(goals)
     }
   }, [data])

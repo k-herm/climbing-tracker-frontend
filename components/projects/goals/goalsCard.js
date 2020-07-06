@@ -65,11 +65,7 @@ const GoalsCard = ({ project }) => {
   const [projectData, setProjectData] = useState(project)
   useEffect(() => {
     if (data) {
-      setProjectData({
-        ...project,
-        goals: [...data.goals]
-      })
-
+      setProjectData({ ...project, goals: [...data.goals] })
       data.goals.length ? setIsCustom(data.goals[0].isCustom) : setIsCustom(true)
     } else {
       setProjectData({ ...project, goals: [] })

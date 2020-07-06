@@ -91,7 +91,7 @@ export const createPyramid = (projectData, addGoal) => {
   const projectGrade = formatGradeValue(projectData.grade)
   const index = GRADES.findIndex(grade => grade === projectGrade)
 
-  for (let i = 0; i < 4; i++) {
+  for (let i = 0; i < NUM_CLIMBS.length; i++) {
     if (index - i - 1 < 0) break
 
     const variables = {
