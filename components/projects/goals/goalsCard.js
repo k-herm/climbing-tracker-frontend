@@ -103,17 +103,20 @@ const GoalsCard = ({ project }) => {
             {error ? <NetworkError /> : <CircularProgress />}
           </Box>)
         }
-        <Box className={classes.topMargin}>
-          <GoalsList
-            projectData={projectData}
-            data={data && data.goals}
-            openDialog={(goal) => {
-              setGoalButtonData(goal)
-              setOpenClimbData(true)
-            }}
-            pyramidView={!isCustom}
-          />
-        </Box>
+        {data && data.goals.length ?
+          <Box className={classes.topMargin}>
+            <GoalsList
+              projectData={projectData}
+              data={data.goals}
+              openDialog={(goal) => {
+                setGoalButtonData(goal)
+                setOpenClimbData(true)
+              }}
+              pyramidView={!isCustom}
+            />
+          </Box>
+          : <></>
+        }
       </Card>
       <AddGoalsDialog
         open={openDialog}

@@ -32,21 +32,20 @@ const GoalsList = ({ projectData, data, pyramidView, openDialog }) => {
 
   useEffect(() => setIsPyramidView(pyramidView), [pyramidView])
 
-  const ClimbDataButtons = (goal) => {
+  const getClimbDataButtons = (goal) => {
     const climbButtons = []
     for (let i = 0; i < goal.numberClimbsToComplete; i++) {
-      const climbName = goal.climbsCompleted[i] ? goal.climbsCompleted[i].name : null
       const dialogData = {
         grade: goal.grade,
-        name: goal.climbsCompleted[i].name,
-        completedDate: goal.climbsCompleted[i].completedDate,
+        name: goal.climbsCompleted[i] && goal.climbsCompleted[i].name,
+        completedDate: goal.climbsCompleted[i] && goal.climbsCompleted[i].completedDate,
       }
       climbButtons.push(
         <ClimbDataButton
-          key={i + climbName}
+          key={i + goal.grade}
           grade={goal.grade}
           onClick={() => openDialog(dialogData)}
-          disabled={!climbName}
+          disabled={!goal.climbsCompleted[i]}
         />
       )
     }
@@ -68,19 +67,19 @@ const GoalsList = ({ projectData, data, pyramidView, openDialog }) => {
           </Box>
 
           <Box className={classes.flexContainer}>
-            {ClimbDataButtons(goals[0])}
+            {getClimbDataButtons(goals[0])}
           </Box>
           <Box className={classes.flexContainer}>
-            {ClimbDataButtons(goals[1])}
+            {getClimbDataButtons(goals[1])}
           </Box>
           <Box className={classes.flexContainer}>
-            {ClimbDataButtons(goals[2])}
-            {ClimbDataButtons(goals[3])}
+            {getClimbDataButtons(goals[2])}
+            {getClimbDataButtons(goals[3])}
           </Box>
         </Box>
         :
         <>
-          {goals && goals.map((goal, i) => <ClimbDataListItem key={i} data={goal} />)}
+          {goals.map((goal, i) => <ClimbDataListItem key={i} data={goal} />)}
         </>
       }
     </>
