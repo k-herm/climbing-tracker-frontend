@@ -1,8 +1,10 @@
-import React from 'react'
+import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
-import { Card, Grid, IconButton, Typography } from '@material-ui/core'
-import EditIcon from '@material-ui/icons/Edit'
+import { Card, Grid, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
+import ConfirmDialog from '~/components/confirmDialog'
+
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
 import { formatGradeValue } from '~/src/app/utils'
@@ -37,14 +39,43 @@ const useStyles = makeStyles((theme) => ({
   },
   marginLeft: {
     marginLeft: theme.spacing(1)
+  },
+  menuButton: {
+    right: theme.spacing(1),
   }
 }))
 
 const DetailsCard = ({ data }) => {
   const classes = useStyles()
+  const [anchorE1, setAnchorE1] = useState(null)
 
   const numPitches = data.pitches.reduce((arr, curr) => arr + curr.numberPitches, 0)
   const pitchString = numPitches > 1 ? 'Pitches' : 'Pitch'
+
+  const handleOpenMenu = (event) => setAnchorE1(event.currentTarget)
+  const handleCloseMenu = (event) => setAnchorE1(null)
+
+  const [isDeleteDialogOpen, setisDeleteDialogOpen] = useState(false)
+  const handleDeleteOnClick = () => {
+    setisDeleteDialogOpen(true)
+    handleCloseMenu()
+  }
+  const handleDeleteDialogOnClose = () => setisDeleteDialogOpen(false)
+  const handleDeleteDialogOnConfirm = () => {
+    setisDeleteDialogOpen(false)
+    console.log("Delete")
+  }
+
+  const [isArchiveDialogOpen, setisArchiveDialogOpen] = useState(false)
+  const handleArchiveOnClick = () => {
+    setisArchiveDialogOpen(true)
+    handleCloseMenu()
+  }
+  const handleArchiveDialogOnClose = () => setisArchiveDialogOpen(false)
+  const handleArchiveDialogOnConfirm = () => {
+    setisArchiveDialogOpen(false)
+    console.log("Archive")
+  }
 
   if (!data) return null
   return (
@@ -94,15 +125,50 @@ const DetailsCard = ({ data }) => {
 
         <Grid item>
           <IconButton
+            className={classes.menuButton}
             aria-label="edit project details"
             variant="contained"
             size="small"
-          //onClick
+            onClick={handleOpenMenu}
           >
-            <EditIcon fontSize="small" />
+            <MoreHorizIcon />
           </IconButton>
+          <Menu
+            id='projectActions'
+            anchorEl={anchorE1}
+            anchorOrigin={{
+              vertical: 'bottom', horizontal: 'left'
+            }}
+            transformOrigin={{
+              vertical: 'top', horizontal: 'center'
+            }}
+            getContentAnchorEl={null}
+            open={Boolean(anchorE1)}
+            onClose={handleCloseMenu}
+          >
+            <MenuItem>Edit</MenuItem>
+            <MenuItem onClick={handleDeleteOnClick}>Delete</MenuItem>
+            <MenuItem onClick={handleArchiveOnClick}>Archive</MenuItem>
+          </Menu>
         </Grid>
       </Grid>
+
+      <ConfirmDialog
+        open={isDeleteDialogOpen}
+        onClose={handleDeleteDialogOnClose}
+        onConfirm={handleDeleteDialogOnConfirm}
+        title="Delete Project"
+        text={`Are you sure you want to permanently delete your project ${data.name}?`}
+        submitTitle="Delete"
+      />
+      <ConfirmDialog
+        open={isArchiveDialogOpen}
+        onClose={handleArchiveDialogOnClose}
+        onConfirm={handleArchiveDialogOnConfirm}
+        title="Archive Project"
+        text={`Are you sure you want to archive your project ${data.name}?`}
+        submitTitle="Archive"
+      />
     </Card>
   )
 }

@@ -25,15 +25,12 @@ const ProjectPage = () => {
   const [currentProject, setCurrentProject] = useState(null)
 
   useEffect(() => {
-    if (data) {
-      if (data.projects.length && router.query) {
-        setCurrentProject(data.projects.find(project =>
-          project._id.toString() === router.query.id
-        ))
-      }
-      if (!data.projects.length && router.query) {
-        router.push('/projects')
-      }
+    if (data && data.projects.length && router.query) {
+      setCurrentProject(data.projects.find(project =>
+        project._id.toString() === router.query.id
+      ))
+    } else {
+      router.push('/projects')
     }
   }, [data, router.query])
 

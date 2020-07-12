@@ -6,10 +6,11 @@ import {
   Container
 } from '@material-ui/core'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
   card: {
     zIndex: 2,
-    marginTop: '-10%'
+    marginTop: '-10%',
+    marginBottom: theme.spacing(1)
   },
   emptySpace: {
     height: '30vh'
@@ -17,7 +18,7 @@ const useStyles = makeStyles({
   media: {
     width: '100%'
   }
-})
+}))
 
 const HeadlineCover = ({ children, image }) => {
   const { card, emptySpace, media } = useStyles()
