@@ -26,6 +26,7 @@ export const GET_ALL_PROJECTS_DATA = gql`
         count
         sendCount
       }
+      # isArchived
     }
   }
 `
@@ -57,6 +58,7 @@ export const GET_LOCAL_PROJECTS = gql`
         sendCount
       }
     }
+    # isArchived
   }
 `
 

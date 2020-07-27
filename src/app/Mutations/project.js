@@ -33,6 +33,15 @@ export const ADD_PROJECT = gql`
         numberPitches
       }
       routeStyle
+      isArchived
+    }
+  }
+`
+
+export const DELETE_PROJECT = gql`
+  mutation DeleteProject($id: ID!) {
+    deleteProject(id: $id) {
+      _id
     }
   }
 `

@@ -1,53 +1,27 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { makeStyles } from '@material-ui/core/styles'
+import { useRouter } from 'next/router'
+import { useMutation } from '@apollo/react-hooks'
+import { useStyles } from './detailsCard-styles'
+
 import { Card, Grid, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import ConfirmDialog from '~/components/confirmDialog'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
+import { DELETE_PROJECT } from '~/src/app/Mutations/project'
+import { GET_ALL_PROJECTS_DATA, GET_LOCAL_PROJECTS } from '~/src/app/Queries/projectData'
+
 import { formatGradeValue } from '~/src/app/utils'
 
-const useStyles = makeStyles((theme) => ({
-  card: {
-    padding: theme.spacing(2),
-    display: 'grid',
-    justifyItems: 'center',
-    overflow: 'visible',
-  },
-  container: {
-    margin: `${theme.spacing(1)}px 0`
-  },
-  complete: {
-    margin: 0,
-    padding: theme.spacing(1),
-    position: 'relative',
-    top: `-${theme.spacing(6)}px`,
-    border: `2px solid ${theme.palette.primary.main}`,
-    width: '70%',
-    display: 'grid',
-    justifyItems: 'center',
-    gridGap: theme.spacing(1),
-  },
-  check: {
-    verticalAlign: 'bottom'
-  },
-  grade: {
-    fontWeight: 400,
-    lineHeight: 0.85,
-  },
-  marginLeft: {
-    marginLeft: theme.spacing(1)
-  },
-  menuButton: {
-    right: theme.spacing(1),
-  }
-}))
 
 const DetailsCard = ({ data }) => {
   const classes = useStyles()
+  const router = useRouter()
   const [anchorE1, setAnchorE1] = useState(null)
+
+  const [deleteProject] = useMutation(DELETE_PROJECT)
 
   const numPitches = data.pitches.reduce((arr, curr) => arr + curr.numberPitches, 0)
   const pitchString = numPitches > 1 ? 'Pitches' : 'Pitch'
@@ -63,7 +37,22 @@ const DetailsCard = ({ data }) => {
   const handleDeleteDialogOnClose = () => setisDeleteDialogOpen(false)
   const handleDeleteDialogOnConfirm = () => {
     setisDeleteDialogOpen(false)
-    console.log("Delete")
+    deleteProject({
+      variables: { id: data._id },
+      update: (cache, { data }) => {
+        const projects = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })
+        projects.projects = projects.projects.filter(project => project._id !== data.deleteProject._id)
+        cache.writeQuery({ query: GET_ALL_PROJECTS_DATA, data: projects })
+      },
+      optimisticResponse: {
+        __typename: 'Mutation',
+        deleteProject: {
+          __typename: 'Project',
+          ...data
+        }
+      }
+    })
+    router.push('/projects')
   }
 
   const [isArchiveDialogOpen, setisArchiveDialogOpen] = useState(false)
@@ -158,7 +147,7 @@ const DetailsCard = ({ data }) => {
         onClose={handleDeleteDialogOnClose}
         onConfirm={handleDeleteDialogOnConfirm}
         title="Delete Project"
-        text={`Are you sure you want to permanently delete your project ${data.name}?`}
+        text={`Are you sure you want to permanently delete your project "${data.name}"?`}
         submitTitle="Delete"
       />
       <ConfirmDialog
@@ -166,7 +155,7 @@ const DetailsCard = ({ data }) => {
         onClose={handleArchiveDialogOnClose}
         onConfirm={handleArchiveDialogOnConfirm}
         title="Archive Project"
-        text={`Are you sure you want to archive your project ${data.name}?`}
+        text={`Are you sure you want to archive your project "${data.name}"?`}
         submitTitle="Archive"
       />
     </Card>
