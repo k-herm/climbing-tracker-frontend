@@ -1,68 +1,24 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useRouter } from 'next/router'
-import { useMutation } from '@apollo/react-hooks'
 import { useStyles } from './detailsCard-styles'
 
-import { Card, Grid, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
+import { Card, Divider, Grid, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ConfirmDialog from '~/components/confirmDialog'
 
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-
-import { getOptimisticResponseObject, deleteOne } from '~/src/app/Mutations/cache'
-import { DELETE_PROJECT, EDIT_PROJECT } from '~/src/app/Mutations/project'
-import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
-
+import { useDialogController } from './useDialogController'
 import { formatGradeValue } from '~/src/app/utils'
-
 
 const DetailsCard = ({ data }) => {
   const classes = useStyles({ hasStatus: !!data.completedDate })
-  const router = useRouter()
   const [anchorE1, setAnchorE1] = useState(null)
-
-  const [deleteProject] = useMutation(DELETE_PROJECT)
-  const [editProject] = useMutation(EDIT_PROJECT)
 
   const numPitches = data.pitches.reduce((arr, curr) => arr + curr.numberPitches, 0)
   const pitchString = numPitches > 1 ? 'Pitches' : 'Pitch'
 
   const handleOpenMenu = (event) => setAnchorE1(event.currentTarget)
   const handleCloseMenu = (event) => setAnchorE1(null)
-
-  const [isDeleteDialogOpen, setisDeleteDialogOpen] = useState(false)
-  const handleDeleteOnClick = () => {
-    setisDeleteDialogOpen(true)
-    handleCloseMenu()
-  }
-  const handleDeleteDialogOnClose = () => setisDeleteDialogOpen(false)
-  const handleDeleteDialogOnConfirm = () => {
-    setisDeleteDialogOpen(false)
-    deleteProject({
-      variables: { id: data._id },
-      update: (cache, { data }) => deleteOne(
-        cache,
-        GET_ALL_PROJECTS_DATA,
-        { id: data.deleteProject._id, type: 'projects' }
-      ),
-      optimisticResponse: getOptimisticResponseObject('deleteProject', 'Project', data)
-    })
-    router.push('/projects')
-  }
-
-  const [isArchiveDialogOpen, setisArchiveDialogOpen] = useState(false)
-  const handleArchiveOnClick = () => {
-    setisArchiveDialogOpen(true)
-    handleCloseMenu()
-  }
-  const handleArchiveDialogOnClose = () => setisArchiveDialogOpen(false)
-  const handleArchiveDialogOnConfirm = () => {
-    setisArchiveDialogOpen(false)
-    editProject({
-      variables: { id: data._id, isArchived: true }
-    })
-    router.push('/projects')
-  }
+  const dialogController = useDialogController(handleOpenMenu, handleCloseMenu, data)
 
   if (!data) return null
   return (
@@ -122,25 +78,27 @@ const DetailsCard = ({ data }) => {
             open={Boolean(anchorE1)}
             onClose={handleCloseMenu}
           >
+            <MenuItem>Mark Complete</MenuItem>
+            <Divider />
             <MenuItem>Edit</MenuItem>
-            <MenuItem onClick={handleDeleteOnClick}>Delete</MenuItem>
-            <MenuItem onClick={handleArchiveOnClick}>Archive</MenuItem>
+            <MenuItem onClick={dialogController.handleDeleteOnClick}>Delete</MenuItem>
+            <MenuItem onClick={dialogController.handleArchiveOnClick}>Archive</MenuItem>
           </Menu>
         </Grid>
       </Grid>
 
       <ConfirmDialog
-        open={isDeleteDialogOpen}
-        onClose={handleDeleteDialogOnClose}
-        onConfirm={handleDeleteDialogOnConfirm}
+        open={dialogController.isDeleteDialogOpen}
+        onClose={dialogController.handleDeleteDialogOnClose}
+        onConfirm={dialogController.handleDeleteDialogOnConfirm}
         title="Delete Project"
         text={`Are you sure you want to permanently delete your project "${data.name}"?`}
         submitTitle="Delete"
       />
       <ConfirmDialog
-        open={isArchiveDialogOpen}
-        onClose={handleArchiveDialogOnClose}
-        onConfirm={handleArchiveDialogOnConfirm}
+        open={dialogController.isArchiveDialogOpen}
+        onClose={dialogController.handleArchiveDialogOnClose}
+        onConfirm={dialogController.handleArchiveDialogOnConfirm}
         title="Archive Project"
         text={`Are you sure you want to archive your project "${data.name}"?`}
         submitTitle="Archive"
