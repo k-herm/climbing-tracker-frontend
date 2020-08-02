@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import PageModal from '~/components/pageModal'
 import HeadlineCover from '~/components/headlineCover'
+import StatusCard from '~/components/projects/statusCard'
 import DetailsCard from '~/components/projects/detailsCard'
 import AttemptsCard from '~/components/projects/attemptsCard'
 import GoalsCard from '~/components/projects/goals/GoalsCard'
@@ -50,6 +51,7 @@ const ProjectPage = () => {
       title={currentProject.name}
     >
       <HeadlineCover image="/mountain2.jpg">
+        <StatusCard data={currentProject} />
         <DetailsCard data={currentProject} />
         <AttemptsCard projectData={currentProject} />
         <GoalsCard project={currentProject} />
