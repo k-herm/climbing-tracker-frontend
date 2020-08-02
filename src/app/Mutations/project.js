@@ -9,7 +9,7 @@ export const ADD_PROJECT = gql`
     $grade: GradeEnum!,
     $totalLength: Int,
     $pitches: [PitchInput]!,
-    $routeStyle: [RouteStyleEnumT],
+    $routeStyle: [RouteStyleEnumT]
   ) {
     addProject(
       name: $name,
@@ -20,6 +20,48 @@ export const ADD_PROJECT = gql`
       totalLength: $totalLength,
       pitches: $pitches,
       routeStyle: $routeStyle,
+    ) {
+      _id
+      name
+      location
+      completedDate
+      climbStyle
+      grade
+      totalLength
+      pitches {
+        grade
+        numberPitches
+      }
+      routeStyle
+      isArchived
+    }
+  }
+`
+
+export const EDIT_PROJECT = gql`
+  mutation EditProject(
+    $id: ID!,
+    $name: String,
+    $location: String,
+    $completedDate: Date,
+    $climbStyle: ClimbStyleEnum,
+    $grade: GradeEnum,
+    $totalLength: Int,
+    $pitches: [PitchInput],
+    $routeStyle: [RouteStyleEnumT],
+    $isArchived: Boolean
+  ) {
+    editProject(
+      id: $id,
+      name: $name,
+      location: $location,
+      completedDate: $completedDate
+      climbStyle: $climbStyle,
+      grade: $grade,
+      totalLength: $totalLength,
+      pitches: $pitches,
+      routeStyle: $routeStyle,
+      isArchived: $isArchived
     ) {
       _id
       name

@@ -8,21 +8,21 @@ import { Card, Grid, IconButton, Menu, MenuItem, Typography } from '@material-ui
 import ConfirmDialog from '~/components/confirmDialog'
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
 import { getOptimisticResponseObject, deleteOne } from '~/src/app/Mutations/cache'
-import { DELETE_PROJECT } from '~/src/app/Mutations/project'
-import { GET_ALL_PROJECTS_DATA, GET_LOCAL_PROJECTS } from '~/src/app/Queries/projectData'
+import { DELETE_PROJECT, EDIT_PROJECT } from '~/src/app/Mutations/project'
+import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 
 import { formatGradeValue } from '~/src/app/utils'
 
 
 const DetailsCard = ({ data }) => {
-  const classes = useStyles()
+  const classes = useStyles({ hasStatus: !!data.completedDate })
   const router = useRouter()
   const [anchorE1, setAnchorE1] = useState(null)
 
   const [deleteProject] = useMutation(DELETE_PROJECT)
+  const [editProject] = useMutation(EDIT_PROJECT)
 
   const numPitches = data.pitches.reduce((arr, curr) => arr + curr.numberPitches, 0)
   const pitchString = numPitches > 1 ? 'Pitches' : 'Pitch'
@@ -58,23 +58,15 @@ const DetailsCard = ({ data }) => {
   const handleArchiveDialogOnClose = () => setisArchiveDialogOpen(false)
   const handleArchiveDialogOnConfirm = () => {
     setisArchiveDialogOpen(false)
-    console.log("Archive")
+    editProject({
+      variables: { id: data._id, isArchived: true }
+    })
+    router.push('/projects')
   }
 
   if (!data) return null
   return (
     <Card className={classes.card}>
-      {
-        data.completedDate &&
-        <Card className={classes.complete}>
-          <Typography variant="h5" color="primary">
-            <CheckCircleOutlineIcon fontSize="large" className={classes.check} /> Completed!
-          </Typography>
-          <Typography variant="subtitle1" color="textSecondary">
-            {new Date(data.completedDate).toDateString()}
-          </Typography>
-        </Card>
-      }
       <Grid
         className={classes.container}
         container

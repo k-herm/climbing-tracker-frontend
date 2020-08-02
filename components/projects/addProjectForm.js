@@ -20,7 +20,8 @@ const expectedDataObject = (variables) => ({
     })),
     completedDate: null,
     goals: [],
-    attempts: []
+    attempts: [],
+    isArchived: false
   }
 })
 

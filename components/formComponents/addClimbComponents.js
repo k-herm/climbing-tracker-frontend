@@ -153,7 +153,7 @@ const AddClimbComponents = ({
               value={state.totalLength}
               type="number"
               onChange={e =>
-                e.target.value > 0 &&
+                e.target.value >= 0 &&
                 handleClick('totalLength', Number.parseInt(e.target.value))
               }
               className={classes.textField}
