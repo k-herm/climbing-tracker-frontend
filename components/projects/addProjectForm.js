@@ -5,6 +5,7 @@ import { useMutation } from '@apollo/react-hooks'
 import AddClimbComponents from '../formComponents/addClimbComponents'
 import { reverseFormatGradeValue } from '~/src/app/utils'
 import { ADD_PROJECT } from '~/src/app/Mutations/project'
+import { addOne } from '~/src/app/Mutations/cache'
 import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 
 const expectedDataObject = (variables) => ({
@@ -54,15 +55,14 @@ const AddProjectForm = ({ onClose }) => {
 
     addProject({
       variables,
-      update: (cache, { data }) => {
-        const projects = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })
-        projects.projects = [...projects.projects, {
-          ...data.addProject,
-          goals: [],
-          attempts: []
-        }]
-        cache.writeQuery({ query: GET_ALL_PROJECTS_DATA, data: projects })
-      },
+      update: (cache, { data }) => addOne(
+        cache,
+        GET_ALL_PROJECTS_DATA,
+        {
+          data: { ...data.addProject, goals: [], attempts: [] },
+          type: 'projects'
+        }
+      ),
       optimisticResponse: expectedDataObject(variables)
     })
   }

@@ -15,6 +15,7 @@ import { useMediaQuery } from '@material-ui/core'
 import AttemptTable from './attemptTable'
 import CondensedAttemptTable from './condensedAttemptTable'
 
+import { getOptimisticResponseObject } from '~/src/app/Mutations/cache'
 import { ADD_ATTEMPT } from '~/src/app/Mutations/project'
 import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { getDateString } from '~/src/app/utils'
@@ -78,14 +79,11 @@ const AddAttemptsDialog = ({ open, onClose, projectData }) => {
           addAttempt({
             variables,
             update: (cache, { data }) => updateMutation(cache, attempt),
-            optimisticResponse: {
-              __typename: 'Mutation',
-              addAttempt: {
-                __typename: 'Attempt',
-                _id: '1',
-                ...variables
-              }
-            }
+            optimisticResponse: getOptimisticResponseObject(
+              'addAttempt',
+              'Attempt',
+              { _id: '1', ...variables }
+            )
           })
         }
       })

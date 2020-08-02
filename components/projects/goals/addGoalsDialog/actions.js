@@ -1,14 +1,7 @@
 import { formatGradeValue, reverseFormatGradeValue } from '~/src/app/utils'
 import { GRADES } from '~/src/app/constants'
+import { getOptimisticResponseObject } from '~/src/app/Mutations/cache'
 import { GET_ALL_PROJECTS_DATA, GET_GOALS_FOR_PROJECT } from '~/src/app/Queries/projectData'
-
-const optimisticResponse = (type, goal) => ({
-  __typename: 'Mutation',
-  [`${type}Goal`]: {
-    __typename: 'Goal',
-    ...goal
-  }
-})
 
 const update = (cache, goalData, projectData, type) => {
   const projects = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })
@@ -43,7 +36,7 @@ export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]
       del({
         variables: { id: goal._id },
         update: (cache, { data }) => update(cache, data.deleteGoal, projectData, 'delete'),
-        optimisticResponse: optimisticResponse('delete', goal)
+        optimisticResponse: getOptimisticResponseObject('deleteGoal', 'Goal', goal)
       })
       return
     }
@@ -64,11 +57,15 @@ export const setGoalsMutations = (projectData, goals, isCustom, [add, edit, del]
       add({
         variables,
         update: (cache, { data }) => update(cache, data.addGoal, projectData, 'add'),
-        optimisticResponse: optimisticResponse('add', {
-          _id: '1',
-          ...variables,
-          climbsCompleted: []
-        })
+        optimisticResponse: getOptimisticResponseObject(
+          'addGoal',
+          'Goal',
+          {
+            _id: '1',
+            ...variables,
+            climbsCompleted: []
+          }
+        )
       })
       return
     }
@@ -81,7 +78,7 @@ export const deleteAllGoals = (projectData, goals, del) => {
     del({
       variables: { id: goal._id },
       update: (cache, { data }) => update(cache, data.deleteGoal, projectData, 'delete'),
-      optimisticResponse: optimisticResponse('delete', goal)
+      optimisticResponse: getOptimisticResponseObject('deleteGoal', 'Goal', goal)
     })
   )
 }
@@ -105,11 +102,15 @@ export const createPyramid = (projectData, addGoal) => {
     addGoal({
       variables,
       update: (cache, { data }) => update(cache, data.addGoal, projectData, 'add'),
-      optimisticResponse: optimisticResponse('add', {
-        _id: '1',
-        ...variables,
-        climbsCompleted: []
-      })
+      optimisticResponse: getOptimisticResponseObject(
+        'addGoal',
+        'Goal',
+        {
+          _id: '1',
+          ...variables,
+          climbsCompleted: []
+        }
+      )
     })
   }
 }

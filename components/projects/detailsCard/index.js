@@ -10,6 +10,7 @@ import ConfirmDialog from '~/components/confirmDialog'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
 
+import { getOptimisticResponseObject, deleteOne } from '~/src/app/Mutations/cache'
 import { DELETE_PROJECT } from '~/src/app/Mutations/project'
 import { GET_ALL_PROJECTS_DATA, GET_LOCAL_PROJECTS } from '~/src/app/Queries/projectData'
 
@@ -39,18 +40,12 @@ const DetailsCard = ({ data }) => {
     setisDeleteDialogOpen(false)
     deleteProject({
       variables: { id: data._id },
-      update: (cache, { data }) => {
-        const projects = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })
-        projects.projects = projects.projects.filter(project => project._id !== data.deleteProject._id)
-        cache.writeQuery({ query: GET_ALL_PROJECTS_DATA, data: projects })
-      },
-      optimisticResponse: {
-        __typename: 'Mutation',
-        deleteProject: {
-          __typename: 'Project',
-          ...data
-        }
-      }
+      update: (cache, { data }) => deleteOne(
+        cache,
+        GET_ALL_PROJECTS_DATA,
+        { id: data.deleteProject._id, type: 'projects' }
+      ),
+      optimisticResponse: getOptimisticResponseObject('deleteProject', 'Project', data)
     })
     router.push('/projects')
   }
