@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
   FormControl,
@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 const GradeSelect = ({ updateState, initialState, noLabel }) => {
   const { selectGroup } = useStyles()
   const [state, setState] = useState(initialState)
+  useEffect(() => setState(initialState), [initialState])
   return (
     <FormControl className={selectGroup}>
       {!noLabel && <InputLabel id="select-grade">Grade</InputLabel>}

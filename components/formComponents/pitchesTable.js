@@ -45,6 +45,7 @@ const PitchesTable = ({ rowData, saveData }) => {
     setData(prevState => {
       const data = [...prevState]
       data[index][key] = value
+      saveData(data)
       return data
     })
 

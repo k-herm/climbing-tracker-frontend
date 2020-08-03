@@ -76,6 +76,7 @@ export const useDialogController = (handleCloseMenu, openSuccessNotification, da
       grade: reverseFormatGradeValue(pitch.grade),
       numberPitches: Number.parseInt(pitch.numberPitches)
     }))
+
     editProject({
       variables: { id: data._id, ...variables }
     })

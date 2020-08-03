@@ -144,7 +144,9 @@ const AddClimbComponents = ({
               initialState={state.grade}
               updateState={(e) => {
                 handleClick('grade', e.target.value)
-                handleClick('pitches', [{ grade: e.target.value, numberPitches: 1 }])
+                if (state.pitches.length < 2) {
+                  handleClick('pitches', [{ grade: e.target.value, numberPitches: 1 }])
+                }
               }}
             />
             <TextField
