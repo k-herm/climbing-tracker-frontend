@@ -52,7 +52,7 @@ const Nav = ({ redirect }) => {
       >
         <BottomNavigationAction label="Dashboard" icon={<BarChartIcon />} />
         <BottomNavigationAction label="Projects" icon={<FormatListBulletedRoundedIcon />} />
-        <BottomNavigationAction label="Journal" icon={<CreateIcon />} />
+        {/* <BottomNavigationAction label="Journal" icon={<CreateIcon />} /> */}
       </BottomNavigation>
       {navItems[currentIndex] &&
         <Fab aria-label="add" color="primary" className={floatingIcon}>
