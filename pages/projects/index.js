@@ -36,7 +36,7 @@ const Projects = () => {
     const getDataDisplay = (project) => ({
       primary:
         <Typography>
-          {project.name} {data.completedDate && <DoneIcon className={icon} color="primary" />}
+          {project.name} {project.completedDate && <DoneIcon className={icon} color="primary" />}
         </Typography>,
       secondary: `${formatGradeValue(project.grade)} - Number of Goals:
         ${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,

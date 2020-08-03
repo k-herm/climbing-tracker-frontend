@@ -91,6 +91,7 @@ const AddClimbComponents = ({
         open={isErrorNotification}
         message="Uh oh. There was an error saving. Please try again."
         severity="error"
+        showIcon
       />
 
       <form method="post" onSubmit={handleSubmit} className={classes.form}>

@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
 
 import PageModal from '~/components/pageModal'
+import Notification from '~/components/notification'
 import HeadlineCover from '~/components/headlineCover'
 import StatusCard from '~/components/projects/statusCard'
 import DetailsCard from '~/components/projects/detailsCard'
@@ -22,8 +23,10 @@ const ProjectPage = () => {
   const classes = useStyles()
   const router = useRouter()
   const { data } = useQuery(GET_LOCAL_PROJECTS)
+
   const [openPage, setOpenPage] = useState(true)
   const [currentProject, setCurrentProject] = useState(null)
+  const [isComplete, setIsComplete] = useState(false)
 
   useEffect(() => {
     if (data && data.projects.length && router.query) {
@@ -50,9 +53,15 @@ const ProjectPage = () => {
       onClose={handleClose}
       title={currentProject.name}
     >
+      <Notification
+        id="climbCompleted"
+        open={isComplete}
+        message="🥳 Congratulations on sending your project! Time to celebrate! 🎉"
+        severity="success"
+      />
       <HeadlineCover image="/mountain2.jpg">
         <StatusCard data={currentProject} />
-        <DetailsCard data={currentProject} />
+        <DetailsCard data={currentProject} openNotification={() => setIsComplete(true)} />
         <AttemptsCard projectData={currentProject} />
         <GoalsCard project={currentProject} />
       </HeadlineCover>

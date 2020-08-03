@@ -6,20 +6,22 @@ import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { DELETE_PROJECT, EDIT_PROJECT } from '~/src/app/Mutations/project'
 import { getOptimisticResponseObject, deleteOne } from '~/src/app/Mutations/cache'
 
-export const useDialogController = (handleOpenMenu, handleCloseMenu, data) => {
+import { getDateString } from '~/src/app/utils'
+
+export const useDialogController = (handleCloseMenu, openSuccessNotification, data) => {
   const router = useRouter()
 
   const [deleteProject] = useMutation(DELETE_PROJECT)
   const [editProject] = useMutation(EDIT_PROJECT)
 
-  const [isDeleteDialogOpen, setisDeleteDialogOpen] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
   const handleDeleteOnClick = () => {
-    setisDeleteDialogOpen(true)
+    setIsDeleteDialogOpen(true)
     handleCloseMenu()
   }
-  const handleDeleteDialogOnClose = () => setisDeleteDialogOpen(false)
+  const handleDeleteDialogOnClose = () => setIsDeleteDialogOpen(false)
   const handleDeleteDialogOnConfirm = () => {
-    setisDeleteDialogOpen(false)
+    setIsDeleteDialogOpen(false)
     deleteProject({
       variables: { id: data._id },
       update: (cache, { data }) => deleteOne(
@@ -32,18 +34,32 @@ export const useDialogController = (handleOpenMenu, handleCloseMenu, data) => {
     router.push('/projects')
   }
 
-  const [isArchiveDialogOpen, setisArchiveDialogOpen] = useState(false)
+  const [isArchiveDialogOpen, setIsArchiveDialogOpen] = useState(false)
   const handleArchiveOnClick = () => {
-    setisArchiveDialogOpen(true)
+    setIsArchiveDialogOpen(true)
     handleCloseMenu()
   }
-  const handleArchiveDialogOnClose = () => setisArchiveDialogOpen(false)
+  const handleArchiveDialogOnClose = () => setIsArchiveDialogOpen(false)
   const handleArchiveDialogOnConfirm = () => {
-    setisArchiveDialogOpen(false)
+    setIsArchiveDialogOpen(false)
     editProject({
       variables: { id: data._id, isArchived: true }
     })
     router.push('/projects')
+  }
+
+  const [isCompleteDialogOpen, setIsCompleteDialogOpen] = useState(false)
+  const handleCompleteOnClick = () => {
+    setIsCompleteDialogOpen(true)
+    handleCloseMenu()
+  }
+  const handleCompleteDialogOnClose = () => setIsCompleteDialogOpen(false)
+  const handleCompleteDialogOnConfirm = () => {
+    setIsCompleteDialogOpen(false)
+    editProject({
+      variables: { id: data._id, completedDate: getDateString(new Date()) },
+    })
+    openSuccessNotification()
   }
 
   return {
@@ -55,6 +71,11 @@ export const useDialogController = (handleOpenMenu, handleCloseMenu, data) => {
     isArchiveDialogOpen,
     handleArchiveOnClick,
     handleArchiveDialogOnClose,
-    handleArchiveDialogOnConfirm
+    handleArchiveDialogOnConfirm,
+
+    isCompleteDialogOpen,
+    handleCompleteOnClick,
+    handleCompleteDialogOnClose,
+    handleCompleteDialogOnConfirm,
   }
 }

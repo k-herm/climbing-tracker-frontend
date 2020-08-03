@@ -42,7 +42,8 @@ const Notification = ({
   open,
   message,
   position = { vertical: 'top', horizontal: 'center' },
-  severity
+  severity,
+  showIcon,
 }) => {
   const props = { severity }
   const classes = useStyles(props)
@@ -58,12 +59,14 @@ const Notification = ({
 
   const Message = () =>
     <Grid container spacing={1} className={classes.message} wrap="nowrap">
-      <Grid item>
-        {severity === 'success' && <CheckCircleOutlineIcon />}
-        {severity === 'info' && <InfoOutlinedIcon />}
-        {severity === 'warning' && <ReportProblemOutlinedIcon />}
-        {severity === 'error' && <ErrorOutlineOutlinedIcon />}
-      </Grid>
+      {showIcon &&
+        <Grid item>
+          {severity === 'success' && <CheckCircleOutlineIcon />}
+          {severity === 'info' && <InfoOutlinedIcon />}
+          {severity === 'warning' && <ReportProblemOutlinedIcon />}
+          {severity === 'error' && <ErrorOutlineOutlinedIcon />}
+        </Grid>
+      }
       <Grid item>
         <Typography color={severity ? "textPrimary" : "inherit"}>
           {message}

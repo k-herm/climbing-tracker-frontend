@@ -9,7 +9,7 @@ import ConfirmDialog from '~/components/confirmDialog'
 import { useDialogController } from './useDialogController'
 import { formatGradeValue } from '~/src/app/utils'
 
-const DetailsCard = ({ data }) => {
+const DetailsCard = ({ data, openNotification }) => {
   const classes = useStyles({ hasStatus: !!data.completedDate })
   const [anchorE1, setAnchorE1] = useState(null)
 
@@ -18,7 +18,7 @@ const DetailsCard = ({ data }) => {
 
   const handleOpenMenu = (event) => setAnchorE1(event.currentTarget)
   const handleCloseMenu = (event) => setAnchorE1(null)
-  const dialogController = useDialogController(handleOpenMenu, handleCloseMenu, data)
+  const dialogController = useDialogController(handleCloseMenu, openNotification, data)
 
   if (!data) return null
   return (
@@ -78,9 +78,9 @@ const DetailsCard = ({ data }) => {
             open={Boolean(anchorE1)}
             onClose={handleCloseMenu}
           >
-            <MenuItem>Mark Complete</MenuItem>
-            <Divider />
-            <MenuItem>Edit</MenuItem>
+            {!data.completedDate && <MenuItem>Mark Complete</MenuItem>}
+            {!data.completedDate && <Divider />}
+            {!data.completedDate && <MenuItem>Edit</MenuItem>}
             <MenuItem onClick={dialogController.handleDeleteOnClick}>Delete</MenuItem>
             <MenuItem onClick={dialogController.handleArchiveOnClick}>Archive</MenuItem>
           </Menu>
@@ -103,11 +103,20 @@ const DetailsCard = ({ data }) => {
         text={`Are you sure you want to archive your project "${data.name}"?`}
         submitTitle="Archive"
       />
+      <ConfirmDialog
+        open={dialogController.isCompleteDialogOpen}
+        onClose={dialogController.handleCompleteDialogOnClose}
+        onConfirm={dialogController.handleCompleteDialogOnConfirm}
+        title="Mark as Complete"
+        text={`Did you send your project "${data.name}"?`}
+        submitTitle="Completed!"
+      />
     </Card>
   )
 }
 
 DetailsCard.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  openNotification: PropTypes.func
 }
 export default DetailsCard

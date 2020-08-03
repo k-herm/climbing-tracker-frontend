@@ -26,10 +26,12 @@ const useStyles = makeStyles((theme) => ({
     gridGap: theme.spacing(1),
   },
   complete: {
-    border: `2px solid ${theme.palette.primary.main}`,
+    border: `1px solid ${theme.palette.primary.main}`,
+    backgroundColor: theme.custom.success
   },
   archived: {
-    margin: theme.spacing(1)
+    margin: theme.spacing(1),
+    backgroundColor: theme.custom.creme
   }
 }))
 
