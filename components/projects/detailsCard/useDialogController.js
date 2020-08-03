@@ -6,7 +6,7 @@ import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
 import { DELETE_PROJECT, EDIT_PROJECT } from '~/src/app/Mutations/project'
 import { getOptimisticResponseObject, deleteOne } from '~/src/app/Mutations/cache'
 
-import { getDateString } from '~/src/app/utils'
+import { reverseFormatGradeValue, getDateString } from '~/src/app/utils'
 
 export const useDialogController = (handleCloseMenu, openSuccessNotification, data) => {
   const router = useRouter()
@@ -62,6 +62,25 @@ export const useDialogController = (handleCloseMenu, openSuccessNotification, da
     openSuccessNotification()
   }
 
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const handleEditOnClick = () => {
+    setIsEditDialogOpen(true)
+    handleCloseMenu()
+  }
+  const handleEditDialogOnClose = () => setIsEditDialogOpen(false)
+  const handleEditDialogOnConfirm = (state) => {
+    setIsEditDialogOpen(false)
+    const variables = { ...state }
+    variables.grade = reverseFormatGradeValue(variables.grade)
+    variables.pitches = variables.pitches.map(pitch => ({
+      grade: reverseFormatGradeValue(pitch.grade),
+      numberPitches: Number.parseInt(pitch.numberPitches)
+    }))
+    editProject({
+      variables: { id: data._id, ...variables }
+    })
+  }
+
   return {
     isDeleteDialogOpen,
     handleDeleteOnClick,
@@ -77,5 +96,10 @@ export const useDialogController = (handleCloseMenu, openSuccessNotification, da
     handleCompleteOnClick,
     handleCompleteDialogOnClose,
     handleCompleteDialogOnConfirm,
+
+    isEditDialogOpen,
+    handleEditOnClick,
+    handleEditDialogOnClose,
+    handleEditDialogOnConfirm,
   }
 }

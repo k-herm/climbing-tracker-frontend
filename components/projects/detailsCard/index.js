@@ -5,6 +5,8 @@ import { useStyles } from './detailsCard-styles'
 import { Card, Divider, Grid, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import ConfirmDialog from '~/components/confirmDialog'
+import FullScreenFormModal from '~/components/formComponents/fullScreenFormModal'
+import EditProjectForm from '../editProjectForm'
 
 import { useDialogController } from './useDialogController'
 import { formatGradeValue } from '~/src/app/utils'
@@ -78,9 +80,9 @@ const DetailsCard = ({ data, openNotification }) => {
             open={Boolean(anchorE1)}
             onClose={handleCloseMenu}
           >
-            {!data.completedDate && <MenuItem>Mark Complete</MenuItem>}
+            {!data.completedDate && <MenuItem onClick={dialogController.handleCompleteOnClick}>Mark Complete</MenuItem>}
             {!data.completedDate && <Divider />}
-            {!data.completedDate && <MenuItem>Edit</MenuItem>}
+            {!data.completedDate && <MenuItem onClick={dialogController.handleEditOnClick}>Edit</MenuItem>}
             <MenuItem onClick={dialogController.handleDeleteOnClick}>Delete</MenuItem>
             <MenuItem onClick={dialogController.handleArchiveOnClick}>Archive</MenuItem>
           </Menu>
@@ -110,6 +112,19 @@ const DetailsCard = ({ data, openNotification }) => {
         title="Mark as Complete"
         text={`Did you send your project "${data.name}"?`}
         submitTitle="Completed!"
+      />
+      <FullScreenFormModal
+        open={dialogController.isEditDialogOpen}
+        onClose={dialogController.handleEditDialogOnClose}
+        appBarTitle="Edit project"
+        title="Edit project details"
+        formContent={
+          <EditProjectForm
+            onClose={dialogController.handleEditDialogOnClose}
+            onSubmit={dialogController.handleEditDialogOnConfirm}
+            data={data}
+          />
+        }
       />
     </Card>
   )

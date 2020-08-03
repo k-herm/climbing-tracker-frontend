@@ -31,7 +31,7 @@ const Transition = React.forwardRef((props, ref) =>
   <Slide direction="up" ref={ref} {...props} />
 )
 
-const FullScreenFormModal = ({ formContent, item, open, onClose }) => {
+const FullScreenFormModal = ({ formContent, appBarTitle, title, open, onClose }) => {
   const classes = useStyles()
   return (
     <Dialog
@@ -48,12 +48,12 @@ const FullScreenFormModal = ({ formContent, item, open, onClose }) => {
             <CloseIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Add
+            {appBarTitle}
           </Typography>
         </Toolbar>
       </AppBar>
       <Container maxWidth='sm' disableGutters>
-        <FormContainer title={`Enter a ${item}`}>
+        <FormContainer title={title}>
           {formContent}
         </FormContainer>
       </Container>
@@ -62,8 +62,9 @@ const FullScreenFormModal = ({ formContent, item, open, onClose }) => {
 }
 
 FullScreenFormModal.propTypes = {
+  appBarTitle: PropTypes.string,
   formContent: PropTypes.node,
-  item: PropTypes.string,
+  title: PropTypes.string,
   open: PropTypes.bool,
   onClose: PropTypes.func
 }

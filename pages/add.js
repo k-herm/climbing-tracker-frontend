@@ -18,7 +18,6 @@ const AddItem = () => {
   const router = useRouter()
 
   const page = router.query.page
-  // const [page, setPage] = useState(router.query.page)
   const [item, setItem] = useState(null)
 
   useEffect(() => {
@@ -45,9 +44,10 @@ const AddItem = () => {
 
   return (
     <FullScreenFormModal
+      appBarTitle={`Add ${item}`}
       open={modalOpen}
       onClose={handleOnClose}
-      item={item}
+      title={`Enter a ${item}`}
       formContent={formPicker[page]}
     />
   )

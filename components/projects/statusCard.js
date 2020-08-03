@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 
 import { Box, Card, Typography } from '@material-ui/core'
-import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline'
+import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ArchiveIcon from '@material-ui/icons/Archive'
 
 const useStyles = makeStyles((theme) => ({
@@ -49,7 +49,7 @@ const StatusCard = ({ data }) => {
       {data.completedDate &&
         <Card className={`${classes.card} ${classes.complete}`}>
           <Typography variant="h5" color="primary">
-            <CheckCircleOutlineIcon fontSize="large" className={classes.icon} /> Completed!
+            <CheckCircleIcon fontSize="large" className={classes.icon} /> Completed!
           </Typography>
           <Typography variant="subtitle1" color="textSecondary">
             {new Date(data.completedDate).toDateString()}
