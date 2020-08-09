@@ -30,7 +30,7 @@ const Dashboard = () => {
     variables: { date: getDateString(today) }
   })
 
-  if (error) {
+  if (error && error.networkError.statusCode !== 401) {
     return <NetworkError />
   }
 

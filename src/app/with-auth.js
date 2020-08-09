@@ -6,16 +6,20 @@ import { UserContext } from '~/src/app/Contexts/UserStore'
 
 const AuthProvider = ({ children }) => {
   const { pathname } = useRouter()
-  const { setUser } = useContext(UserContext)
+  const { setUserData } = useContext(UserContext)
 
   const checkUser = async () => {
     try {
       const url = `${getAPIBaseURL()}/me`
       const response = await getRequest(url)
-      setUser(response.userId, response.userName)
+      setUserData(response.userId, response.userName)
     }
     catch (error) {
-      if (error.status === 401 && pathname !== '/') {
+      const validUnauthorizedPages = [
+        '/',
+        '/login'
+      ]
+      if (error.status === 401 && !validUnauthorizedPages.includes(pathname)) {
         router.push('/login')
       }
     }

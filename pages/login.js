@@ -1,7 +1,8 @@
-import React from 'react'
+import { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import LoginForm from '~/components/user/login-form'
-import { Grid, CardMedia } from '@material-ui/core'
+import SignupForm from '~/components/user/signup-form'
+import { Grid, Card, CardMedia, Link, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -16,11 +17,22 @@ const useStyles = makeStyles((theme) => ({
       fontSize: '50px',
       textAlign: 'center'
     }
+  },
+  link: {
+    padding: theme.spacing(1),
+    verticalAlign: 'middle'
   }
 }))
 
 const LoginPage = () => {
-  const { container, media } = useStyles()
+  const { container, media, link } = useStyles()
+  const [isLogin, setIsLogin] = useState(true)
+
+  const toggleLoginSignup = (e) => {
+    e.preventDefault()
+    setIsLogin(!isLogin)
+  }
+
   return (
     <CardMedia image="/climber.jpg" className={media}>
       <Grid
@@ -33,7 +45,15 @@ const LoginPage = () => {
           item
           xs={12} sm={6} md={4}
         >
-          <LoginForm />
+          {isLogin ? <LoginForm /> : <SignupForm />}
+          <Card>
+            <Typography align="center" className={link}>
+              {isLogin ? "Don't" : "Already"} have an account? {' '}
+              <Link href="#" onClick={toggleLoginSignup}>
+                {isLogin ? 'Sign up' : 'Login'}
+              </Link>.
+              </Typography>
+          </Card>
         </Grid>
         <Grid
           container
