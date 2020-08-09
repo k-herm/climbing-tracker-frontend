@@ -18,7 +18,6 @@ const VictoryZoomVoronoiContainer = createContainer("zoom", "voronoi")
 const ClimbStyleChart = ({ categories, data, dateCategories }) => {
   const theme = useTheme()
   const { primary, secondary } = theme.palette
-  // expensive with increasing climbs ?
   data.trad.forEach(dataPoint => {
     dataPoint.grade = formatGradeValue(dataPoint.grade)
     dataPoint.date = new Date(dataPoint.date)

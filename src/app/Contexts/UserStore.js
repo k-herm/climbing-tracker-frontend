@@ -7,16 +7,15 @@ export const UserContext = createContext({
 })
 
 export const UserStore = ({ children }) => {
-  const setUserData = (id, name) => setUser({ id, name })
-
   const [user, setUser] = useState({
     id: null,
-    name: null,
-    setUser: setUserData
+    name: null
   })
 
+  const setUserData = (id, name) => setUser({ id, name })
+
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={{ ...user, setUserData }}>
       {children}
     </UserContext.Provider>
   )

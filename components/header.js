@@ -1,5 +1,5 @@
-import React, { useState, useContext } from 'react'
-import { useRouter } from 'next/router'
+import { useState, useContext } from 'react'
+import Router from 'next/router'
 import PropTypes from 'prop-types'
 import {
   AppBar,
@@ -15,8 +15,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { postRequest } from '~/src/request'
 import { getAPIBaseURL } from '~/config'
-import { UserContext } from '~src/app/Contexts/UserStore'
-
+import { UserContext } from '~/src/app/Contexts/UserStore'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,9 +31,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ arrowBack, onArrowBack, title }) => {
   const { container, titleStyle } = useStyles()
+  const { setUserData } = useContext(UserContext)
   const [anchorE1, setAnchorE1] = useState(null)
-  const { setUser } = useContext(UserContext)
-  const router = useRouter()
 
   const handleClick = (event) => setAnchorE1(event.currentTarget)
   const handleClose = (event) => setAnchorE1(null)
@@ -43,8 +41,8 @@ const Header = ({ arrowBack, onArrowBack, title }) => {
       handleClose()
       const logoutUrl = `${getAPIBaseURL()}/logout`
       await postRequest(logoutUrl)
-      setUser(null, null)
-      router.push('/login')
+      setUserData(null, null)
+      Router.push('/login')
     } catch (error) {
       // TODO: display toast error message for logout
       console.log(error)

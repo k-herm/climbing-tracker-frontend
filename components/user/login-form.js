@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import { useState, useContext } from 'react'
 import Router from 'next/router'
 import { TextField, Grid, Button, Typography } from '@material-ui/core'
 
@@ -13,7 +13,7 @@ const LoginForm = () => {
     password: ''
   })
   const [error, setError] = useState(null)
-  const { setUser } = useContext(UserContext)
+  const { setUserData } = useContext(UserContext)
 
   const handleChange = e => {
     setState({
@@ -33,7 +33,7 @@ const LoginForm = () => {
         password: state.password
       })
       if (response.userId) {
-        setUser(response.userId, response.userName)
+        setUserData(response.userId, response.userName)
         Router.push('/dashboard')
       }
     }

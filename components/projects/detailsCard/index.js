@@ -83,7 +83,7 @@ const DetailsCard = ({ data, openNotification }) => {
             {!data.completedDate && <MenuItem onClick={dialogController.handleCompleteOnClick}>Mark Complete</MenuItem>}
             {!data.completedDate && <Divider />}
             {!data.completedDate && <MenuItem onClick={dialogController.handleEditOnClick}>Edit</MenuItem>}
-            <MenuItem onClick={dialogController.handleDeleteOnClick}>Delete</MenuItem>
+            {/* <MenuItem onClick={dialogController.handleDeleteOnClick}>Delete</MenuItem> */}
             <MenuItem onClick={dialogController.handleArchiveOnClick}>Archive</MenuItem>
           </Menu>
         </Grid>

@@ -10,7 +10,6 @@ import GradesSection from '~/components/dashboard/charts/gradesSection'
 import ClimbStyleSection from '~/components/dashboard/charts/climbStyleSection'
 
 import { GET_NUMERIC_STATS } from '~/src/app/Queries/statistics'
-import { useUserData } from '~/src/app/Hooks/userData'
 import { getDateString } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({
@@ -24,17 +23,12 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Dashboard = () => {
-  const { userName } = useUserData()
   const { container, message } = useStyles()
 
   const today = new Date()
   const { loading, data, error } = useQuery(GET_NUMERIC_STATS, {
     variables: { date: getDateString(today) }
   })
-
-  const title = userName
-    ? `${userName[0].toUpperCase() + userName.substring(1)}'s Stats`
-    : ''
 
   if (error) {
     return <NetworkError />
@@ -48,7 +42,7 @@ const Dashboard = () => {
         <>
           <Box className={message}>
             <Typography variant='h6' align='center' color='textSecondary'>
-              {title}
+              Stats
             </Typography>
             <Typography variant='subtitle1' align='center' color='textSecondary'>
               {today.toDateString()}
