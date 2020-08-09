@@ -46,7 +46,7 @@ const NumericStatistics = ({ data }) => {
     pitchesThisMonth
   } = data.numericStatistics
 
-  const highestRedpoint = formatGradeValue(highestRedpointGrade)
+  const highestRedpoint = highestRedpointGrade && formatGradeValue(highestRedpointGrade)
   return (
     <Container maxWidth='sm'>
       <Grid container spacing={1}>
