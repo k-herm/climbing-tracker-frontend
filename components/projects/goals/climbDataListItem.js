@@ -80,22 +80,20 @@ const ClimbDataListItem = ({ data }) => {
               {`${data.climbsCompleted.length} / ${data.numberClimbsToComplete}`} Completed
             </Typography>
 
-            {data.climbsCompleted.length &&
-              data.climbsCompleted.map((climb, i) =>
-                <Grid item container spacing={1} key={i}>
-                  <Grid item xs={7} sm={8}>
-                    <Typography className={classes.climbName} noWrap gutterBottom>
-                      <Bullet />{climb.name}:
+            {data.climbsCompleted.map((climb, i) =>
+              <Grid item container spacing={1} key={i}>
+                <Grid item xs={7} sm={8}>
+                  <Typography className={classes.climbName} noWrap gutterBottom>
+                    <Bullet />{climb.name}:
                     </Typography>
-                  </Grid>
-                  <Grid item xs={5} sm={4}>
-                    <Typography noWrap gutterBottom>
-                      {climb.completedDate}
-                    </Typography>
-                  </Grid>
                 </Grid>
-              )
-            }
+                <Grid item xs={5} sm={4}>
+                  <Typography noWrap gutterBottom>
+                    {climb.completedDate}
+                  </Typography>
+                </Grid>
+              </Grid>
+            )}
           </Grid>
         </ExpansionPanelDetails>
       </ExpansionPanel>
