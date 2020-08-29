@@ -32,6 +32,8 @@ const Projects = () => {
   const { card, container, headline, icon } = useStyles()
   const { loading, data, error } = useQuery(GET_ALL_PROJECTS_DATA)
 
+  const archivedProjects = data && data.projects.filter(project => project.isArchived) || []
+
   const ProjectLists = () => {
     const getDataDisplay = (project) => ({
       primary:
@@ -42,6 +44,7 @@ const Projects = () => {
         ${project.goals.reduce((acc, curr) => acc + curr.numberClimbsToComplete, 0)}`,
       id: project._id
     })
+
     return (
       <>
         <ClickableList
@@ -50,15 +53,18 @@ const Projects = () => {
             .map(project => getDataDisplay(project))
           }
         />
-        <Typography align="center" color="textSecondary">
-          Archived Projects
-        </Typography>
-        <ClickableList
-          listItems={data.projects
-            .filter(project => project.isArchived)
-            .map(project => getDataDisplay(project))
-          }
-        />
+        {
+          archivedProjects.length
+            ? <>
+              <Typography align="center" color="textSecondary">
+                Archived Projects
+              </Typography>
+              <ClickableList
+                listItems={archivedProjects.map(project => getDataDisplay(project))}
+              />
+            </>
+            : <></>
+        }
       </>
     )
   }

@@ -47,7 +47,8 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(3)
   },
   textField: {
-    maxWidth: 120
+    maxWidth: 120,
+    marginTop: theme.spacing(1)
   }
 }))
 
