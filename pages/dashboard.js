@@ -4,12 +4,12 @@ import { Box, Container, LinearProgress, Typography } from '@material-ui/core'
 import { useQuery } from '@apollo/react-hooks'
 
 import Header from '~/components/header'
-import NetworkError from '~/components/networkError'
-import NumericStatistics from '~/components/dashboard/numericStatistics'
-import GradesSection from '~/components/dashboard/charts/gradesSection'
-import ClimbStyleSection from '~/components/dashboard/charts/climbStyleSection'
+import NetworkError from '~/components/network-error'
+import NumericStatistics from '~/components/dashboard/numeric-statistics'
+import GradesSection from '~/components/dashboard/charts/grades-section'
+import ClimbStyleSection from '~/components/dashboard/charts/climb-style-section'
 
-import { GET_NUMERIC_STATS } from '~/src/app/Queries/statistics'
+import { GET_NUMERIC_STATS } from '~/src/app/queries/statistics'
 import { getDateString } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({

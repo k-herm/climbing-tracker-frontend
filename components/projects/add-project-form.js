@@ -2,11 +2,11 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 
-import AddClimbComponents from '../formComponents/addClimbComponents'
+import AddClimbComponents from '../form-components/add-climb-components'
 import { reverseFormatGradeValue } from '~/src/app/utils'
-import { ADD_PROJECT } from '~/src/app/Mutations/project'
-import { addOne } from '~/src/app/Mutations/cache'
-import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
+import { ADD_PROJECT } from '~/src/app/mutations/project'
+import { addOne } from '~/src/app/mutations/cache'
+import { GET_ALL_PROJECTS_DATA } from '~/src/app/queries/project-data'
 
 const expectedDataObject = (variables) => ({
   __typename: 'Mutation',

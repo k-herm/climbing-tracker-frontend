@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Box } from '@material-ui/core'
 
-import ClimbDataButton from './climbDataButton'
-import ClimbDataListItem from './climbDataListItem'
+import ClimbDataButton from './climb-data-button'
+import ClimbDataListItem from './climb-data-list-item'
 import { formatGradeValue, sortArrayOfObjectsByGrade } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({

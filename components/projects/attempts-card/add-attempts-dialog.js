@@ -12,12 +12,12 @@ import {
   Grid,
 } from '@material-ui/core'
 import { useMediaQuery } from '@material-ui/core'
-import AttemptTable from './attemptTable'
-import CondensedAttemptTable from './condensedAttemptTable'
+import AttemptTable from './attempt-table'
+import CondensedAttemptTable from './condensed-attempt-table'
 
-import { getOptimisticResponseObject } from '~/src/app/Mutations/cache'
-import { ADD_ATTEMPT } from '~/src/app/Mutations/project'
-import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
+import { getOptimisticResponseObject } from '~/src/app/mutations/cache'
+import { ADD_ATTEMPT } from '~/src/app/mutations/project'
+import { GET_ALL_PROJECTS_DATA } from '~/src/app/queries/project-data'
 import { getDateString } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({

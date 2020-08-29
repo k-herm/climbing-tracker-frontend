@@ -11,12 +11,12 @@ import {
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import GradeSelect from '../formComponents/gradeSelect'
-import PitchesTable from '../formComponents/pitchesTable'
-import ClimbStylesButtonGroup from '../formComponents/climbStyleButtonGroup'
-import AttemptButtonGroup from '../formComponents/attemptButtonGroup'
-import CustomDatePicker from '../formComponents/customDatePicker'
-import ClimbStyleChipFilter from '../formComponents/climbStyleChipFilter'
+import GradeSelect from './grade-select'
+import PitchesTable from './pitches-table'
+import ClimbStylesButtonGroup from './climb-style-button-group'
+import AttemptButtonGroup from './attempt-button-group'
+import CustomDatePicker from './custom-date-picker'
+import ClimbStyleChipFilter from './climb-style-chip-filter'
 import Notification from '../notification'
 
 const useStyles = makeStyles(theme => ({

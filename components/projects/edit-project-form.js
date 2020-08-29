@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
 
-import AddClimbComponents from '../formComponents/addClimbComponents'
+import AddClimbComponents from '../form-components/add-climb-components'
 
 import { formatGradeValue } from '~/src/app/utils'
 

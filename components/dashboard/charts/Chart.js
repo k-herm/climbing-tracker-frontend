@@ -2,7 +2,7 @@ import React from 'react'
 import { Container, Card, CircularProgress, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 
-import NetworkError from '~/components/networkError'
+import NetworkError from '~/components/network-error'
 
 const useStyles = makeStyles((theme) => ({
   loadingContainer: {

@@ -2,8 +2,8 @@ import { useState, useContext } from 'react'
 import Router from 'next/router'
 import { TextField, Grid, Button, Typography } from '@material-ui/core'
 
-import { UserContext } from '~/src/app/Contexts/UserStore'
-import FormContainer from '../formComponents/formContainer'
+import { UserContext } from '~/src/app/contexts/user-store'
+import FormContainer from '../form-components/form-container'
 import { postRequest } from '~/src/request'
 import { getAPIBaseURL } from '~/config'
 

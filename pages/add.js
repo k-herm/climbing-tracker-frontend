@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { makeStyles } from '@material-ui/core/styles'
 
-import FullScreenFormModal from '~/components/formComponents/fullScreenFormModal'
-import AddClimbForm from '~/components/dashboard/addClimbForm'
-import AddProjectForm from '~/components/projects/addProjectForm'
+import FullScreenFormModal from '~/components/form-components/full-screen-form-modal'
+import AddClimbForm from '~/components/dashboard/add-climb-form'
+import AddProjectForm from '~/components/projects/add-project-form'
 
 const useStyles = makeStyles((theme) => ({
   transition: {

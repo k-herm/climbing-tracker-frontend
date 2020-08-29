@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useMutation } from '@apollo/react-hooks'
 import { useRouter } from 'next/router'
-import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
+import { GET_ALL_PROJECTS_DATA } from '~/src/app/queries/project-data'
 
-import { DELETE_PROJECT, EDIT_PROJECT } from '~/src/app/Mutations/project'
-import { getOptimisticResponseObject, deleteOne } from '~/src/app/Mutations/cache'
+import { DELETE_PROJECT, EDIT_PROJECT } from '~/src/app/mutations/project'
+import { getOptimisticResponseObject, deleteOne } from '~/src/app/mutations/cache'
 
 import { reverseFormatGradeValue, getDateString } from '~/src/app/utils'
 

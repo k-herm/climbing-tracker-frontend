@@ -3,15 +3,15 @@ import { useRouter } from 'next/router'
 import { useQuery } from '@apollo/react-hooks'
 import { makeStyles } from '@material-ui/core/styles'
 
-import PageModal from '~/components/pageModal'
+import PageModal from '~/components/page-modal'
 import Notification from '~/components/notification'
-import HeadlineCover from '~/components/headlineCover'
-import StatusCard from '~/components/projects/statusCard'
-import DetailsCard from '~/components/projects/detailsCard'
-import AttemptsCard from '~/components/projects/attemptsCard'
-import GoalsCard from '~/components/projects/goals/GoalsCard'
+import HeadlineCover from '~/components/headline-cover'
+import StatusCard from '~/components/projects/status-card'
+import DetailsCard from '~/components/projects/details-card'
+import AttemptsCard from '~/components/projects/attempts-card'
+import GoalsCard from '~/components/projects/goals/goals-card'
 
-import { GET_LOCAL_PROJECTS } from '~/src/app/Queries/projectData'
+import { GET_LOCAL_PROJECTS } from '~/src/app/queries/project-data'
 
 const useStyles = makeStyles((theme) => ({
   transition: {

@@ -2,9 +2,9 @@ import { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useMutation } from '@apollo/react-hooks'
 
-import AddClimbComponents from '../formComponents/addClimbComponents'
+import AddClimbComponents from '../form-components/add-climb-components'
 import { getDateString, reverseFormatGradeValue } from '~/src/app/utils'
-import { ADD_CLIMB } from '~/src/app/Mutations/climb'
+import { ADD_CLIMB } from '~/src/app/mutations/climb'
 
 const AddClimbForm = ({ onClose }) => {
   const [addClimb, { error: mutationError }] = useMutation(ADD_CLIMB, {

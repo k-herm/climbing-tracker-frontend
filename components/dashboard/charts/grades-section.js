@@ -1,11 +1,11 @@
 import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 
-import GradesBarChart from './GradesBarChart'
-import GradesAttemptChart from './GradesAttemptChart'
-import Chart from './Chart'
+import GradesBarChart from './grades-bar-chart'
+import GradesAttemptChart from './grades-attempt-chart'
+import Chart from './chart'
 
-import { GET_GRADES_CHARTS } from '~/src/app/Queries/statistics'
+import { GET_GRADES_CHARTS } from '~/src/app/queries/statistics'
 import { formatGradeValue } from '~/src/app/utils'
 
 const GradesSection = () => {

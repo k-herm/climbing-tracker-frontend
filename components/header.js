@@ -15,7 +15,7 @@ import { makeStyles } from '@material-ui/core/styles'
 
 import { postRequest } from '~/src/request'
 import { getAPIBaseURL } from '~/config'
-import { UserContext } from '~/src/app/Contexts/UserStore'
+import { UserContext } from '~/src/app/contexts/user-store'
 
 const useStyles = makeStyles((theme) => ({
   container: {

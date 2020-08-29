@@ -10,12 +10,11 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  TextField,
-  Typography
+  TextField
 } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import DeleteIcon from '@material-ui/icons/Delete'
-import GradeSelect from './gradeSelect'
+import GradeSelect from './grade-select'
 
 const useStyles = makeStyles(theme => ({
   container: {

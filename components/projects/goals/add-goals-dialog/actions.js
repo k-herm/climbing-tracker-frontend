@@ -1,7 +1,7 @@
 import { formatGradeValue, reverseFormatGradeValue } from '~/src/app/utils'
 import { GRADES } from '~/src/app/constants'
-import { getOptimisticResponseObject } from '~/src/app/Mutations/cache'
-import { GET_ALL_PROJECTS_DATA, GET_GOALS_FOR_PROJECT } from '~/src/app/Queries/projectData'
+import { getOptimisticResponseObject } from '~/src/app/mutations/cache'
+import { GET_ALL_PROJECTS_DATA, GET_GOALS_FOR_PROJECT } from '~/src/app/queries/project-data'
 
 const update = (cache, goalData, projectData, type) => {
   const projects = cache.readQuery({ query: GET_ALL_PROJECTS_DATA })

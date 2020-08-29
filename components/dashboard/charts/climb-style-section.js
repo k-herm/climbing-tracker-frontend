@@ -4,11 +4,11 @@ import { Button, Grid, Paper, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import InfoIcon from '@material-ui/icons/Info';
 
-import ClimbStyleChart from './ClimbStyleChart'
-import Chart from './Chart'
-import ClimbStyleChipFilter from '../../formComponents/climbStyleChipFilter'
+import ClimbStyleChart from './climb-style-chart'
+import Chart from './chart'
+import ClimbStyleChipFilter from '../../form-components/climb-style-chip-filter'
 
-import { GET_CLIMBSTYLE_CHARTS } from '~/src/app/Queries/statistics'
+import { GET_CLIMBSTYLE_CHARTS } from '~/src/app/queries/statistics'
 import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles(theme => ({

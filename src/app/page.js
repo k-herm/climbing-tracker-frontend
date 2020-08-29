@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Head from '~/components/head'
 import Nav from '~/components/nav'
 import AuthProvider from './with-auth'
-import { UserContext } from '~/src/app/Contexts/UserStore'
+import { UserContext } from '~/src/app/contexts/user-store'
 
 const useStyles = makeStyles((theme) => ({
   copyright: {

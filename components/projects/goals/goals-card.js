@@ -6,12 +6,12 @@ import { Box, Card, CircularProgress, IconButton, Typography } from '@material-u
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import EditIcon from '@material-ui/icons/Edit'
 
-import NetworkError from '~/components/networkError'
-import AddGoalsDialog from './addGoalsDialog'
-import GoalsList from './goalsList'
-import ClimbDataDialog from './climbDataDialog'
+import NetworkError from '~/components/network-error'
+import AddGoalsDialog from './add-goals-dialog'
+import GoalsList from './goals-list'
+import ClimbDataDialog from './climb-data-dialog'
 
-import { GET_GOALS_FOR_PROJECT } from '~/src/app/Queries/projectData'
+import { GET_GOALS_FOR_PROJECT } from '~/src/app/queries/project-data'
 
 const useStyles = makeStyles((theme) => ({
   addButton: {

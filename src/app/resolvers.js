@@ -1,4 +1,4 @@
-import { GET_ALL_PROJECTS_DATA } from './Queries/projectData'
+import { GET_ALL_PROJECTS_DATA } from './queries/project-data'
 
 export const resolvers = {
   getLocalProjects: ({ cache }) => {

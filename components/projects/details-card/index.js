@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
-import { useStyles } from './detailsCard-styles'
+import { useStyles } from './details-card-styles'
 
 import { Card, Divider, Grid, IconButton, Menu, MenuItem, Typography } from '@material-ui/core'
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import ConfirmDialog from '~/components/confirmDialog'
-import FullScreenFormModal from '~/components/formComponents/fullScreenFormModal'
-import EditProjectForm from '../editProjectForm'
+import ConfirmDialog from '~/components/confirm-dialog'
+import FullScreenFormModal from '~/components/form-components/full-screen-form-modal'
+import EditProjectForm from '../edit-project-form'
 
-import { useDialogController } from './useDialogController'
+import { useDialogController } from './use-dialog-controller'
 import { formatGradeValue } from '~/src/app/utils'
 
 const DetailsCard = ({ data, openNotification }) => {

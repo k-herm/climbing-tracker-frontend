@@ -5,11 +5,11 @@ import { Box, Card, LinearProgress, Typography } from '@material-ui/core'
 import DoneIcon from '@material-ui/icons/Done'
 
 import Header from '~/components/header'
-import NetworkError from '~/components/networkError'
-import ClickableList from '~/components/clickableList'
-import HeadlineCover from '~/components/headlineCover'
+import NetworkError from '~/components/network-error'
+import ClickableList from '~/components/clickable-list'
+import HeadlineCover from '~/components/headline-cover'
 
-import { GET_ALL_PROJECTS_DATA } from '~/src/app/Queries/projectData'
+import { GET_ALL_PROJECTS_DATA } from '~/src/app/queries/project-data'
 import { formatGradeValue } from '~/src/app/utils'
 
 const useStyles = makeStyles((theme) => ({

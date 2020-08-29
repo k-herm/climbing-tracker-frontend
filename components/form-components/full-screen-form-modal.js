@@ -12,7 +12,7 @@ import {
 } from '@material-ui/core'
 import CloseIcon from '@material-ui/icons/Close'
 
-import FormContainer from './formContainer'
+import FormContainer from './form-container'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

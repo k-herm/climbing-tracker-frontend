@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { makeStyles } from '@material-ui/core/styles'
 import { Card, Grid, IconButton, Typography } from '@material-ui/core'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
-import AddAttemptsDialog from './addAttemptsDialog'
+import AddAttemptsDialog from './add-attempts-dialog'
 
 const useStyles = makeStyles((theme) => ({
   addButton: {

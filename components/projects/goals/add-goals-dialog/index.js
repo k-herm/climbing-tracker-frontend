@@ -12,9 +12,9 @@ import {
   DialogActions,
   Grid,
 } from '@material-ui/core'
-import ConfirmDialog from '~/components/confirmDialog'
-import GoalTable from '../goalTable'
-import { ADD_GOAL, EDIT_GOAL, DELETE_GOAL } from '~/src/app/Mutations/project'
+import ConfirmDialog from '~/components/confirm-dialog'
+import GoalTable from '../goal-table'
+import { ADD_GOAL, EDIT_GOAL, DELETE_GOAL } from '~/src/app/mutations/project'
 import { formatGradeValue } from '~/src/app/utils'
 import * as actions from './actions'
 

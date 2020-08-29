@@ -18,9 +18,9 @@ import {
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import DeleteIcon from '@material-ui/icons/Delete'
 
-import CustomDatePicker from '../../formComponents/customDatePicker'
+import CustomDatePicker from '../../form-components/custom-date-picker'
 
-import { useAttemptTable } from './useAttemptTable'
+import { useAttemptTable } from './use-attempt-table'
 
 const useStyles = makeStyles(theme => ({
   button: {
