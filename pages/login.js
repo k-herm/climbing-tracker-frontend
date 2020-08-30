@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
+import { Grid, Card, CardMedia, Link, Typography } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
+
 import LoginForm from '~/components/user/login-form'
 import SignupForm from '~/components/user/signup-form'
-import { Grid, Card, CardMedia, Link, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -14,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     height: '100vh',
     '& h1': {
       color: 'white',
-      fontSize: '50px',
       textAlign: 'center'
     }
   },
@@ -26,7 +27,9 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginPage = () => {
   const { container, media, link } = useStyles()
-  const [isLogin, setIsLogin] = useState(true)
+  const router = useRouter()
+  const signupParam = router.query.signup
+  const [isLogin, setIsLogin] = useState(!signupParam)
 
   const toggleLoginSignup = (e) => {
     e.preventDefault()
@@ -52,7 +55,7 @@ const LoginPage = () => {
               <Link href="#" onClick={toggleLoginSignup}>
                 {isLogin ? 'Sign up' : 'Login'}
               </Link>.
-              </Typography>
+            </Typography>
           </Card>
         </Grid>
         <Grid
@@ -61,7 +64,7 @@ const LoginPage = () => {
           justify="center"
           xs={12} sm={6} md={7}
         >
-          <h1>iClimb-Tracker</h1>
+          <Typography variant="h1">iClimb-Tracker</Typography>
         </Grid>
       </Grid>
     </CardMedia>
