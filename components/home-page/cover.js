@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { CardMedia, Grid, Typography } from '@material-ui/core'
 import { useMediaQuery } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
@@ -10,7 +11,10 @@ const useStyles = makeStyles(theme => ({
   media: {
     width: '100%',
     height: '100vh',
-    backgroundPosition: ({ isSmallerDisplay }) => isSmallerDisplay ? 'right' : 'center',
+    backgroundPosition: ({ isSmallerDisplay, mediaQueryPosition }) =>
+      isSmallerDisplay && mediaQueryPosition
+        ? mediaQueryPosition
+        : 'center',
     '& h2': {
       color: 'white',
       margin: theme.spacing(1),
@@ -18,23 +22,29 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-const Cover = () => {
+const Cover = ({ image, headline, mediaQueryPosition }) => {
   const isSmallerDisplay = useMediaQuery('(max-width: 540px)')
-  const classes = useStyles({ isSmallerDisplay })
+  const classes = useStyles({ isSmallerDisplay, mediaQueryPosition })
 
   return (
-    <CardMedia image="/climber2.jpg" className={classes.media}>
+    <CardMedia image={image} className={classes.media}>
       <Grid container className={classes.container}>
         <Grid item xs={12} sm={false}><></></Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="h2">
-            Elevate yourself to the next level
+            {headline}
           </Typography>
         </Grid>
         <Grid item xs={false} sm={6}><></></Grid>
       </Grid>
     </CardMedia>
   )
+}
+
+Cover.propTypes = {
+  image: PropTypes.string,
+  headline: PropTypes.string,
+  mediaQueryPosition: PropTypes.string
 }
 
 export default Cover

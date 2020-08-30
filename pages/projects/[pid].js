@@ -59,7 +59,7 @@ const ProjectPage = () => {
         message="🥳 Congratulations on sending your project! Time to celebrate! 🎉"
         severity="success"
       />
-      <HeadlineCover image="/mountain2.jpg">
+      <HeadlineCover image="/mountain.jpg">
         <StatusCard data={currentProject} />
         <DetailsCard data={currentProject} openNotification={() => setIsComplete(true)} />
         <AttemptsCard projectData={currentProject} />

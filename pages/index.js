@@ -5,6 +5,7 @@ import { Container } from '@material-ui/core'
 import Header from '~/components/home-page/header'
 import Cover from '~/components/home-page/cover'
 import Content from '~/components/home-page/content'
+import Footer from '~/components/home-page/footer'
 
 const HomePage = () => {
   const climbHeadline = "A quick and simple climbing tracker to log your climbs."
@@ -14,24 +15,41 @@ const HomePage = () => {
   return (
     <>
       <Header />
-      <Cover />
+      <Cover
+        image="/climber2.jpg"
+        headline="Elevate yourself to the next level"
+        mediaQueryPosition="right"
+      />
+
       <Container maxWidth="md">
         <Content
           icon="/climb-icon.png"
           headline={climbHeadline}
-          image={[]}
         />
         <Content
           icon="/data-icon.png"
           headline={dataHeadline}
-          image={[]}
+          imageRight="/iphone-dashboard.png"
+          imageBottom="/analytics-gradesChart.jpg"
         />
+      </Container>
+
+      <Cover
+        image="/tonsai.jpg"
+        headline="Work. Motivate. Send."
+        mediaQueryPosition="left"
+      />
+
+      <Container maxWidth="md">
         <Content
           icon="/progress-icon.png"
           headline={projectHeadline}
-          image={[]}
+          imageRight="/iphone-projects.png"
+          imageBottom="/projects-completeGoals.jpg"
         />
       </Container>
+
+      <Footer />
     </>
   )
 }
