@@ -1,9 +1,11 @@
 import { useState, useContext } from 'react'
 import Router from 'next/router'
-import { TextField, Grid, Button, Typography } from '@material-ui/core'
+import { TextField, Grid, Button, Typography, Link } from '@material-ui/core'
+
+import FormContainer from '../form-components/form-container'
+import Notification from '../notification'
 
 import { UserContext } from '~/src/app/contexts/user-store'
-import FormContainer from '../form-components/form-container'
 import { postRequest } from '~/src/request'
 import { getAPIBaseURL } from '~/config'
 
@@ -13,6 +15,7 @@ const LoginForm = () => {
     password: ''
   })
   const [error, setError] = useState(null)
+  const [isResetNotification, setIsResetNotification] = useState(false)
   const { setUserData } = useContext(UserContext)
 
   const handleChange = e => {
@@ -20,6 +23,18 @@ const LoginForm = () => {
       ...state,
       [e.target.name]: e.target.value
     })
+  }
+
+  const onResetPassword = async () => {
+    try {
+      const url = `${getAPIBaseURL()}/password-recovery`
+      await postRequest(url, { email: state.email })
+      setIsResetNotification(true)
+      setError('Check your email (and spam!) for a reset link.')
+    }
+    catch (error) {
+      setError(error)
+    }
   }
 
   const onSubmit = async (e) => {
@@ -44,6 +59,14 @@ const LoginForm = () => {
 
   return (
     <FormContainer title="Login" >
+      <Notification
+        id="passwordReset"
+        open={isResetNotification}
+        message={`An email has been sent to ${state.email} to reset your password.
+          Don't forget to check your spam!`}
+        severity="success"
+        duration={6000}
+      />
       <form method='post' onSubmit={onSubmit}>
         {error &&
           <Grid item>
@@ -75,6 +98,13 @@ const LoginForm = () => {
             fullWidth
           />
         </Grid>
+        {error && !isResetNotification &&
+          <Typography align="center">
+            <Link href="#" onClick={onResetPassword}>
+              Forgot your password?
+            </Link>
+          </Typography>
+        }
         <Button
           variant="contained"
           color="secondary"
@@ -83,7 +113,7 @@ const LoginForm = () => {
           Continue
         </Button>
       </form>
-    </FormContainer>
+    </FormContainer >
 
   )
 }

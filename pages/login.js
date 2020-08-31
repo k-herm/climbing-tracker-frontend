@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
   container: {
     height: '100vh'
   },
+  card: {
+    padding: theme.spacing(1)
+  },
   media: {
     padding: theme.spacing(),
     width: '100%',
@@ -26,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const LoginPage = () => {
-  const { container, media, link } = useStyles()
+  const { card, container, media, link } = useStyles()
   const router = useRouter()
   const signupParam = router.query.signup
   const [isLogin, setIsLogin] = useState(!signupParam)
@@ -48,8 +51,8 @@ const LoginPage = () => {
           item
           xs={12} sm={6} md={4}
         >
-          {isLogin ? <LoginForm /> : <SignupForm />}
-          <Card>
+          <Card className={card}>
+            {isLogin ? <LoginForm /> : <SignupForm />}
             <Typography align="center" className={link}>
               {isLogin ? "Don't" : "Already"} have an account? {' '}
               <Link href="#" onClick={toggleLoginSignup}>

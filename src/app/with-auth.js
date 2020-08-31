@@ -17,6 +17,7 @@ const AuthProvider = ({ children }) => {
     catch (error) {
       const validUnauthorizedPages = [
         '/',
+        '/reset',
         '/login'
       ]
       if (error.status === 401 && !validUnauthorizedPages.includes(pathname)) {
