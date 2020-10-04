@@ -1,7 +1,7 @@
 {
   "name": "create-next-app-cli",
   "version": "0.1.0",
-  "description": "",
+  "description": "a climbing stat tracker app for logging climbs and projects",
   "main": "index.js",
   "scripts": {
     "dev": "next",
